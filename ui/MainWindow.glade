@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkListStore" id="list_devices">
+    <columns>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name device_name -->
+      <column type="gchararray"/>
+      <!-- column-name device_gb -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkApplicationWindow" id="window">
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="default_width">300</property>
+    <property name="default_height">340</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_left">7</property>
+        <property name="margin_right">7</property>
+        <property name="margin_top">7</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">11</property>
+            <property name="pixel_size">92</property>
+            <property name="icon_name">pardus-logo</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Pardus Image Writer</property>
+            <attributes>
+              <attribute name="weight" value="semibold"/>
+              <attribute name="size" value="15000"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">7</property>
+            <property name="margin_bottom">7</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="opacity">0.59999999999999998</property>
+            <property name="margin_bottom">7</property>
+            <property name="label" translatable="yes">TÜBİTAK ULAKBİM  | 2020</property>
+            <attributes>
+              <attribute name="size" value="9500"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">7</property>
+            <property name="margin_right">7</property>
+            <property name="margin_top">7</property>
+            <property name="margin_bottom">7</property>
+            <property name="spacing">7</property>
+            <child>
+              <object class="GtkImage" id="img_system">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-cdrom</property>
+                <property name="pixel_size">72</property>
+                <property name="icon_size">6</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_selectIsoFile">
+                <property name="label" translatable="yes">ISO Dosyası Seçiniz...</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btn_selectIsoFile_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">7</property>
+            <property name="margin_right">7</property>
+            <property name="margin_top">7</property>
+            <property name="margin_bottom">7</property>
+            <property name="spacing">7</property>
+            <child>
+              <object class="GtkImage" id="img_drive">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_name">drive-removable-media</property>
+                <property name="icon_size">6</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="cmb_devices">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="model">list_devices</property>
+                <property name="active">0</property>
+                <property name="id_column">0</property>
+                <signal name="changed" handler="on_cmb_devices_changed" swapped="no"/>
+                <child>
+                  <object class="GtkCellRendererText" id="device_name">
+                    <property name="weight">600</property>
+                    <property name="wrap_width">15</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
+                <child>
+                  <object class="GtkCellRendererText" id="device_gb"/>
+                  <attributes>
+                    <attribute name="text">2</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btn_start">
+            <property name="label" translatable="yes">Başlat</property>
+            <property name="height_request">64</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="margin_left">7</property>
+            <property name="margin_right">7</property>
+            <property name="margin_top">7</property>
+            <property name="margin_bottom">7</property>
+            <property name="always_show_image">True</property>
+            <signal name="clicked" handler="btn_start_clicked" swapped="no"/>
+            <style>
+              <class name="suggested-action"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">6</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_top">7</property>
+            <property name="margin_bottom">7</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">7</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
