@@ -5,6 +5,37 @@ from gi.repository import GLib, Gio, Gtk
 from USBDeviceManager import USBDeviceManager
 from ImageWriter import ImageWriter
 
+class WriteImageDialog(Gtk.Dialog):
+    def __init__(self, parent, device, filename):
+        Gtk.Dialog.__init__(self, "Emin misiniz?", parent, 0,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OK, Gtk.ResponseType.OK))
+
+        # UI:
+        self.set_default_size(350, 200)
+        box = self.get_content_area()
+        box.set_margin_start(11)
+        box.set_margin_end(11)
+        box.set_margin_top(11)
+        box.set_margin_bottom(11)
+
+        lbl_fileHeader = Gtk.Label()
+        message = f"""
+        Bu dosya:
+        - <b>{filename}</b>
+
+        Bu cihaza yazılacak:
+        - <b>{device[1]} [ {device[2]} ]</b> <i>( {device[0]} )</i>
+        
+        <b>UYARI:</b> Cihazın içeriği tamamen silinecek!
+        
+        Onaylıyor musunuz?
+        """
+        lbl_fileHeader.set_markup(message)
+        box.add(lbl_fileHeader)
+
+        self.show_all()
+
 class MainWindow:
     def __init__(self, application):
         # Gtk Builder
@@ -85,6 +116,12 @@ class MainWindow:
         self.imageWriter.setDevice(deviceInfo)
 
     def btn_start_clicked(self, button):
-        print("START CLICKED")
-        print(self.imageWriter.device)
-        print(self.imageWriter.filepath)
+        # Ask if it is ok?
+        dialog = WriteImageDialog(self.window, self.imageWriter.device, self.imageWriter.filepath.split('/')[-1])
+        response = dialog.run()
+
+        # If cancel, turn to back
+        if response == Gtk.ResponseType.OK:
+            print("TEZ YAZMA BASLASIN :)")
+
+        dialog.destroy()
