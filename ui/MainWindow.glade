@@ -36,7 +36,7 @@
             <property name="can_focus">False</property>
             <property name="margin_top">11</property>
             <property name="pixel_size">92</property>
-            <property name="icon_name">pardus-logo</property>
+            <property name="icon_name">emblem-pardus-symbolic</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -241,7 +241,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="opacity">0.6</property>
+            <property name="opacity">0.59999999999999998</property>
             <property name="margin_bottom">7</property>
             <property name="label" translatable="yes">TÜBİTAK ULAKBİM  | 2020</property>
             <attributes>
