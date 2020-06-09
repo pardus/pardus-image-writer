@@ -1,43 +1,18 @@
-import os
+import os, sys
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import GLib, Gio, Gtk
 
 from USBDeviceManager import USBDeviceManager
 
-class WriteImageDialog(Gtk.Dialog):
-    def __init__(self, parent, device, filename):
-        Gtk.Dialog.__init__(self, "Emin misiniz?", parent, 0,
-            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-             Gtk.STOCK_OK, Gtk.ResponseType.OK))
-        
-        # UI:
-        self.set_default_size(350, 200)
-        box = self.get_content_area()
-        box.set_margin_start(11)
-        box.set_margin_end(11)
-        box.set_margin_top(11)
-        box.set_margin_bottom(11)
+import locale
+from locale import gettext as tr
 
-        lbl_fileHeader = Gtk.Label()
-        message = f"""
-        Bu dosya:
-        - <b>{filename}</b>
-
-        Bu cihaza yazılacak:
-        - <b>{device[1]} [ {device[2]} ]</b> <i>( {device[0]} )</i>
-        
-        <b>UYARI:</b> Cihazın içeriği tamamen silinecek!
-        
-        Onaylıyor musunuz?
-        """
-        lbl_fileHeader.set_markup(message)
-        box.add(lbl_fileHeader)
-
-        self.show_all()
+locale.bindtextdomain('pardus-image-writer', f"{os.path.realpath(os.path.dirname(sys.argv[0]))}/translations/")
+locale.textdomain('pardus-image-writer')
 
 class MainWindow:
-    def __init__(self, application):
+    def __init__(self, application, file = ""):
         # Gtk Builder
         self.builder = Gtk.Builder()
         self.builder.add_from_file("../ui/MainWindow.glade")
@@ -51,7 +26,12 @@ class MainWindow:
         self.defineComponents()
 
         # Get inserted USB devices
-        self.imgFilepath = self.usbDevice = ""
+        self.imgFilepath = file
+        if file:
+            self.lbl_btn_selectISOFile.set_label(file.split('/')[-1])
+            self.lbl_btn_selectISOFile.set_tooltip_text(file.split('/')[-1])
+            
+        self.usbDevice = [""]
         self.usbManager = USBDeviceManager()
         self.usbManager.setUSBRefreshSignal(self.listUSBDevices)
         self.listUSBDevices()
@@ -72,6 +52,11 @@ class MainWindow:
         self.btn_start = self.builder.get_object("btn_start")
         self.pb_writingProgess = self.builder.get_object("pb_writingProgress")
 
+        # Dialog:
+        self.dialog_write = self.builder.get_object("dialog_write")
+        self.dlg_lbl_filename = self.builder.get_object("dlg_lbl_filename")
+        self.dlg_lbl_disk = self.builder.get_object("dlg_lbl_disk")
+
     # USB Methods
     def listUSBDevices(self):
         deviceList = self.usbManager.getUSBDevices()
@@ -83,7 +68,6 @@ class MainWindow:
         
         if len(deviceList) == 0:
             self.btn_start.set_sensitive(False)
-            self.cmb_devices.set_tooltip_text(f"Bir cihaz takin.")
         elif self.imgFilepath:
             self.btn_start.set_sensitive(True)
 
@@ -92,12 +76,11 @@ class MainWindow:
     # UI Signals:
     def btn_selectISOFile_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
-            title="Select File",
             action=Gtk.FileChooserAction.OPEN,
             buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
         
         fileFilter = Gtk.FileFilter()
-        fileFilter.set_name("ISO Files")
+        fileFilter.set_name("*.iso")
         fileFilter.add_pattern("*.iso")
         dialog.add_filter(fileFilter)
 
@@ -127,11 +110,13 @@ class MainWindow:
 
     def btn_start_clicked(self, button):
         # Ask if it is ok?
-        dialog = WriteImageDialog(self.window, self.usbDevice, self.imgFilepath.split('/')[-1])
-        response = dialog.run()
+        self.dlg_lbl_filename.set_markup(f"- <b>{self.imgFilepath.split('/')[-1]}</b>")
+        self.dlg_lbl_disk.set_markup(f"- <b>{self.usbDevice[1]} [ {self.usbDevice[2]} ]</b> <i>( /dev/{self.usbDevice[0]} )</i>")
+
+        response = self.dialog_write.run()
 
         # If cancel, turn to back
-        if response == Gtk.ResponseType.OK:
+        if response == Gtk.ResponseType.YES:
             self.startProcess([
                 "pkexec",
                 os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
@@ -142,11 +127,11 @@ class MainWindow:
             self.btn_start.set_sensitive(False)
             self.cmb_devices.set_sensitive(False)
 
-        dialog.destroy()    
+        self.dialog_write.hide()
 
     # Handling Image Writer process
     def startProcess(self, params):
-        pid, stdin, stdout, stderr = GLib.spawn_async(params,
+        pid, _, stdout, _ = GLib.spawn_async(params,
                                     flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
                                     standard_input=False, standard_output=True, standard_error=True)
         GLib.io_add_watch(GLib.IOChannel(stdout), GLib.IO_IN | GLib.IO_HUP, self.onProcessStdout)
@@ -168,7 +153,6 @@ class MainWindow:
         return True
     
     def onProcessExit(self, pid, status):
-        print(f"[{pid}] exit status:{status}")
         self.btn_selectISOFile.set_sensitive(True)
         self.btn_start.set_sensitive(True)
         self.cmb_devices.set_sensitive(True)
@@ -176,31 +160,31 @@ class MainWindow:
         self.listUSBDevices()
 
         if status == 0:
-            self.pb_writingProgess.set_text(f"Basariyla Tamamlandi!")
+            self.pb_writingProgess.set_text(tr("Success!"))
             dialog = Gtk.MessageDialog(
                 self.window,
                 0,
                 Gtk.MessageType.INFO,
                 Gtk.ButtonsType.OK,
-                "Islem basarili!",
+                tr("Writing process ended successfully."),
             )
             dialog.format_secondary_text(
-                "USB Cihazi cikarabilirsiniz."
+                tr("You can eject the USB disk.")
             )
             dialog.run()
             dialog.destroy()
         else:
-            self.pb_writingProgess.set_text(f"Bir hata olustu!")
+            self.pb_writingProgess.set_text(tr("Error!"))
             self.pb_writingProgess.set_fraction(0)
             dialog = Gtk.MessageDialog(
                 self.window,
                 0,
                 Gtk.MessageType.ERROR,
                 Gtk.ButtonsType.OK,
-                "Islem tamamlanamadi!",
+                tr("An error occured while writing the file to the disk."),
             )
             dialog.format_secondary_text(
-                "Lutfen cihazinizin bagli oldugundan emin olun."
+                tr("Please make sure the USB device is connected properly and try again.")
             )
             dialog.run()
             dialog.destroy()
