@@ -8,12 +8,12 @@ filepath = sys.argv[2]
 # Unmount the drive before writing on it
 # subprocess.call(['umount', drive+'1'])
 
-bufferSize = 512
+bufferSize = 1024
 writtenBytes = 0
 totalFileBytes = os.path.getsize(filepath)
 
-readFile = open(filepath, "rb", buffering=0)
-writeFile = open(drive, "wb", buffering=0)
+readFile = open(filepath, "rb")
+writeFile = open(drive, "wb")
 try:
     oldMB = 0
     readBytes = readFile.read(bufferSize)
@@ -22,15 +22,17 @@ try:
         readBytes = readFile.read(bufferSize)
         writtenBytes += bufferSize
 
-        newMB = int(writtenBytes/1000/1000)
+        newMB = int(writtenBytes/1000/1000/10)
         if oldMB != newMB:
             oldMB = newMB
             print(f"{writtenBytes} {totalFileBytes}")
+            os.fsync(writeFile)
             sys.stdout.flush()
     writeFile.flush()
 except IOError:
     exit(1)
 else:
+    os.fsync(writeFile)
     readFile.close()
     writeFile.close()
 
