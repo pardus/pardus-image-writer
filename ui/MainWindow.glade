@@ -317,7 +317,6 @@ Do you want to continue?</property>
               <object class="GtkComboBox" id="cmb_devices">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="tooltip_text" translatable="yes">Insert a device.</property>
                 <property name="model">list_devices</property>
                 <property name="active">0</property>
                 <property name="active_id">0</property>
@@ -387,7 +386,6 @@ Do you want to continue?</property>
             <property name="sensitive">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="tooltip_text" translatable="yes">Start writing process.</property>
             <property name="margin_left">7</property>
             <property name="margin_right">7</property>
             <property name="margin_top">7</property>

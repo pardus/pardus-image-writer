@@ -8,14 +8,26 @@ from USBDeviceManager import USBDeviceManager
 import locale
 from locale import gettext as tr
 
-locale.bindtextdomain('pardus-image-writer', f"{os.path.realpath(os.path.dirname(sys.argv[0]))}/translations/")
-locale.textdomain('pardus-image-writer')
+# Translation Constants:
+APPNAME = "pardus-image-writer"
+TRANSLATIONS_PATH = "/usr/share/locale"
+SYSTEM_LANGUAGE = os.environ.get("LANG")
+
+# Translation functions:
+locale.bindtextdomain(APPNAME, TRANSLATIONS_PATH)
+locale.textdomain(APPNAME)
+locale.setlocale(locale.LC_ALL, SYSTEM_LANGUAGE)
 
 class MainWindow:
     def __init__(self, application, file = ""):
         # Gtk Builder
         self.builder = Gtk.Builder()
-        self.builder.add_from_file("../ui/MainWindow.glade")
+
+        # Translate things on glade:
+        self.builder.set_translation_domain(APPNAME)
+
+        # Import UI file:
+        self.builder.add_from_file("/usr/share/pardus/pardus-image-writer/ui/MainWindow.glade")
         self.builder.connect_signals(self)
 
         # Window
@@ -29,7 +41,6 @@ class MainWindow:
         self.imgFilepath = file
         if file:
             self.lbl_btn_selectISOFile.set_label(file.split('/')[-1])
-            self.lbl_btn_selectISOFile.set_tooltip_text(file.split('/')[-1])
             
         self.usbDevice = [""]
         self.usbManager = USBDeviceManager()
@@ -91,7 +102,6 @@ class MainWindow:
 
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
-            self.lbl_btn_selectISOFile.set_tooltip_text(filepath.split('/')[-1])
             
             if self.imgFilepath and self.usbDevice:
                 self.btn_start.set_sensitive(True)
@@ -104,7 +114,6 @@ class MainWindow:
             model = combobox.get_model()
             deviceInfo = model[tree_iter][:3]
             self.usbDevice = deviceInfo
-            self.cmb_devices.set_tooltip_text(f"{deviceInfo[1]} [{deviceInfo[2]}] ({deviceInfo[0]})")
         else:
             self.btn_start.set_sensitive(False)
 
