@@ -42,7 +42,7 @@ class MainWindow:
         if file:
             self.lbl_btn_selectISOFile.set_label(file.split('/')[-1])
             
-        self.usbDevice = [""]
+        self.usbDevice = []
         self.usbManager = USBDeviceManager()
         self.usbManager.setUSBRefreshSignal(self.listUSBDevices)
         self.listUSBDevices()
@@ -102,6 +102,9 @@ class MainWindow:
 
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
+
+            print(self.usbDevice)
+            print(len(self.usbDevice))
             
             if self.imgFilepath and len(self.usbDevice) > 0:
                 self.btn_start.set_sensitive(True)
