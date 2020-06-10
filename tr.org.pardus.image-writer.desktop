@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Pardus Image Writer
+Name[tr]=Pardus Disk Kalıbı Yazıcı
+GenericName=Image Writer
+GenericName[tr]=Disk Kalıbı Yazıcı
+Comment=Writes ISO files to USB disk
+Comment[tr]=ISO Dosyalarını USB Diske yazar
+Exec=pardus-image-writer %f
+Icon=/usr/share/pardus/pardus-image-writer/icon.svg
+Terminal=false
+Type=Application
+Categories=System;
+MimeType=application/x-cd-image;
+StartupNotify=true
+Keywords=image;iso;writer;disk;usb
