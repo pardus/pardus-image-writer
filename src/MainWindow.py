@@ -103,7 +103,7 @@ class MainWindow:
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
             
-            if self.imgFilepath and self.usbDevice:
+            if self.imgFilepath and len(self.usbDevice) > 0:
                 self.btn_start.set_sensitive(True)
         
         dialog.destroy()
