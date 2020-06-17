@@ -109,6 +109,9 @@ class MainWindow:
 
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
+
+            print(self.usbDevice)
+            print(len(self.usbDevice))
             
             if self.imgFilepath and len(self.usbDevice) > 0:
                 self.btn_start.set_sensitive(True)
