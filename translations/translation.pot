@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-17 22:09+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: MainWindow.py:171
+msgid "Integrity checking failed."
+msgstr ""
+
+#: MainWindow.py:174
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr ""
+
+#: MainWindow.py:181
+msgid "Calculating the md5 hash of the file..."
+msgstr ""
+
+#: MainWindow.py:203
+msgid "Retrieving data from <b>pardus.org.tr</b>..."
+msgstr ""
+
+#: MainWindow.py:259
+msgid "Success!"
+msgstr ""
+
+#: MainWindow.py:265
+msgid "Writing process ended successfully."
+msgstr ""
+
+#: MainWindow.py:268
+msgid "You can eject the USB disk."
+msgstr ""
+
+#: MainWindow.py:273
+msgid "Error!"
+msgstr ""
+
+#: MainWindow.py:280
+msgid "An error occured while writing the file to the disk."
+msgstr ""
+
+#: MainWindow.py:283
+msgid "Please make sure the USB device is connected properly and try again."
+msgstr ""
+
+#: MainWindow.py:292
+msgid "Cancel"
+msgstr ""
+
+#: MainWindow.py:299 MainWindow.glade.h:12
+msgid "Start"
+msgstr ""
+
+#: MainWindow.glade.h:1
+msgid "Checking..."
+msgstr ""
+
+#: MainWindow.glade.h:2
+msgid "Checking the file's integrity..."
+msgstr ""
+
+#: MainWindow.glade.h:3
+msgid "Are you sure?"
+msgstr ""
+
+#: MainWindow.glade.h:4
+msgid "This file:"
+msgstr ""
+
+#: MainWindow.glade.h:5
+msgid "Will be written on this disk:"
+msgstr ""
+
+#: MainWindow.glade.h:6
+msgid ""
+"<b>WARNING:</b>\n"
+"All the personal data on the device will be deleted.\n"
+"Do you want to continue?"
+msgstr ""
+
+#: MainWindow.glade.h:9
+msgid "Pardus Image Writer"
+msgstr ""
+
+#: MainWindow.glade.h:10
+msgid "Select ISO File..."
+msgstr ""
+
+#: MainWindow.glade.h:11
+msgid "Check ISO integrity (requires internet)"
+msgstr ""
