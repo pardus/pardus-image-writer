@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0.0\n"
+"Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-09 20:10+0300\n"
-"PO-Revision-Date: 2020-06-09 20:13+0300\n"
+"POT-Creation-Date: 2020-06-17 22:09+0300\n"
+"PO-Revision-Date: 2020-06-17 22:17+0300\n"
 "Last-Translator: Emin Fedar <emin.fedar@pardus.org.tr>\n"
 "Language-Team: Turkish <gelistirici@pardus.org.tr>\n"
 "Language: tr\n"
@@ -19,60 +19,93 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Gtranslator 3.36.0\n"
 
-#: src/MainWindow.py:157
+#: MainWindow.py:171
+msgid "Integrity checking failed."
+msgstr "Veri bütünlüğü testi başarısız."
+
+#: MainWindow.py:174
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr "Bu bir Pardus ISO'su değil veya dosya bozulmuş."
+
+#: MainWindow.py:181
+msgid "Calculating the md5 hash of the file..."
+msgstr "Dosyanın md5 değeri hesaplanıyor."
+
+#: MainWindow.py:203
+msgid "Retrieving data from <b>pardus.org.tr</b>..."
+msgstr "Veriler <b>pardus.org.tr</b> adresinden çekiliyor..."
+
+#: MainWindow.py:259
 msgid "Success!"
 msgstr "Başarılı!"
 
-#: src/MainWindow.py:163
+#: MainWindow.py:265
 msgid "Writing process ended successfully."
 msgstr "Yazma işlemi başarıyla tamamlandı."
 
-#: src/MainWindow.py:166
+#: MainWindow.py:268
 msgid "You can eject the USB disk."
-msgstr "USB diski çıkarabilirsiniz."
+msgstr "USB diski çıkartabilirsiniz."
 
-#: src/MainWindow.py:171
+#: MainWindow.py:273
 msgid "Error!"
 msgstr "Hata!"
 
-#: src/MainWindow.py:178
+#: MainWindow.py:280
 msgid "An error occured while writing the file to the disk."
-msgstr "Dosya diske yazılırken bir hata oluştu."
+msgstr "Dosyayı diske yazma esnasında bir hata oluştu."
 
-#: src/MainWindow.py:181
+#: MainWindow.py:283
 msgid "Please make sure the USB device is connected properly and try again."
-msgstr "Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
+msgstr ""
+"Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
 
-#: ui/MainWindow.glade.h:1
+#: MainWindow.py:292
+msgid "Cancel"
+msgstr "İptal Et"
+
+#: MainWindow.py:299 MainWindow.glade.h:12
+msgid "Start"
+msgstr "Başlat"
+
+#: MainWindow.glade.h:1
+msgid "Checking..."
+msgstr "Kontrol ediliyor..."
+
+#: MainWindow.glade.h:2
+msgid "Checking the file's integrity..."
+msgstr "Dosya kontrol ediliyor..."
+
+#: MainWindow.glade.h:3
 msgid "Are you sure?"
 msgstr "Emin misiniz?"
 
-#: ui/MainWindow.glade.h:2
+#: MainWindow.glade.h:4
 msgid "This file:"
 msgstr "Bu dosya:"
 
-#: ui/MainWindow.glade.h:3
+#: MainWindow.glade.h:5
 msgid "Will be written on this disk:"
 msgstr "Bu diske yazılacak:"
 
-#: ui/MainWindow.glade.h:4
+#: MainWindow.glade.h:6
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
 "Do you want to continue?"
 msgstr ""
 "<b>UYARI:</b>\n"
-"Cihazdaki tüm kişisel veriler silinecek.\n"
-"Devam etmek istiyor musunuz?"
+"Cihazdaki tüm verileriniz silinecek.\n"
+"Devam edilsin mi?"
 
-#: ui/MainWindow.glade.h:7
+#: MainWindow.glade.h:9
 msgid "Pardus Image Writer"
-msgstr "Pardus Disk Kalıbı Yazıcı"
+msgstr "Pardus Disk İmajı Yazıcı"
 
-#: ui/MainWindow.glade.h:8
+#: MainWindow.glade.h:10
 msgid "Select ISO File..."
-msgstr "ISO Dosyasını seçin..."
+msgstr "ISO Dosyası seçin..."
 
-#: ui/MainWindow.glade.h:9
-msgid "Start"
-msgstr "Başla"
+#: MainWindow.glade.h:11
+msgid "Check ISO integrity (requires internet)"
+msgstr "ISO'yu doğrula (internet gereklidir)"

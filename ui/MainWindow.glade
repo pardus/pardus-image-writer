@@ -2,13 +2,111 @@
 <!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkDialog" id="dialog_integrity">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Checking...</property>
+    <property name="window_position">center</property>
+    <property name="default_width">350</property>
+    <property name="default_height">160</property>
+    <property name="icon_name">gtk-properties</property>
+    <property name="type_hint">dialog</property>
+    <property name="gravity">center</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">11</property>
+            <property name="margin_right">11</property>
+            <property name="margin_top">11</property>
+            <property name="margin_bottom">11</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">7</property>
+            <child>
+              <object class="GtkSpinner">
+                <property name="height_request">42</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="active">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Checking the file's integrity...</property>
+                <attributes>
+                  <attribute name="size" value="16000"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lbl_integrityStatus">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="opacity">0.80000000000000004</property>
+                <property name="label">---</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkDialog" id="dialog_write">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Are you sure?</property>
+    <property name="window_position">center</property>
     <property name="default_width">350</property>
     <property name="default_height">200</property>
     <property name="icon_name">dialog-question</property>
     <property name="type_hint">dialog</property>
+    <property name="gravity">center</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -352,6 +450,24 @@ Do you want to continue?</property>
           </packing>
         </child>
         <child>
+          <object class="GtkCheckButton" id="cb_checkIntegrity">
+            <property name="label" translatable="yes">Check ISO integrity (requires internet)</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="margin_left">3</property>
+            <property name="margin_right">7</property>
+            <property name="margin_top">7</property>
+            <property name="margin_bottom">7</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkSeparator">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -361,7 +477,7 @@ Do you want to continue?</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">5</property>
+            <property name="position">6</property>
           </packing>
         </child>
         <child>
@@ -375,7 +491,7 @@ Do you want to continue?</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">6</property>
+            <property name="position">7</property>
           </packing>
         </child>
         <child>
@@ -399,7 +515,7 @@ Do you want to continue?</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">7</property>
+            <property name="position">8</property>
           </packing>
         </child>
         <child>

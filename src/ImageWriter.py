@@ -17,6 +17,8 @@ writeFile = open(drive, "wb")
 try:
     oldMB = 0
     readBytes = readFile.read(bufferSize)
+    print(f"0 {totalFileBytes}")
+    sys.stdout.flush()
     while readBytes:
         writeFile.write(readBytes)
         readBytes = readFile.read(bufferSize)

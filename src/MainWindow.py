@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, subprocess
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import GLib, Gio, Gtk
@@ -27,7 +27,7 @@ class MainWindow:
         self.builder.set_translation_domain(APPNAME)
 
         # Import UI file:
-        self.builder.add_from_file("/usr/share/pardus/pardus-image-writer/ui/MainWindow.glade")
+        self.builder.add_from_file(os.path.dirname(os.path.abspath(__file__)) + "/../ui/MainWindow.glade")
         self.builder.connect_signals(self)
 
         # Window
@@ -42,7 +42,7 @@ class MainWindow:
         if file:
             self.lbl_btn_selectISOFile.set_label(file.split('/')[-1])
             
-        self.usbDevice = [""]
+        self.usbDevice = []
         self.usbManager = USBDeviceManager()
         self.usbManager.setUSBRefreshSignal(self.listUSBDevices)
         self.listUSBDevices()
@@ -63,8 +63,15 @@ class MainWindow:
         self.btn_start = self.builder.get_object("btn_start")
         self.pb_writingProgess = self.builder.get_object("pb_writingProgress")
 
+        # Integrity
+        self.cb_checkIntegrity = self.builder.get_object("cb_checkIntegrity")
+        self.dialog_integrity = self.builder.get_object("dialog_integrity")
+        self.dialog_integrity.set_position(Gtk.WindowPosition.CENTER)
+        self.lbl_integrityStatus = self.builder.get_object("lbl_integrityStatus")
+
         # Dialog:
         self.dialog_write = self.builder.get_object("dialog_write")
+        self.dialog_write.set_position(Gtk.WindowPosition.CENTER)
         self.dlg_lbl_filename = self.builder.get_object("dlg_lbl_filename")
         self.dlg_lbl_disk = self.builder.get_object("dlg_lbl_disk")
 
@@ -118,33 +125,115 @@ class MainWindow:
             self.btn_start.set_sensitive(False)
 
     def btn_start_clicked(self, button):
+        if self.btn_start.get_style_context().has_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION):
+            self.cancelWriting()
+        else:
+            self.prepareWriting()
+    
+    def prepareWriting(self):
         # Ask if it is ok?
         self.dlg_lbl_filename.set_markup(f"- <b>{self.imgFilepath.split('/')[-1]}</b>")
         self.dlg_lbl_disk.set_markup(f"- <b>{self.usbDevice[1]} [ {self.usbDevice[2]} ]</b> <i>( /dev/{self.usbDevice[0]} )</i>")
 
         response = self.dialog_write.run()
-
-        # If cancel, turn to back
-        if response == Gtk.ResponseType.YES:
-            self.startProcess([
-                "pkexec",
-                os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
-                '/dev/'+self.usbDevice[0],
-                self.imgFilepath
-            ])
-            self.btn_selectISOFile.set_sensitive(False)
-            self.btn_start.set_sensitive(False)
-            self.cmb_devices.set_sensitive(False)
-
         self.dialog_write.hide()
+        if response == Gtk.ResponseType.YES:
+            if self.cb_checkIntegrity.get_active():
+                self.lockGUI(disableStart=True)
+                self.dialog_integrity.show_all()
+                self.finishedProcesses = 0
+                self.md5sumlist = []
+                self.md5_of_file = ""
+
+                # When both md5 calculation & checking MD5SUMS from pardus.org.tr finished:
+                def onTotallyFinished():
+                    isISOGood = False
+                    for line in self.md5sumlist:
+                        if line.split()[0] == self.md5_of_file.split()[0]:
+                            isISOGood = True
+                            break
+                    
+                    if isISOGood:
+                        self.lockGUI()
+                        self.startProcess([
+                            "pkexec",
+                            os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
+                            '/dev/'+self.usbDevice[0],
+                            self.imgFilepath
+                        ])
+                    else:
+                        self.unlockGUI()
+                        dialog = Gtk.MessageDialog(
+                            self.window,
+                            0,
+                            Gtk.MessageType.ERROR,
+                            Gtk.ButtonsType.OK,
+                            tr("Integrity checking failed."),
+                        )
+                        dialog.format_secondary_text(
+                            tr("This is not a Pardus ISO, or it is corrupted.")
+                        )
+                        dialog.run()
+                        dialog.destroy()
+                    self.dialog_integrity.hide()
+                
+                # Check MD5SUM of the ISO file:
+                self.lbl_integrityStatus.set_markup(tr("Calculating the md5 hash of the file..."))
+                def on_md5_stdout(source, condition):
+                    if condition == GLib.IO_HUP:
+                        return False
+                    
+                    self.md5_of_file = source.readline().strip()
+                    print("MD5 = " + self.md5_of_file)
+                    return True
+                def on_md5_finished(pid, status):
+                    self.finishedProcesses += 1
+                    if self.finishedProcesses == 2:
+                        onTotallyFinished()
+
+                
+                md5_pid, _, md5_stdout, _ = GLib.spawn_async(["md5sum", self.imgFilepath],
+                                    flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
+                                    standard_input=False, standard_output=True, standard_error=False)
+                GLib.io_add_watch(GLib.IOChannel(md5_stdout), GLib.IO_IN | GLib.IO_HUP, on_md5_stdout)
+                GLib.child_watch_add(GLib.PRIORITY_DEFAULT, md5_pid, on_md5_finished)
+                
+
+                # Get MD5SUMS from pardus.org.tr:
+                self.lbl_integrityStatus.set_markup(tr("Retrieving data from <b>pardus.org.tr</b>..."))
+                def on_curl_stdout(source, condition):
+                    if condition == GLib.IO_HUP:
+                        return False
+                    
+                    self.md5sumlist.append(source.readline().strip())
+                    return True
+
+                
+                curl_pid, _, curl_stdout, _ = GLib.spawn_async(["curl", "http://indir.pardus.org.tr/ISO/Pardus19/MD5SUMS", "-s"],
+                                    flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
+                                    standard_input=False, standard_output=True, standard_error=False)
+                GLib.io_add_watch(GLib.IOChannel(curl_stdout), GLib.IO_IN | GLib.IO_HUP, on_curl_stdout)
+                GLib.child_watch_add(GLib.PRIORITY_DEFAULT, curl_pid, on_md5_finished)
+            
+            else:
+                self.lockGUI()
+                self.startProcess([
+                    "pkexec",
+                    os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
+                    '/dev/'+self.usbDevice[0],
+                    self.imgFilepath
+                ])
+    
+    def cancelWriting(self):
+        subprocess.call(["pkexec", "kill", str(self.writerProcessPID)])
 
     # Handling Image Writer process
     def startProcess(self, params):
-        pid, _, stdout, _ = GLib.spawn_async(params,
+        self.writerProcessPID, _, stdout, _ = GLib.spawn_async(params,
                                     flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
                                     standard_input=False, standard_output=True, standard_error=True)
         GLib.io_add_watch(GLib.IOChannel(stdout), GLib.IO_IN | GLib.IO_HUP, self.onProcessStdout)
-        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, self.onProcessExit)
+        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, self.writerProcessPID, self.onProcessExit)
     
     def onProcessStdout(self, source, condition):
         if condition == GLib.IO_HUP:
@@ -162,9 +251,7 @@ class MainWindow:
         return True
     
     def onProcessExit(self, pid, status):
-        self.btn_selectISOFile.set_sensitive(True)
-        self.btn_start.set_sensitive(True)
-        self.cmb_devices.set_sensitive(True)
+        self.unlockGUI()
 
         self.listUSBDevices()
 
@@ -197,3 +284,18 @@ class MainWindow:
             )
             dialog.run()
             dialog.destroy()
+        
+    def lockGUI(self, disableStart=False):
+        self.btn_selectISOFile.set_sensitive(False)
+        self.cmb_devices.set_sensitive(False)
+        self.btn_start.set_sensitive(not disableStart)
+        self.btn_start.set_label(tr("Cancel"))
+        self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
+        self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        
+    def unlockGUI(self):
+        self.btn_selectISOFile.set_sensitive(True)
+        self.cmb_devices.set_sensitive(True)
+        self.btn_start.set_label(tr("Start"))
+        self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
