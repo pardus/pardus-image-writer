@@ -79,13 +79,27 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="opacity">0.80000000000000004</property>
-                <property name="label">---</property>
+                <property name="label" translatable="yes">Calculating the hash value of the file...</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lbl_integrityStatus1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="opacity">0.80000000000000004</property>
+                <property name="label" translatable="yes">Retrieving data from &lt;b&gt;pardus.org.tr&lt;/b&gt;...</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
