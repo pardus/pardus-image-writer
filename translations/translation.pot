@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-17 22:09+0300\n"
+"POT-Creation-Date: 2020-06-17 22:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,43 +25,35 @@ msgstr ""
 msgid "This is not a Pardus ISO, or it is corrupted."
 msgstr ""
 
-#: MainWindow.py:181
-msgid "Calculating the md5 hash of the file..."
-msgstr ""
-
-#: MainWindow.py:203
-msgid "Retrieving data from <b>pardus.org.tr</b>..."
-msgstr ""
-
-#: MainWindow.py:259
+#: MainWindow.py:255
 msgid "Success!"
 msgstr ""
 
-#: MainWindow.py:265
+#: MainWindow.py:261
 msgid "Writing process ended successfully."
 msgstr ""
 
-#: MainWindow.py:268
+#: MainWindow.py:264
 msgid "You can eject the USB disk."
 msgstr ""
 
-#: MainWindow.py:273
+#: MainWindow.py:269
 msgid "Error!"
 msgstr ""
 
-#: MainWindow.py:280
+#: MainWindow.py:276
 msgid "An error occured while writing the file to the disk."
 msgstr ""
 
-#: MainWindow.py:283
+#: MainWindow.py:279
 msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
 
-#: MainWindow.py:292
+#: MainWindow.py:288
 msgid "Cancel"
 msgstr ""
 
-#: MainWindow.py:299 MainWindow.glade.h:12
+#: MainWindow.py:296 MainWindow.glade.h:14
 msgid "Start"
 msgstr ""
 
@@ -74,32 +66,40 @@ msgid "Checking the file's integrity..."
 msgstr ""
 
 #: MainWindow.glade.h:3
-msgid "Are you sure?"
+msgid "Calculating the hash value of the file..."
 msgstr ""
 
 #: MainWindow.glade.h:4
-msgid "This file:"
+msgid "Retrieving data from <b>pardus.org.tr</b>..."
 msgstr ""
 
 #: MainWindow.glade.h:5
-msgid "Will be written on this disk:"
+msgid "Are you sure?"
 msgstr ""
 
 #: MainWindow.glade.h:6
+msgid "This file:"
+msgstr ""
+
+#: MainWindow.glade.h:7
+msgid "Will be written on this disk:"
+msgstr ""
+
+#: MainWindow.glade.h:8
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
 "Do you want to continue?"
 msgstr ""
 
-#: MainWindow.glade.h:9
+#: MainWindow.glade.h:11
 msgid "Pardus Image Writer"
 msgstr ""
 
-#: MainWindow.glade.h:10
+#: MainWindow.glade.h:12
 msgid "Select ISO File..."
 msgstr ""
 
-#: MainWindow.glade.h:11
+#: MainWindow.glade.h:13
 msgid "Check ISO integrity (requires internet)"
 msgstr ""
