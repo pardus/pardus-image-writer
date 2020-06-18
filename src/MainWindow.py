@@ -1,4 +1,4 @@
-import os, sys, subprocess
+import os, sys, subprocess, requests
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import GLib, Gio, Gtk
@@ -130,6 +130,41 @@ class MainWindow:
         else:
             self.prepareWriting()
     
+    def onCheckingIntegrityFinished(self):
+        # Check ISO has md5 on list:
+        isISOGood = False
+        for line in self.md5sumlist:
+            if line.split()[0] == self.md5_of_file.split()[0]:
+                isISOGood = True
+                break
+        
+        if isISOGood:
+            self.lockGUI()
+            self.startProcess([
+                "pkexec",
+                os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
+                            os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
+                os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
+                '/dev/'+self.usbDevice[0],
+                self.imgFilepath
+            ])
+        else:
+            self.unlockGUI()
+            dialog = Gtk.MessageDialog(
+                self.window,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.OK,
+                tr("Integrity checking failed."),
+            )
+            dialog.format_secondary_text(
+                tr("This is not a Pardus ISO, or it is corrupted.")
+            )
+            dialog.run()
+            dialog.destroy()
+        
+        self.dialog_integrity.hide()
+
     def prepareWriting(self):
         # Ask if it is ok?
         self.dlg_lbl_filename.set_markup(f"- <b>{self.imgFilepath.split('/')[-1]}</b>")
@@ -142,40 +177,9 @@ class MainWindow:
                 self.lockGUI(disableStart=True)
                 self.dialog_integrity.show_all()
                 self.finishedProcesses = 0
-                self.md5sumlist = []
-                self.md5_of_file = ""
 
-                # When both md5 calculation & checking MD5SUMS from pardus.org.tr finished:
-                def onTotallyFinished():
-                    isISOGood = False
-                    for line in self.md5sumlist:
-                        if line.split()[0] == self.md5_of_file.split()[0]:
-                            isISOGood = True
-                            break
-                    
-                    if isISOGood:
-                        self.lockGUI()
-                        self.startProcess([
-                            "pkexec",
-                            os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
-                            '/dev/'+self.usbDevice[0],
-                            self.imgFilepath
-                        ])
-                    else:
-                        self.unlockGUI()
-                        dialog = Gtk.MessageDialog(
-                            self.window,
-                            0,
-                            Gtk.MessageType.ERROR,
-                            Gtk.ButtonsType.OK,
-                            tr("Integrity checking failed."),
-                        )
-                        dialog.format_secondary_text(
-                            tr("This is not a Pardus ISO, or it is corrupted.")
-                        )
-                        dialog.run()
-                        dialog.destroy()
-                    self.dialog_integrity.hide()
+                self.md5sumlist = []
+                self.md5_of_file = ""             
                 
                 # Check MD5SUM of the ISO file:
                 def on_md5_stdout(source, condition):
@@ -187,7 +191,7 @@ class MainWindow:
                 def on_md5_finished(pid, status):
                     self.finishedProcesses += 1
                     if self.finishedProcesses == 2:
-                        onTotallyFinished()
+                        self.onCheckingIntegrityFinished()
 
                 
                 md5_pid, _, md5_stdout, _ = GLib.spawn_async(["md5sum", self.imgFilepath],
@@ -196,22 +200,10 @@ class MainWindow:
                 GLib.io_add_watch(GLib.IOChannel(md5_stdout), GLib.IO_IN | GLib.IO_HUP, on_md5_stdout)
                 GLib.child_watch_add(GLib.PRIORITY_DEFAULT, md5_pid, on_md5_finished)
                 
-
                 # Get MD5SUMS from pardus.org.tr:
-                def on_curl_stdout(source, condition):
-                    if condition == GLib.IO_HUP:
-                        return False
-                    
-                    self.md5sumlist.append(source.readline().strip())
-                    return True
-
-                
-                curl_pid, _, curl_stdout, _ = GLib.spawn_async(["curl", "http://indir.pardus.org.tr/ISO/Pardus19/MD5SUMS", "-s"],
-                                    flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
-                                    standard_input=False, standard_output=True, standard_error=False)
-                GLib.io_add_watch(GLib.IOChannel(curl_stdout), GLib.IO_IN | GLib.IO_HUP, on_curl_stdout)
-                GLib.child_watch_add(GLib.PRIORITY_DEFAULT, curl_pid, on_md5_finished)
-            
+                result = requests.get("http://indir.pardus.org.tr/ISO/Pardus19/MD5SUMS")
+                self.md5sumlist = result.text.splitlines()
+                on_md5_finished(0,0)
             else:
                 self.lockGUI()
                 self.startProcess([
