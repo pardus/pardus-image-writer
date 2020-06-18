@@ -109,9 +109,6 @@ class MainWindow:
 
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
-
-            print(self.usbDevice)
-            print(len(self.usbDevice))
             
             if self.imgFilepath and len(self.usbDevice) > 0:
                 self.btn_start.set_sensitive(True)
@@ -181,13 +178,11 @@ class MainWindow:
                     self.dialog_integrity.hide()
                 
                 # Check MD5SUM of the ISO file:
-                self.lbl_integrityStatus.set_markup(tr("Calculating the md5 hash of the file..."))
                 def on_md5_stdout(source, condition):
                     if condition == GLib.IO_HUP:
                         return False
                     
                     self.md5_of_file = source.readline().strip()
-                    print("MD5 = " + self.md5_of_file)
                     return True
                 def on_md5_finished(pid, status):
                     self.finishedProcesses += 1
@@ -203,7 +198,6 @@ class MainWindow:
                 
 
                 # Get MD5SUMS from pardus.org.tr:
-                self.lbl_integrityStatus.set_markup(tr("Retrieving data from <b>pardus.org.tr</b>..."))
                 def on_curl_stdout(source, condition):
                     if condition == GLib.IO_HUP:
                         return False
@@ -250,7 +244,6 @@ class MainWindow:
 
         self.pb_writingProgess.set_text(f"{round(written/1000/1000)}MB / {round(total/1000/1000)}MB (%{int(percent*100)})")
         self.pb_writingProgess.set_fraction(percent)
-        #print(f"[stdout]: {source.readline()}")
         return True
     
     def onProcessExit(self, pid, status):
@@ -299,6 +292,7 @@ class MainWindow:
     def unlockGUI(self):
         self.btn_selectISOFile.set_sensitive(True)
         self.cmb_devices.set_sensitive(True)
+        self.btn_start.set_sensitive(True)
         self.btn_start.set_label(tr("Start"))
         self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
