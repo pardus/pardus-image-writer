@@ -1,7 +1,0 @@
-Package: pardus-image-writer
-Version: 0.1
-Maintainer: Emin Fedar <emin.fedar@pardus.org.tr>
-Description: ISO Image Writer for Pardus.
-Homepage: https://gitlab.com/pardus-dev/pardus-image-writer
-Architecture: amd64
-Depends: python3 (>=3.5), python3-gi, python-requests

@@ -1,0 +1,17 @@
+Source: pardus-image-writer
+Section: utils
+Priority: optional
+Maintainer: Emin Fedar <emin.fedar@pardus.org.tr>
+Build-Depends: debhelper (>= 10), dh-python, python3-all, python3-setuptools
+Standards-Version: 4.3.0
+Homepage: https://www.pardus.org.tr
+
+Package: pardus-image-writer
+Architecture: amd64
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         python3 (>=3.5),
+         python3-gi,
+         python3-requests
+Description: Pardus Image Writer
+ Simple Gtk+ and Python based Disk Image USB burner
