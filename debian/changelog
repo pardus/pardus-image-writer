@@ -1,0 +1,30 @@
+pardus-image-writer (0.1.0) unstable; urgency=medium
+
+  * Initial commit
+  * Initialize blank app
+  * added: python .gitignore
+  * init: ImageWriter & USBDeviceManager classes.
+  * added: Select ISO File Dialog added: set device & file on ImageWriter
+  * little ui: MainWindow
+  * added: WriteImageDialog
+  * added: ProgressBar changed: Start button height changed: ISO select button text
+  * added: ImageWriter
+  * added: Listening USB Device Changes added: Finding USB devices
+  * added: Starting ImageWriter.py process to write. added: Progress Bar added: Tooltips added: Disabling buttons while writing image
+  * changed: logo
+  * improved: Enabled buffering & fsync. (%30 faster now)
+  * added: Image Write Dialog -> Glade added: Turkish Translations (& translation files) added: Now .iso files can be opened with it.
+  * added: Translations on Glade
+  * v0.1 - Ready For Publish
+  * fixed: Translation paths
+  * fix: Start button activating before USB device plugged in.
+  * fixed: previous commit
+  * added: Online MD5 Hash control. fixed: Start button enabling without USB device plugged in. updated: Turkish translations
+  * added: translations .gitignore
+  * updated: Checking integrity dialog Glade
+  * fix: little
+  * updated: Translations
+  * added: Control file
+  * changed: curl -> request library
+
+ -- Emin Fedar <emin.fedar@pardus.org.tr>  Fri, 19 Jun 2020 00:04:20 +0300
