@@ -201,9 +201,27 @@ class MainWindow:
                 GLib.child_watch_add(GLib.PRIORITY_DEFAULT, md5_pid, on_md5_finished)
                 
                 # Get MD5SUMS from pardus.org.tr:
-                result = requests.get("http://indir.pardus.org.tr/ISO/Pardus19/MD5SUMS")
-                self.md5sumlist = result.text.splitlines()
-                on_md5_finished(0,0)
+                try:
+                    result = requests.get("http://indir.pardus.org.tr/ISO/Pardus19/MD5SUMS")
+                    self.md5sumlist = result.text.splitlines()
+                    on_md5_finished(0,0)
+                except requests.ConnectionError:
+                    self.dialog_integrity.hide()
+                    self.unlockGUI()
+                    dialog = Gtk.MessageDialog(
+                        self.window,
+                        0,
+                        Gtk.MessageType.ERROR,
+                        Gtk.ButtonsType.OK,
+                        tr("Integrity checking failed."),
+                    )
+                    dialog.format_secondary_text(
+                        tr("Connecting to pardus.org.tr failed.")
+                    )
+                    dialog.run()
+                    dialog.destroy()
+                    
+                
             else:
                 self.lockGUI()
                 self.startProcess([
