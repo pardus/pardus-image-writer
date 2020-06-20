@@ -27,6 +27,10 @@ msgstr "Veri bütünlüğü kontrolü başarısız."
 msgid "This is not a Pardus ISO, or it is corrupted."
 msgstr "Bu bir Pardus ISO'su değil veya dosya bozulmuş."
 
+#: MainWindow.py:219
+msgid "Could not connect to pardus.org.tr."
+msgstr "pardus.org.tr adresine bağlanılamadı."
+
 #: MainWindow.py:255
 msgid "Success!"
 msgstr "Başarılı!"

@@ -216,7 +216,7 @@ class MainWindow:
                         tr("Integrity checking failed."),
                     )
                     dialog.format_secondary_text(
-                        tr("Connecting to pardus.org.tr failed.")
+                        tr("Could not connect to pardus.org.tr.")
                     )
                     dialog.run()
                     dialog.destroy()
