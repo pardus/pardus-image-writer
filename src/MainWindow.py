@@ -52,7 +52,6 @@ class MainWindow:
     
     # Window methods:
     def onDestroy(self, action):
-        self.usbManager.usbListenTimer.cancel()
         self.window.get_application().quit()
     
     def defineComponents(self):
