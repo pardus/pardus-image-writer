@@ -12,6 +12,7 @@ Depends: ${misc:Depends},
          ${python3:Depends},
          python3 (>=3.5),
          python3-gi,
-         python3-requests
+         python3-requests,
+         python3-pyudev
 Description: Pardus Image Writer
  Simple Gtk+ and Python based Disk Image USB burner
