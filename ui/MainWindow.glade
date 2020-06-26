@@ -380,6 +380,7 @@ Do you want to continue?</property>
           <object class="GtkImage">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">11</property>
             <property name="pixel_size">92</property>
             <property name="icon_name">emblem-pardus-symbolic</property>
           </object>
@@ -605,6 +606,7 @@ Do you want to continue?</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="opacity">0.59999999999999998</property>
+            <property name="margin_top">7</property>
             <property name="margin_bottom">7</property>
             <property name="label">TÜBİTAK ULAKBİM | 2020</property>
             <attributes>
