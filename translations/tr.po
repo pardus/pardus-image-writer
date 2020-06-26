@@ -1,15 +1,12 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 # Emin Fedar <emin.fedar@pardus.org.tr>, 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-17 22:42+0300\n"
-"PO-Revision-Date: 2020-06-17 22:49+0300\n"
+"Project-Id-Version: 0.2\n"
+"Report-Msgid-Bugs-To: Emin Fedar\n"
+"POT-Creation-Date: 2020-06-26 15:35+0300\n"
+"PO-Revision-Date: 2020-06-26 15:45+0300\n"
 "Last-Translator: Emin Fedar <emin.fedar@pardus.org.tr>\n"
 "Language-Team: Turkish <gelistirici@pardus.org.tr>\n"
 "Language: tr\n"
@@ -19,97 +16,118 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Gtranslator 3.36.0\n"
 
-#: MainWindow.py:171
-msgid "Integrity checking failed."
-msgstr "Veri bütünlüğü kontrolü başarısız."
+#: ../ui/MainWindow.glade:7
+msgid "About"
+msgstr "Hakkında"
 
-#: MainWindow.py:174
-msgid "This is not a Pardus ISO, or it is corrupted."
-msgstr "Bu bir Pardus ISO'su değil veya dosya bozulmuş."
+#: ../ui/MainWindow.glade:13
+msgid "TÜBİTAK ULAKBİM | ©2020"
+msgstr "TÜBİTAK ULAKBİM | ©2020"
 
-#: MainWindow.py:219
-msgid "Could not connect to pardus.org.tr."
-msgstr "pardus.org.tr adresine bağlanılamadı."
+#: ../ui/MainWindow.glade:14
+msgid "Write ISO Images to USB devices easily."
+msgstr "ISO kalıplarını USB cihazlara kolayca yazın."
 
-#: MainWindow.py:255
-msgid "Success!"
-msgstr "Başarılı!"
+#: ../ui/MainWindow.glade:16
+msgid "pardus.org.tr"
+msgstr "pardus.org.tr"
 
-#: MainWindow.py:261
-msgid "Writing process ended successfully."
-msgstr "Yazma işlemi başarıyla tamamlandı."
+#: ../ui/MainWindow.glade:18
+msgid "Emin Fedar"
+msgstr "Emin Fedar"
 
-#: MainWindow.py:264
-msgid "You can eject the USB disk."
-msgstr "USB diski çıkarabilirsiniz."
-
-#: MainWindow.py:269
-msgid "Error!"
-msgstr "Hata!"
-
-#: MainWindow.py:276
-msgid "An error occured while writing the file to the disk."
-msgstr "Dosya diske yazılırken bir hata oluştu."
-
-#: MainWindow.py:279
-msgid "Please make sure the USB device is connected properly and try again."
-msgstr ""
-"Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
-
-#: MainWindow.py:288
-msgid "Cancel"
-msgstr "İptal Et"
-
-#: MainWindow.py:296 MainWindow.glade.h:14
-msgid "Start"
-msgstr "Başlat"
-
-#: MainWindow.glade.h:1
+#: ../ui/MainWindow.glade:54
 msgid "Checking..."
 msgstr "Kontrol ediliyor..."
 
-#: MainWindow.glade.h:2
+#: ../ui/MainWindow.glade:113
 msgid "Checking the file's integrity..."
 msgstr "Dosya kontrol ediliyor..."
 
-#: MainWindow.glade.h:3
+#: ../ui/MainWindow.glade:129
 msgid "Calculating the hash value of the file..."
 msgstr "Dosyanın hash değeri hesaplanıyor..."
 
-#: MainWindow.glade.h:4
+#: ../ui/MainWindow.glade:143
 msgid "Retrieving data from <b>pardus.org.tr</b>..."
 msgstr "Veriler <b>pardus.org.tr</b> adresinden alınıyor..."
 
-#: MainWindow.glade.h:5
+#: ../ui/MainWindow.glade:164
 msgid "Are you sure?"
 msgstr "Emin misiniz?"
 
-#: MainWindow.glade.h:6
+#: ../ui/MainWindow.glade:237
 msgid "This file:"
 msgstr "Bu dosya:"
 
-#: MainWindow.glade.h:7
+#: ../ui/MainWindow.glade:264
 msgid "Will be written on this disk:"
 msgstr "Bu diske yazılacak:"
 
-#: MainWindow.glade.h:8
+#: ../ui/MainWindow.glade:304
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
 "Do you want to continue?"
 msgstr ""
-"<b>UYARI:</b>\n"
-"Cihazdaki tüm verileriniz silinecek.\n"
-"Devam etmek istiyor musunuz?"
+"<b>UYARI:</b>\\n\"\n"
+"\"Cihazdaki tüm verileriniz silinecek.\\n\"\n"
+"\"Devam etmek istiyor musunuz?"
 
-#: MainWindow.glade.h:11
+#: ../ui/MainWindow.glade:346 ../ui/MainWindow.glade:356
+#: ../ui/MainWindow.glade:396
 msgid "Pardus Image Writer"
 msgstr "Pardus Disk Kalıbı Yazıcı"
 
-#: MainWindow.glade.h:12
+#: ../ui/MainWindow.glade:454
 msgid "Select ISO File..."
 msgstr "ISO Dosyası seçiniz..."
 
-#: MainWindow.glade.h:13
+#: ../ui/MainWindow.glade:536
 msgid "Check ISO integrity (requires internet)"
 msgstr "ISO'yu doğrula (internet gereklidir)"
+
+#: ../ui/MainWindow.glade:567 MainWindow.py:312
+msgid "Start"
+msgstr "Başlat"
+
+#: MainWindow.py:164 MainWindow.py:222
+msgid "Integrity checking failed."
+msgstr "Veri bütünlüğü kontrolü başarısız."
+
+#: MainWindow.py:167
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr "Bu bir Pardus Kalıbı değil veya dosya bozulmuş."
+
+#: MainWindow.py:225
+msgid "Could not connect to pardus.org.tr."
+msgstr "pardus.org.tr adresine bağlanılamadı."
+
+#: MainWindow.py:271
+msgid "Success!"
+msgstr "Başarılı!"
+
+#: MainWindow.py:277
+msgid "Writing process ended successfully."
+msgstr "Yazma işlemi başarıyla tamamlandı."
+
+#: MainWindow.py:280
+msgid "You can eject the USB disk."
+msgstr "USB diski çıkarabilirsiniz."
+
+#: MainWindow.py:285
+msgid "Error!"
+msgstr "Hata!"
+
+#: MainWindow.py:292
+msgid "An error occured while writing the file to the disk."
+msgstr "Dosya diske yazılırken bir hata oluştu."
+
+#: MainWindow.py:295
+msgid "Please make sure the USB device is connected properly and try again."
+msgstr ""
+"Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
+
+#: MainWindow.py:304
+msgid "Cancel"
+msgstr "İptal Et"

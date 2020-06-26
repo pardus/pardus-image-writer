@@ -8,98 +8,123 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-17 22:42+0300\n"
+"POT-Creation-Date: 2020-06-26 15:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: MainWindow.py:171
-msgid "Integrity checking failed."
+#: ../ui/MainWindow.glade:7
+msgid "About"
 msgstr ""
 
-#: MainWindow.py:174
-msgid "This is not a Pardus ISO, or it is corrupted."
+#: ../ui/MainWindow.glade:13
+msgid "TÜBİTAK ULAKBİM | ©2020"
 msgstr ""
 
-#: MainWindow.py:255
-msgid "Success!"
+#: ../ui/MainWindow.glade:14
+msgid "Write ISO Images to USB devices easily."
 msgstr ""
 
-#: MainWindow.py:261
-msgid "Writing process ended successfully."
+#: ../ui/MainWindow.glade:16
+msgid "pardus.org.tr"
 msgstr ""
 
-#: MainWindow.py:264
-msgid "You can eject the USB disk."
+#: ../ui/MainWindow.glade:18
+msgid "Emin Fedar"
 msgstr ""
 
-#: MainWindow.py:269
-msgid "Error!"
-msgstr ""
-
-#: MainWindow.py:276
-msgid "An error occured while writing the file to the disk."
-msgstr ""
-
-#: MainWindow.py:279
-msgid "Please make sure the USB device is connected properly and try again."
-msgstr ""
-
-#: MainWindow.py:288
-msgid "Cancel"
-msgstr ""
-
-#: MainWindow.py:296 MainWindow.glade.h:14
-msgid "Start"
-msgstr ""
-
-#: MainWindow.glade.h:1
+#: ../ui/MainWindow.glade:54
 msgid "Checking..."
 msgstr ""
 
-#: MainWindow.glade.h:2
+#: ../ui/MainWindow.glade:113
 msgid "Checking the file's integrity..."
 msgstr ""
 
-#: MainWindow.glade.h:3
+#: ../ui/MainWindow.glade:129
 msgid "Calculating the hash value of the file..."
 msgstr ""
 
-#: MainWindow.glade.h:4
+#: ../ui/MainWindow.glade:143
 msgid "Retrieving data from <b>pardus.org.tr</b>..."
 msgstr ""
 
-#: MainWindow.glade.h:5
+#: ../ui/MainWindow.glade:164
 msgid "Are you sure?"
 msgstr ""
 
-#: MainWindow.glade.h:6
+#: ../ui/MainWindow.glade:237
 msgid "This file:"
 msgstr ""
 
-#: MainWindow.glade.h:7
+#: ../ui/MainWindow.glade:264
 msgid "Will be written on this disk:"
 msgstr ""
 
-#: MainWindow.glade.h:8
+#: ../ui/MainWindow.glade:304
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
 "Do you want to continue?"
 msgstr ""
 
-#: MainWindow.glade.h:11
+#: ../ui/MainWindow.glade:346 ../ui/MainWindow.glade:356
+#: ../ui/MainWindow.glade:396
 msgid "Pardus Image Writer"
 msgstr ""
 
-#: MainWindow.glade.h:12
+#: ../ui/MainWindow.glade:454
 msgid "Select ISO File..."
 msgstr ""
 
-#: MainWindow.glade.h:13
+#: ../ui/MainWindow.glade:536
 msgid "Check ISO integrity (requires internet)"
+msgstr ""
+
+#: ../ui/MainWindow.glade:567 MainWindow.py:312
+msgid "Start"
+msgstr ""
+
+#: MainWindow.py:164 MainWindow.py:222
+msgid "Integrity checking failed."
+msgstr ""
+
+#: MainWindow.py:167
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr ""
+
+#: MainWindow.py:225
+msgid "Could not connect to pardus.org.tr."
+msgstr ""
+
+#: MainWindow.py:271
+msgid "Success!"
+msgstr ""
+
+#: MainWindow.py:277
+msgid "Writing process ended successfully."
+msgstr ""
+
+#: MainWindow.py:280
+msgid "You can eject the USB disk."
+msgstr ""
+
+#: MainWindow.py:285
+msgid "Error!"
+msgstr ""
+
+#: MainWindow.py:292
+msgid "An error occured while writing the file to the disk."
+msgstr ""
+
+#: MainWindow.py:295
+msgid "Please make sure the USB device is connected properly and try again."
+msgstr ""
+
+#: MainWindow.py:304
+msgid "Cancel"
 msgstr ""

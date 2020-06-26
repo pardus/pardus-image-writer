@@ -73,6 +73,7 @@ class MainWindow:
         self.dialog_write.set_position(Gtk.WindowPosition.CENTER)
         self.dlg_lbl_filename = self.builder.get_object("dlg_lbl_filename")
         self.dlg_lbl_disk = self.builder.get_object("dlg_lbl_disk")
+        self.dialog_about = self.builder.get_object("dialog_about")
 
     # USB Methods
     def listUSBDevices(self):
@@ -129,6 +130,12 @@ class MainWindow:
         else:
             self.prepareWriting()
     
+    def btn_information_clicked(self,button):
+        self.dialog_about.run()
+        self.dialog_about.hide()
+
+
+
     def onCheckingIntegrityFinished(self):
         # Check ISO has md5 on list:
         isISOGood = False
