@@ -19,15 +19,19 @@ class USBDeviceManager:
         
     def find_usb_devices(self):
         sdb_devices = list(map(os.path.realpath, glob('/sys/block/sd*')))
-        usb_devices = (dev for dev in sdb_devices
-            if 'usb' in dev.split('/')[5])
-        return dict((os.path.basename(dev), dev) for dev in usb_devices)
+        usb_devices = []
+        for dev in sdb_devices:
+            for prop in dev.split('/'):
+                if 'usb' in prop:
+                    usb_devices.append(os.path.basename(dev))
+        
+        return usb_devices
 
     def get_device_infos(self):
         deviceList = []
         usb_devices = self.find_usb_devices()
         for blockName in usb_devices:
-            device = Devices.from_name(self.context, 'block', blockName+'1')
+            device = Devices.from_name(self.context, 'block', f"{blockName}1")
             deviceInfo = []
             # 'sda'
             deviceInfo.append(blockName)
