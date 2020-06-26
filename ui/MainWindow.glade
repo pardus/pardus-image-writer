@@ -346,14 +346,16 @@ Do you want to continue?</property>
     <property name="title" translatable="yes">Pardus Image Writer</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
-    <property name="default_width">290</property>
-    <property name="icon_name">gtk-cdrom</property>
+    <property name="default_width">300</property>
+    <property name="default_height">440</property>
+    <property name="icon">../icon.svg</property>
     <property name="gravity">center</property>
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="title" translatable="yes">Pardus Image Writer</property>
+        <property name="subtitle" translatable="yes">v0.2</property>
         <property name="show_close_button">True</property>
         <child>
           <object class="GtkButton" id="btn_information">
@@ -564,6 +566,20 @@ Do you want to continue?</property>
           </packing>
         </child>
         <child>
+          <object class="GtkProgressBar" id="pb_writingProgress">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_left">7</property>
+            <property name="margin_right">7</property>
+            <property name="show_text">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">8</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkButton" id="btn_start">
             <property name="label" translatable="yes">Start</property>
             <property name="height_request">32</property>
@@ -580,20 +596,6 @@ Do you want to continue?</property>
             <style>
               <class name="suggested-action"/>
             </style>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">8</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkProgressBar" id="pb_writingProgress">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_left">7</property>
-            <property name="margin_right">7</property>
-            <property name="show_text">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
