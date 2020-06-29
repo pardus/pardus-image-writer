@@ -38,7 +38,4 @@ else:
     readFile.close()
     writeFile.close()
 
-time.sleep(1)
-subprocess.call(['eject', drive])
-
 exit(0)
