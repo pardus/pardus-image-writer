@@ -6,7 +6,7 @@ drive = sys.argv[1]
 filepath = sys.argv[2]
 
 # Unmount the drive before writing on it
-# subprocess.call(['umount', drive+'1'])
+subprocess.call(['umount', f"{drive}1"])
 
 bufferSize = 1024
 writtenBytes = 0
@@ -37,5 +37,8 @@ else:
     os.fsync(writeFile)
     readFile.close()
     writeFile.close()
+
+print(f"{totalFileBytes} {totalFileBytes}")
+subprocess.call(['eject', drive])
 
 exit(0)
