@@ -31,21 +31,25 @@ class USBDeviceManager:
         deviceList = []
         usb_devices = self.find_usb_devices()
         for blockName in usb_devices:
-            device = Devices.from_name(self.context, 'block', f"{blockName}1")
-            deviceInfo = []
-            # 'sda'
-            deviceInfo.append(blockName)
+            try:
+                device = Devices.from_name(self.context, 'block', f"{blockName}1")
+                deviceInfo = []
+                # 'sda'
+                deviceInfo.append(blockName)
 
-            # 'FEDAR32'
-            deviceInfo.append(device.get('ID_FS_LABEL', 'NO_LABEL'))
+                # 'FEDAR32'
+                deviceInfo.append(device.get('ID_FS_LABEL', 'NO_LABEL'))
 
-            # '4GB'
-            blockCount = int(open(f"/sys/block/{blockName}/size").readline())
-            blockSize = int(open(f"/sys/block/{blockName}/queue/logical_block_size").readline())
-            deviceInfo.append(f"{int((blockCount*blockSize)/1000/1000/1000)}GB")
+                # '4GB'
+                blockCount = int(open(f"/sys/block/{blockName}/size").readline())
+                blockSize = int(open(f"/sys/block/{blockName}/queue/logical_block_size").readline())
+                deviceInfo.append(f"{int((blockCount*blockSize)/1000/1000/1000)}GB")
 
-            # Add device to list
-            deviceList.append(deviceInfo)
+                # Add device to list
+                deviceList.append(deviceInfo)
+            except:
+                pass
+        
         return deviceList
 
     def getUSBDevices(self):
