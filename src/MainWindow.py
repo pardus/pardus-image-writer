@@ -308,6 +308,7 @@ class MainWindow:
         self.btn_start.set_label(tr("Cancel"))
         self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
         self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        self.cb_checkIntegrity.set_sensitive(False)
         
     def unlockGUI(self):
         self.btn_selectISOFile.set_sensitive(True)
@@ -316,6 +317,7 @@ class MainWindow:
         self.btn_start.set_label(tr("Start"))
         self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
+        self.cb_checkIntegrity.set_sensitive(True)
     
     def sendNotification(self, title, body):
         notification = Gio.Notification.new(title)
