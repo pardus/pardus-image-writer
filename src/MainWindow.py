@@ -149,8 +149,6 @@ class MainWindow:
             self.startProcess([
                 "pkexec",
                 os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
-                            os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
-                os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
                 '/dev/'+self.usbDevice[0],
                 self.imgFilepath
             ])
