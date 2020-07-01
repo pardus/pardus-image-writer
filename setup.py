@@ -7,7 +7,8 @@ data_files = [
     ("/usr/share/pardus/pardus-image-writer/", ["icon.svg"]),
     ("/usr/share/pardus/pardus-image-writer/src", ["src/main.py", "src/MainWindow.py", "src/ImageWriter.py", "src/USBDeviceManager.py"]),
     ("/usr/share/pardus/pardus-image-writer/ui", ["ui/MainWindow.glade"]),
-    ("/usr/bin/", ["pardus-image-writer"]),
+    ("/usr/share/polkit-1/actions", ["tr.org.pardus.pkexec.pardus-image-writer.policy"]),
+    ("/usr/bin/", ["pardus-image-writer"])
 ]
 
 setup(
