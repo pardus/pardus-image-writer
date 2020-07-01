@@ -39,6 +39,5 @@ else:
     writeFile.close()
 
 print(f"{totalFileBytes} {totalFileBytes}")
-subprocess.call(['eject', drive])
 
 exit(0)
