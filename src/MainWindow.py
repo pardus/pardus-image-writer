@@ -47,6 +47,9 @@ class MainWindow:
         self.usbManager.setUSBRefreshSignal(self.listUSBDevices)
         self.listUSBDevices()
 
+        # Set application:
+        self.application = application
+
         # Show Screen:
         self.window.show_all()
     
@@ -267,6 +270,8 @@ class MainWindow:
 
         if status == 0:
             self.pb_writingProgess.set_text(tr("Success!"))
+            self.sendNotification(tr("Writing process ended successfully."), tr("You can eject the USB disk."))
+            '''
             dialog = Gtk.MessageDialog(
                 self.window,
                 0,
@@ -279,6 +284,7 @@ class MainWindow:
             )
             dialog.run()
             dialog.destroy()
+            '''
         else:
             self.pb_writingProgess.set_text(tr("Error!"))
             self.pb_writingProgess.set_fraction(0)
@@ -310,3 +316,10 @@ class MainWindow:
         self.btn_start.set_label(tr("Start"))
         self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
+    
+    def sendNotification(self, title, body):
+        notification = Gio.Notification.new(title)
+        notification.set_body(body)
+        notification.set_icon(Gio.ThemedIcon(name="pardus-image-writer"))
+        notification.set_default_action("app.notification-response::focus")
+        self.application.send_notification(self.application.get_application_id(), notification)
