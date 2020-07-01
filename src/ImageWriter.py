@@ -39,5 +39,7 @@ else:
     writeFile.close()
 
 print(f"{totalFileBytes} {totalFileBytes}")
+time.sleep(1)
+subprocess.call(['eject', drive])
 
 exit(0)
