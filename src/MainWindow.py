@@ -58,10 +58,13 @@ class MainWindow:
         self.window.get_application().quit()
     
     def defineComponents(self):
+        self.stack_windows = self.builder.get_object("stack_windows")
+
         self.list_devices = self.builder.get_object("list_devices")
         self.cmb_devices = self.builder.get_object("cmb_devices")
         self.btn_selectISOFile = self.builder.get_object("btn_selectISOFile")
         self.lbl_btn_selectISOFile = self.builder.get_object("lbl_btn_selectISOFile")
+        self.stack_buttons = self.builder.get_object("stack_buttons")
         self.btn_start = self.builder.get_object("btn_start")
         self.pb_writingProgess = self.builder.get_object("pb_writingProgress")
 
@@ -86,6 +89,7 @@ class MainWindow:
             self.list_devices.append(device)
 
         self.cmb_devices.set_active(0)
+        self.stack_buttons.set_visible_child_name("start")
         
         if len(deviceList) == 0:
             self.btn_start.set_sensitive(False)
@@ -97,8 +101,10 @@ class MainWindow:
     # UI Signals:
     def btn_selectISOFile_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
+            tr("Select ISO File..."),
             action=Gtk.FileChooserAction.OPEN,
-            buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+            buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
+        )
         
         fileFilter = Gtk.FileFilter()
         fileFilter.set_name("*.iso")
@@ -126,12 +132,19 @@ class MainWindow:
             self.usbDevice = deviceInfo
         else:
             self.btn_start.set_sensitive(False)
-
+    
+    # Buttons:
     def btn_start_clicked(self, button):
-        if self.btn_start.get_style_context().has_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION):
-            self.cancelWriting()
-        else:
-            self.prepareWriting()
+        self.prepareWriting()
+    
+    def btn_cancel_clicked(self, button):
+        self.cancelWriting()
+    
+    def btn_exit_clicked(self, button):
+        self.window.get_application().quit()
+    
+    def btn_write_new_file_clicked(self, button):
+        self.stack_windows.set_visible_child_name("main")
     
     def btn_information_clicked(self,button):
         self.dialog_about.run()
@@ -257,7 +270,9 @@ class MainWindow:
         written, total = line.split()
         written = int(written)
         total = int(total)
-        percent = written / total
+        percent = 0
+        if total > 0:
+            percent = written / total
 
         self.pb_writingProgess.set_text(f"{round(written/1000/1000)}MB / {round(total/1000/1000)}MB (%{int(percent*100)})")
         self.pb_writingProgess.set_fraction(percent)
@@ -269,22 +284,9 @@ class MainWindow:
         self.listUSBDevices()
 
         if status == 0:
-            self.pb_writingProgess.set_text(tr("Success!"))
-            self.sendNotification(tr("Writing process ended successfully."), tr("You can eject the USB disk."))
-            '''
-            dialog = Gtk.MessageDialog(
-                self.window,
-                0,
-                Gtk.MessageType.INFO,
-                Gtk.ButtonsType.OK,
-                tr("Writing process ended successfully."),
-            )
-            dialog.format_secondary_text(
-                tr("You can eject the USB disk.")
-            )
-            dialog.run()
-            dialog.destroy()
-            '''
+            self.pb_writingProgess.set_text("0%")
+            self.sendNotification(tr("Writing process is finished."), tr("You can eject the disk."))
+            self.stack_windows.set_visible_child_name("finished")
         else:
             self.pb_writingProgess.set_text(tr("Error!"))
             self.pb_writingProgess.set_fraction(0)
@@ -304,20 +306,16 @@ class MainWindow:
     def lockGUI(self, disableStart=False):
         self.btn_selectISOFile.set_sensitive(False)
         self.cmb_devices.set_sensitive(False)
-        self.btn_start.set_sensitive(not disableStart)
-        self.btn_start.set_label(tr("Cancel"))
-        self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
-        self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         self.cb_checkIntegrity.set_sensitive(False)
+
+        self.stack_buttons.set_visible_child_name("cancel")
         
     def unlockGUI(self):
         self.btn_selectISOFile.set_sensitive(True)
         self.cmb_devices.set_sensitive(True)
-        self.btn_start.set_sensitive(True)
-        self.btn_start.set_label(tr("Start"))
-        self.btn_start.get_style_context().remove_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
-        self.btn_start.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
         self.cb_checkIntegrity.set_sensitive(True)
+
+        self.stack_buttons.set_visible_child_name("start")
     
     def sendNotification(self, title, body):
         notification = Gio.Notification.new(title)
