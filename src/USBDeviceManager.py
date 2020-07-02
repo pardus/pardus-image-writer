@@ -9,7 +9,7 @@ class USBDeviceManager:
         self.refreshSignal = (lambda a: a) # this function is set by MainWindow
         self.context = Context()
         self.monitor = Monitor.from_netlink(self.context)
-        self.monitor.filter_by(subsystem="block", device_type="partition")
+        self.monitor.filter_by(subsystem="block", device_type="disk")
 
         def log_event(action, device):
             self.refreshSignal()
@@ -32,7 +32,7 @@ class USBDeviceManager:
         usb_devices = self.find_usb_devices()
         for blockName in usb_devices:
             try:
-                device = Devices.from_name(self.context, 'block', f"{blockName}1")
+                device = Devices.from_path(self.context, f"/sys/block/{blockName}")
                 deviceInfo = []
                 # 'sda'
                 deviceInfo.append(blockName)
@@ -46,7 +46,8 @@ class USBDeviceManager:
                 deviceInfo.append(f"{int((blockCount*blockSize)/1000/1000/1000)}GB")
 
                 # Add device to list
-                deviceList.append(deviceInfo)
+                if blockCount > 0:
+                    deviceList.append(deviceInfo)
             except:
                 pass
         
