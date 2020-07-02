@@ -222,7 +222,7 @@ class MainWindow:
                 
                 # Get MD5SUMS from pardus.org.tr:
                 try:
-                    result = requests.get("http://indir.pardus.org.tr/ISO/Pardus19/MD5SUMS")
+                    result = requests.get("http://indir.pardus.org.tr/PARDUS/MD5SUMS")
                     self.md5sumlist = result.text.splitlines()
                     on_md5_finished(0,0)
                 except requests.ConnectionError:
@@ -287,7 +287,7 @@ class MainWindow:
             self.pb_writingProgess.set_text("0%")
             self.sendNotification(tr("Writing process is finished."), tr("You can eject the disk."))
             self.stack_windows.set_visible_child_name("finished")
-        else:
+        elif status != 15 and status != 32256: # these are cancelling or auth error.
             self.pb_writingProgess.set_text(tr("Error!"))
             self.pb_writingProgess.set_fraction(0)
             dialog = Gtk.MessageDialog(
