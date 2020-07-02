@@ -13,7 +13,7 @@ data_files = [
 
 setup(
     name="Pardus Image Writer",
-    version="0.1",
+    version="0.2.0~Beta1",
     packages=find_packages(),
     scripts=["pardus-image-writer"],
     install_requires=["PyGObject"],

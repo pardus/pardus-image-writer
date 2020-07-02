@@ -9,11 +9,10 @@
     <property name="icon">../icon.svg</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">Pardus Image Writer</property>
-    <property name="version">v0.2</property>
-    <property name="copyright" translatable="yes">TÜBİTAK ULAKBİM | ©2020</property>
+    <property name="version">0.2.0~Beta1</property>
+    <property name="copyright" translatable="yes">© 2020 Pardus</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
     <property name="website">https://www.pardus.org.tr</property>
-    <property name="website_label" translatable="yes">pardus.org.tr</property>
     <property name="authors">Emin Fedar</property>
     <property name="translator_credits" translatable="yes">Emin Fedar</property>
     <property name="logo">../icon.svg</property>
@@ -345,7 +344,7 @@ Do you want to continue?</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Pardus Image Writer</property>
     <property name="window_position">center</property>
-    <property name="default_width">300</property>
+    <property name="default_width">345</property>
     <property name="default_height">420</property>
     <property name="icon">../icon.svg</property>
     <property name="gravity">center</property>

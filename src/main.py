@@ -9,7 +9,7 @@ from MainWindow import MainWindow
 
 class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, application_id="tr.org.pardus.image-writer", flags=Gio.ApplicationFlags.HANDLES_OPEN, **kwargs)
+        super().__init__(*args, application_id="tr.org.pardus.image-writer", flags=Gio.ApplicationFlags.HANDLES_OPEN | Gio.ApplicationFlags.NON_UNIQUE, **kwargs)
         self.window = None
     
     def do_activate(self):
