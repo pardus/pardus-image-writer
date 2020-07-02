@@ -385,7 +385,6 @@ Do you want to continue?</property>
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_top">7</property>
                 <property name="pixbuf">../main.svg</property>
                 <property name="pixel_size">92</property>
               </object>
