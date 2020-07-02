@@ -331,6 +331,16 @@ Do you want to continue?</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-info</property>
   </object>
+  <object class="GtkListStore" id="list_devices">
+    <columns>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name device_name -->
+      <column type="gchararray"/>
+      <!-- column-name device_gb -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkApplicationWindow" id="window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Pardus Image Writer</property>
@@ -377,7 +387,7 @@ Do you want to continue?</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_top">7</property>
-                <property name="pixbuf">../icon.svg</property>
+                <property name="pixbuf">../main.svg</property>
                 <property name="pixel_size">92</property>
               </object>
               <packing>
@@ -758,15 +768,5 @@ Do you want to continue?</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="list_devices">
-    <columns>
-      <!-- column-name device -->
-      <column type="gchararray"/>
-      <!-- column-name device_name -->
-      <column type="gchararray"/>
-      <!-- column-name device_gb -->
-      <column type="gchararray"/>
-    </columns>
   </object>
 </interface>
