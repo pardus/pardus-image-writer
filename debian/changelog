@@ -1,3 +1,39 @@
+pardus-image-writer (0.2.0~Beta1) unstable; urgency=medium
+
+  * updated: Translation folder tr_TR -> tr
+  * fixed: No Internet problem when iso checking
+  * updated: Translations.
+  * improved: Better USB Detection.
+  * fix: pyudev dependency.
+  * fixed: Not recognizing USBs on desktop computers.
+  * added: About dialog
+  * fixed: UI margins.
+  * update: UI
+  * fixed: Error when writing finished
+  * fix: really...
+  * added: policy
+  * improved: Image writing.
+  * added: Writing ended notification.
+  * reverted: Not eject after writing.
+  * reverted: Ejecting again :)
+  * updated: Checkbox disabling when writing.
+  * reverted: Not ejecting...
+  * reverted: Ejecting now.
+  * added: New Finish Screen
+  * updated: translation commands.
+  * added: New Icons.
+  * update: setup.py icon
+  * added: /usr/bin/kill policy
+  * improved: USB Detection
+  * updated: Not giving error when cancelled.
+  * fixed: Double instance bug solved. update: icon update: versions
+  * update: UI
+  * update: Icon has white borders.
+  * fix: Translation
+  * fix: About translation
+
+ -- Emin Fedar <emin.fedar@pardus.org.tr>  Fri, 03 Jul 2020 11:34:04 +0300
+
 pardus-image-writer (0.1.0) unstable; urgency=medium
 
   * Initial commit
