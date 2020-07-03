@@ -285,7 +285,7 @@ class MainWindow:
 
         if status == 0:
             self.pb_writingProgess.set_text("0%")
-            self.sendNotification(tr("Writing process is finished."), tr("You can eject the disk."))
+            self.sendNotification(tr("Writing process is finished."), tr("You can eject the USB disk."))
             self.stack_windows.set_visible_child_name("finished")
         elif status != 15 and status != 32256: # these are cancelling or auth error.
             self.pb_writingProgess.set_text(tr("Error!"))

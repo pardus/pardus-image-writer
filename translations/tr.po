@@ -37,7 +37,7 @@ msgid "Writing process is finished."
 msgstr "Yazma işlemi bitti."
 
 #: MainWindow.py:288 MainWindow.glade:716
-msgid "You can eject the disk."
+msgid "You can eject the USB disk."
 msgstr "USB Belleği çıkarabilirsiniz."
 
 #: MainWindow.py:291

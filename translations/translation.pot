@@ -38,7 +38,7 @@ msgid "Writing process is finished."
 msgstr ""
 
 #: MainWindow.py:288 MainWindow.glade:716
-msgid "You can eject the disk."
+msgid "You can eject the USB disk."
 msgstr ""
 
 #: MainWindow.py:291
