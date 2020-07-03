@@ -8,7 +8,7 @@
     <property name="resizable">False</property>
     <property name="icon">../icon.svg</property>
     <property name="type_hint">dialog</property>
-    <property name="program_name">Pardus Image Writer</property>
+    <property name="program_name" translatable="yes">Pardus Image Writer</property>
     <property name="version">0.2.0~Beta1</property>
     <property name="copyright" translatable="yes">© 2020 Pardus</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
