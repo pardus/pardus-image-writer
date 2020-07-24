@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 
-import subprocess, sys, os, time
+import subprocess, sys, os, time, signal
+stopWriting = False
+
+def receiveSignal(number, frame):
+    global stopWriting
+    stopWriting = True
+    return
+
+signal.signal(signal.SIGQUIT, receiveSignal)
 
 drive = sys.argv[1]
 filepath = sys.argv[2]
@@ -20,6 +28,9 @@ try:
     print(f"0 {totalFileBytes}")
     sys.stdout.flush()
     while readBytes:
+        if stopWriting == True:
+            break
+
         writeFile.write(readBytes)
         readBytes = readFile.read(bufferSize)
         writtenBytes += bufferSize

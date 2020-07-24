@@ -36,6 +36,7 @@ class MainWindow:
         self.window.set_application(application)
         self.window.connect("destroy", self.onDestroy)
         self.defineComponents()
+        self.isGUILocked = False
 
         # Get inserted USB devices
         self.imgFilepath = file
@@ -83,6 +84,9 @@ class MainWindow:
 
     # USB Methods
     def listUSBDevices(self):
+        if self.isGUILocked == True:
+            return
+
         deviceList = self.usbManager.getUSBDevices()
         self.list_devices.clear()
         for device in deviceList:
@@ -93,7 +97,7 @@ class MainWindow:
         
         if len(deviceList) == 0:
             self.btn_start.set_sensitive(False)
-        elif self.imgFilepath:
+        elif self.imgFilepath and self.isGUILocked == False:
             self.btn_start.set_sensitive(True)
 
 
@@ -252,7 +256,7 @@ class MainWindow:
                 ])
     
     def cancelWriting(self):
-        subprocess.call(["pkexec", "kill", str(self.writerProcessPID)])
+        subprocess.call(["pkexec", "kill", "-3", str(self.writerProcessPID)])
 
     # Handling Image Writer process
     def startProcess(self, params):
@@ -309,6 +313,7 @@ class MainWindow:
         self.cb_checkIntegrity.set_sensitive(False)
 
         self.stack_buttons.set_visible_child_name("cancel")
+        self.isGUILocked = True
         
     def unlockGUI(self):
         self.btn_selectISOFile.set_sensitive(True)
@@ -316,6 +321,7 @@ class MainWindow:
         self.cb_checkIntegrity.set_sensitive(True)
 
         self.stack_buttons.set_visible_child_name("start")
+        self.isGUILocked = False
     
     def sendNotification(self, title, body):
         notification = Gio.Notification.new(title)
