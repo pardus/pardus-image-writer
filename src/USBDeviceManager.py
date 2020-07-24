@@ -32,7 +32,7 @@ class USBDeviceManager:
         usb_devices = self.find_usb_devices()
         for blockName in usb_devices:
             try:
-                device = Devices.from_path(self.context, f"/sys/block/{blockName}")
+                device = Devices.from_path(self.context, "/sys/block/{}".format(blockName))
                 deviceInfo = []
                 # 'sda'
                 deviceInfo.append(blockName)
@@ -41,9 +41,9 @@ class USBDeviceManager:
                 deviceInfo.append(device.get('ID_FS_LABEL', 'NO_LABEL'))
 
                 # '4GB'
-                blockCount = int(open(f"/sys/block/{blockName}/size").readline())
-                blockSize = int(open(f"/sys/block/{blockName}/queue/logical_block_size").readline())
-                deviceInfo.append(f"{int((blockCount*blockSize)/1000/1000/1000)}GB")
+                blockCount = int(open("/sys/block/{}/size".format(blockName)).readline())
+                blockSize = int(open("/sys/block/{}/queue/logical_block_size".format(blockName)).readline())
+                deviceInfo.append("{}GB".format(int((blockCount*blockSize)/1000/1000/1000)))
 
                 # Add device to list
                 if blockCount > 0:

@@ -191,8 +191,8 @@ class MainWindow:
 
     def prepareWriting(self):
         # Ask if it is ok?
-        self.dlg_lbl_filename.set_markup(f"- <b>{self.imgFilepath.split('/')[-1]}</b>")
-        self.dlg_lbl_disk.set_markup(f"- <b>{self.usbDevice[1]} [ {self.usbDevice[2]} ]</b> <i>( /dev/{self.usbDevice[0]} )</i>")
+        self.dlg_lbl_filename.set_markup("- <b>{}</b>".format(self.imgFilepath.split('/')[-1]))
+        self.dlg_lbl_disk.set_markup("- <b>{} [ {} ]</b> <i>( /dev/{} )</i>".format(self.usbDevice[1], self.usbDevice[2], self.usbDevice[0]))
 
         response = self.dialog_write.run()
         self.dialog_write.hide()
@@ -278,7 +278,7 @@ class MainWindow:
         if total > 0:
             percent = written / total
 
-        self.pb_writingProgess.set_text(f"{round(written/1000/1000)}MB / {round(total/1000/1000)}MB (%{int(percent*100)})")
+        self.pb_writingProgess.set_text("{}MB / {}MB (%{})".format(round(written/1000/1000), round(total/1000/1000), int(percent*100)))
         self.pb_writingProgess.set_fraction(percent)
         return True
     
