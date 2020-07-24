@@ -1,3 +1,11 @@
+pardus-image-writer (0.2.0~Beta2) unstable; urgency=medium
+
+  * fixed: Bug when inserting usb while writing. update: Better writing cancellation
+  * updated: Python 3.5 support with old format() string.
+  * New version
+
+ -- Emin Fedar <emin.fedar@pardus.org.tr>  Fri, 24 Jul 2020 12:17:52 +0300
+
 pardus-image-writer (0.2.0~Beta1) unstable; urgency=medium
 
   * updated: Translation folder tr_TR -> tr
