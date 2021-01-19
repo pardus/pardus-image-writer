@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import subprocess, sys, os, time, signal
 stopWriting = False
@@ -8,13 +8,12 @@ def receiveSignal(number, frame):
     stopWriting = True
     return
 
-signal.signal(signal.SIGQUIT, receiveSignal)
+signal.signal(signal.SIGKILL, receiveSignal)
 
-drive = sys.argv[1]
-filepath = sys.argv[2]
-
+filepath = sys.argv[1]
+drive = sys.argv[2]
 # Unmount the drive before writing on it
-subprocess.call(['umount', "{}1".format(drive)])
+subprocess.run(['umount', "{}1".format(drive)])
 
 bufferSize = 1024
 writtenBytes = 0

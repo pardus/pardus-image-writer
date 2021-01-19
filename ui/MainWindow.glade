@@ -10,16 +10,13 @@
     <property name="type_hint">dialog</property>
     <property name="program_name" translatable="yes">Pardus Image Writer</property>
     <property name="version">0.2.0~Beta1</property>
-    <property name="copyright" translatable="yes">© 2020 Pardus</property>
+    <property name="copyright">©2020 Pardus</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
     <property name="website">https://www.pardus.org.tr</property>
     <property name="authors">Emin Fedar</property>
     <property name="translator_credits" translatable="yes">Emin Fedar</property>
     <property name="logo">../icon.svg</property>
     <property name="license_type">gpl-3-0</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can_focus">False</property>
@@ -47,6 +44,9 @@
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkDialog" id="dialog_integrity">
     <property name="can_focus">False</property>
@@ -57,9 +57,6 @@
     <property name="icon_name">gtk-properties</property>
     <property name="type_hint">dialog</property>
     <property name="gravity">center</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can_focus">False</property>
@@ -157,6 +154,9 @@
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkDialog" id="dialog_write">
     <property name="can_focus">False</property>
@@ -167,9 +167,6 @@
     <property name="icon_name">dialog-question</property>
     <property name="type_hint">dialog</property>
     <property name="gravity">center</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can_focus">False</property>
@@ -324,6 +321,9 @@ Do you want to continue?</property>
       <action-widget response="-8">button1</action-widget>
       <action-widget response="-6">button2</action-widget>
     </action-widgets>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkImage" id="img_information">
     <property name="visible">True</property>
@@ -348,25 +348,6 @@ Do you want to continue?</property>
     <property name="default_height">420</property>
     <property name="icon">../icon.svg</property>
     <property name="gravity">center</property>
-    <child type="titlebar">
-      <object class="GtkHeaderBar" id="headerbar">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="title" translatable="yes">Pardus Image Writer</property>
-        <property name="show_close_button">True</property>
-        <child>
-          <object class="GtkButton" id="btn_information">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="halign">end</property>
-            <property name="image">img_information</property>
-            <property name="always_show_image">True</property>
-            <signal name="clicked" handler="btn_information_clicked" swapped="no"/>
-          </object>
-        </child>
-      </object>
-    </child>
     <child>
       <object class="GtkStack" id="stack_windows">
         <property name="visible">True</property>
@@ -533,20 +514,75 @@ Do you want to continue?</property>
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="cb_checkIntegrity">
-                <property name="label" translatable="yes">Check ISO online (Pardus only)</property>
+              <object class="GtkSeparator">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="halign">center</property>
+                <property name="can_focus">False</property>
                 <property name="margin_top">7</property>
                 <property name="margin_bottom">7</property>
-                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkRadioButton" id="rb_ddMode">
+                    <property name="label" translatable="yes">DD Mode</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="toggled" handler="rb_ddMode_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkRadioButton" id="rb_isoMode">
+                    <property name="label" translatable="yes">ISO Mode (Usable after write)</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">rb_ddMode</property>
+                    <signal name="toggled" handler="rb_ddMode_toggled" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="cb_checkIntegrity">
+                <property name="label" translatable="yes">Check ISO online (Pardus only)</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="halign">start</property>
+                <property name="margin_top">7</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">7</property>
               </packing>
             </child>
             <child>
@@ -559,7 +595,7 @@ Do you want to continue?</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">6</property>
+                <property name="position">8</property>
               </packing>
             </child>
             <child>
@@ -611,7 +647,7 @@ Do you want to continue?</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">7</property>
+                <property name="position">9</property>
               </packing>
             </child>
             <child>
@@ -624,7 +660,7 @@ Do you want to continue?</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">8</property>
+                <property name="position">10</property>
               </packing>
             </child>
             <child>
@@ -636,7 +672,7 @@ Do you want to continue?</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">9</property>
+                <property name="position">11</property>
               </packing>
             </child>
             <child>
@@ -655,7 +691,7 @@ Do you want to continue?</property>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="pack_type">end</property>
-                <property name="position">11</property>
+                <property name="position">12</property>
               </packing>
             </child>
           </object>
@@ -763,6 +799,25 @@ Do you want to continue?</property>
             <property name="name">finished</property>
             <property name="position">1</property>
           </packing>
+        </child>
+      </object>
+    </child>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="headerbar">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title" translatable="yes">Pardus Image Writer</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkButton" id="btn_information">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">end</property>
+            <property name="image">img_information</property>
+            <property name="always_show_image">True</property>
+            <signal name="clicked" handler="btn_information_clicked" swapped="no"/>
+          </object>
         </child>
       </object>
     </child>

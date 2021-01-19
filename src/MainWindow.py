@@ -36,7 +36,10 @@ class MainWindow:
         self.window.set_application(application)
         self.window.connect("destroy", self.onDestroy)
         self.defineComponents()
+
+        # Variables
         self.isGUILocked = False
+        self.writeMode = "ImageWriter.py" # ImageWriter.py for DD Mode, ISOCopier.py for ISO Mode
 
         # Get inserted USB devices
         self.imgFilepath = file
@@ -73,6 +76,8 @@ class MainWindow:
         self.cmb_devices = self.builder.get_object("cmb_devices")
         self.btn_selectISOFile = self.builder.get_object("btn_selectISOFile")
         self.lbl_btn_selectISOFile = self.builder.get_object("lbl_btn_selectISOFile")
+        self.rb_ddMode = self.builder.get_object("rb_ddMode")
+        self.rb_isoMode = self.builder.get_object("rb_isoMode")
         self.stack_buttons = self.builder.get_object("stack_buttons")
         self.btn_start = self.builder.get_object("btn_start")
         self.pb_writingProgess = self.builder.get_object("pb_writingProgress")
@@ -111,6 +116,12 @@ class MainWindow:
 
 
     # UI Signals:
+    def rb_ddMode_toggled(self, rb):
+        if self.rb_ddMode.get_active():
+            self.writeMode = "ImageWriter.py"
+        else:
+            self.writeMode = "ISOCopier.py"
+
     def btn_selectISOFile_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
             tr("Select ISO File..."),
@@ -119,8 +130,9 @@ class MainWindow:
         )
         
         fileFilter = Gtk.FileFilter()
-        fileFilter.set_name("*.iso")
+        fileFilter.set_name("*.iso, *.img")
         fileFilter.add_pattern("*.iso")
+        fileFilter.add_pattern("*.img")
         dialog.add_filter(fileFilter)
 
         dialog.show()
@@ -130,6 +142,12 @@ class MainWindow:
 
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
+            self.fileType = filepath.split(".")[-1]
+            if self.fileType == "img":
+                self.rb_isoMode.set_sensitive(False)
+                self.rb_ddMode.set_active(True)
+            else:
+                self.rb_isoMode.set_sensitive(True)
             
             if self.imgFilepath and len(self.usbDevice) > 0:
                 self.btn_start.set_sensitive(True)
@@ -173,13 +191,7 @@ class MainWindow:
                 break
         
         if isISOGood:
-            self.lockGUI()
-            self.startProcess([
-                "pkexec",
-                os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
-                '/dev/'+self.usbDevice[0],
-                self.imgFilepath
-            ])
+            self.startWriting()
         else:
             self.unlockGUI()
             dialog = Gtk.MessageDialog(
@@ -196,6 +208,15 @@ class MainWindow:
             dialog.destroy()
         
         self.dialog_integrity.hide()
+    
+    def startWriting(self):
+        self.lockGUI()
+        self.startProcess([
+            "pkexec",
+            os.path.dirname(os.path.abspath(__file__)) + "/" + self.writeMode,
+            self.imgFilepath,
+            '/dev/'+self.usbDevice[0],
+        ])
 
     def prepareWriting(self):
         # Ask if it is ok?
@@ -252,28 +273,31 @@ class MainWindow:
                     )
                     dialog.run()
                     dialog.destroy()
-                    
-                
             else:
-                self.lockGUI()
-                self.startProcess([
-                    "pkexec",
-                    os.path.dirname(os.path.abspath(__file__))+"/ImageWriter.py", 
-                    '/dev/'+self.usbDevice[0],
-                    self.imgFilepath
-                ])
+                self.startWriting()
     
     def cancelWriting(self):
-        subprocess.call(["pkexec", "kill", "-3", str(self.writerProcessPID)])
-
-    # Handling Image Writer process
+        subprocess.call(["pkexec", "kill", "-9", str(self.writerProcessPID)])
+    
+    def onTimeout(self, user_data):
+        self.pb_writingProgess.pulse()
+        return True
+    
     def startProcess(self, params):
+        if self.writeMode == "ISOCopier.py":
+            self.pb_writingProgess.set_text(tr("Copying files..."))
+            self.pb_writingProgess.pulse()
+            self.timeoutID = GLib.timeout_add(100, self.onTimeout, None)
+        
         self.writerProcessPID, _, stdout, _ = GLib.spawn_async(params,
                                     flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
                                     standard_input=False, standard_output=True, standard_error=True)
-        GLib.io_add_watch(GLib.IOChannel(stdout), GLib.IO_IN | GLib.IO_HUP, self.onProcessStdout)
+        
+        if self.writeMode == "ImageWriter.py":
+            GLib.io_add_watch(GLib.IOChannel(stdout), GLib.IO_IN | GLib.IO_HUP, self.onProcessStdout)
+        
         GLib.child_watch_add(GLib.PRIORITY_DEFAULT, self.writerProcessPID, self.onProcessExit)
-    
+
     def onProcessStdout(self, source, condition):
         if condition == GLib.IO_HUP:
             return False
@@ -292,8 +316,11 @@ class MainWindow:
     
     def onProcessExit(self, pid, status):
         self.unlockGUI()
-
         self.listUSBDevices()
+
+        self.pb_writingProgess.set_text("0%")
+        self.pb_writingProgess.set_fraction(0)
+        GLib.source_remove(self.timeoutID) # stop pulse timeout
 
         if status == 0:
             self.pb_writingProgess.set_text("0%")
@@ -320,6 +347,9 @@ class MainWindow:
         self.cmb_devices.set_sensitive(False)
         self.cb_checkIntegrity.set_sensitive(False)
 
+        self.rb_ddMode.set_sensitive(False)
+        self.rb_isoMode.set_sensitive(False)
+
         self.stack_buttons.set_visible_child_name("cancel")
         self.isGUILocked = True
         
@@ -327,6 +357,10 @@ class MainWindow:
         self.btn_selectISOFile.set_sensitive(True)
         self.cmb_devices.set_sensitive(True)
         self.cb_checkIntegrity.set_sensitive(True)
+
+        self.rb_ddMode.set_sensitive(True)
+        if self.fileType == "iso":
+            self.rb_isoMode.set_sensitive(True)
 
         self.stack_buttons.set_visible_child_name("start")
         self.isGUILocked = False
