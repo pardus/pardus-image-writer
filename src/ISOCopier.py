@@ -13,7 +13,7 @@ class IsoCopy:
         self.usbMountFolder = "/tmp/pardus-usb-tmp/"
         self.isoPath = iso_path
         self.drive = drive
-        self.fileName = iso_path.split('/')[-1].split('.')[0]
+        self.isoName = ""
 
         # SIGTERM signal
         signal.signal(signal.SIGTERM, self.receiveSignal)
@@ -31,16 +31,20 @@ class IsoCopy:
     def run(self):
         self.readIsoName()
         self.formatDrive()
+
         self.mountFolders()
         self.copyFiles()
         self.installGrub()
+        
+        if "windows" in self.isoName.lower():
+            self.windowsISOAddition()
+
         self.finishEvent()
 
     def readIsoName(self):
         with open(self.isoPath, "rb") as file:
             file.seek(32808, 0) # Go to Volume Descriptor (https://wiki.osdev.org/ISO_9660#The_Primary_Volume_Descriptor)
-            data = file.read(32).decode("utf-8").strip() # Read 32 Bytes
-            self.isoName = data
+            self.isoName = file.read(32).decode("utf-8").strip() # Read 32 Bytes
     
     def formatDrive(self):
         # Unmount the drive before writing on it
@@ -58,6 +62,7 @@ class IsoCopy:
     def mountFolders(self):
         # Unmount first if already mounted
         subprocess.run(["umount", self.isoTmpFolder])
+        subprocess.run(["umount", self.usbMountFolder])
         subprocess.run(["umount", (self.drive+"1")])
 
         subprocess.run(["mkdir", self.isoTmpFolder])
@@ -87,10 +92,9 @@ class IsoCopy:
         subprocess.run(["sync"])
     
     def windowsISOAddition(self):
-        with open(self.usbMountFolder + "/grub.cfg", "a") as grubcfg:
+        with open(self.usbMountFolder + "/boot/grub/grub.cfg", "a") as grubcfg:
             grubcfg.write("ntldr /bootmgr\nchainloader +1\nboot")
-
-
+    
     def finishEvent(self):
         # Unmount the temp folder
         subprocess.run(["umount", self.isoTmpFolder])
