@@ -9,8 +9,8 @@ class IsoCopy:
 
     def __init__(self,iso_path,drive):
         # Define variables with fallback
-        self.isoTmpFolder = "/tmp/pardus-iso-tmp/"
-        self.usbMountFolder = "/tmp/pardus-usb-tmp/"
+        self.isoTmpFolder = "/run/pardus-image-writer-iso/"
+        self.usbMountFolder = "/run/pardus-image-writer-usb/"
         self.isoPath = iso_path
         self.drive = drive
         self.isoName = ""
