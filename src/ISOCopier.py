@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import subprocess, sys, os, time, stat
+import subprocess, sys, os, time, stat, signal
 
 class IsoCopy:
     def errMsg(self,msg=""):
@@ -15,18 +15,32 @@ class IsoCopy:
         self.drive = drive
         self.fileName = iso_path.split('/')[-1].split('.')[0]
 
+        # SIGTERM signal
+        signal.signal(signal.SIGTERM, self.receiveSignal)
+
         # Check variables
         if not os.path.isfile(iso_path):
             self.errMsg("ISO file not found")
         if not stat.S_ISBLK(os.stat(drive).st_mode):
             self.errMsg("{} is not a valid block device".format(drive))
+    
+    def receiveSignal(self, number, frame):
+        subprocess.run(["sync"])
+        exit(15)
 
     def run(self):
+        self.readIsoName()
         self.formatDrive()
         self.mountFolders()
         self.copyFiles()
         self.installGrub()
         self.finishEvent()
+
+    def readIsoName(self):
+        with open(self.isoPath, "rb") as file:
+            file.seek(32808, 0) # Go to Volume Descriptor (https://wiki.osdev.org/ISO_9660#The_Primary_Volume_Descriptor)
+            data = file.read(32).decode("utf-8").strip() # Read 32 Bytes
+            self.isoName = data
     
     def formatDrive(self):
         # Unmount the drive before writing on it
@@ -37,7 +51,7 @@ class IsoCopy:
         subprocess.run(["parted", self.drive, "mktable", "msdos"])
         subprocess.run(["parted", self.drive, "mkpart", "primary", "fat32", "1", "100%"])
         subprocess.run(["wipefs", "-a", (self.drive+"1"), "--force"])
-        subprocess.run(["mkfs.fat", "-F", "32", "-n", self.fileName, "-I", (self.drive+"1")])
+        subprocess.run(["mkfs.fat", "-F", "32", "-n", self.isoName, "-I", (self.drive+"1")])
         subprocess.run(["parted", self.drive, "set", "1", "boot", "on"])
         subprocess.run(["sync"])
 

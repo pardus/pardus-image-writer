@@ -8,7 +8,7 @@ def receiveSignal(number, frame):
     stopWriting = True
     return
 
-signal.signal(signal.SIGKILL, receiveSignal)
+signal.signal(signal.SIGTERM, receiveSignal)
 
 filepath = sys.argv[1]
 drive = sys.argv[2]

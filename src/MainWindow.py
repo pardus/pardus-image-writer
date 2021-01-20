@@ -277,7 +277,7 @@ class MainWindow:
                 self.startWriting()
     
     def cancelWriting(self):
-        subprocess.call(["pkexec", "kill", "-9", str(self.writerProcessPID)])
+        subprocess.call(["pkexec", "kill", "-SIGTERM", str(self.writerProcessPID)])
     
     def startProcess(self, params):        
         self.writerProcessPID, _, stdout, _ = GLib.spawn_async(params,
@@ -305,6 +305,7 @@ class MainWindow:
             self.pb_writingProgess.set_text("{}MB / {}MB (%{})".format(round(written/1000/1000), round(total/1000/1000), int(percent*100)))
             self.pb_writingProgess.set_fraction(percent)
         else:
+            print(line)
             if line[0:9] == "PROGRESS:":
                 _, copied, total = line.split(":")
                 copied = int(copied)
@@ -321,8 +322,7 @@ class MainWindow:
     def onProcessExit(self, pid, status):
         self.unlockGUI()
         self.listUSBDevices()
-
-        self.pb_writingProgess.set_text("0%")
+        print("process exited" + str(status))
         self.pb_writingProgess.set_fraction(0)
 
         if status == 0:
