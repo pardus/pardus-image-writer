@@ -57,8 +57,10 @@ class IsoCopy:
         fileCount = len(folders)
         i=0
         for file in folders:
-            subprocess.run(["rsync", "--archive", "--no-links","--quiet" ,"--no-D", "--acls",  self.isoTmpFolder, self.usbMountFolder])
-            subprocess.run(["sync", self.usbMountFolder])
+            subprocess.run(["rsync", "--archive", "--no-links", "--quiet", "--no-D", "--acls",
+                self.isoTmpFolder + file, self.usbMountFolder])
+            
+            subprocess.run(["sync"])
             print("PROGRESS:{}:{}".format(i, fileCount))
             sys.stdout.flush()
             i += 1
@@ -68,7 +70,7 @@ class IsoCopy:
     def installGrub(self):
         # Install GRUB
         subprocess.run(["grub-install", "--target=i386-pc", "--force" ,"--removable", "--boot-directory=/{}/boot".format(self.usbMountFolder), self.drive])
-        subprocess.run(["sync", self.usbMountFolder])
+        subprocess.run(["sync"])
     
     def windowsISOAddition(self):
         with open(self.usbMountFolder + "/grub.cfg", "a") as grubcfg:
