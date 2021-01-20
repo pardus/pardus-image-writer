@@ -305,7 +305,6 @@ class MainWindow:
             self.pb_writingProgess.set_text("{}MB / {}MB (%{})".format(round(written/1000/1000), round(total/1000/1000), int(percent*100)))
             self.pb_writingProgess.set_fraction(percent)
         else:
-            print(line)
             if line[0:9] == "PROGRESS:":
                 _, copied, total = line.split(":")
                 copied = int(copied)
@@ -322,7 +321,6 @@ class MainWindow:
     def onProcessExit(self, pid, status):
         self.unlockGUI()
         self.listUSBDevices()
-        print("process exited" + str(status))
         self.pb_writingProgess.set_fraction(0)
 
         if status == 0:
