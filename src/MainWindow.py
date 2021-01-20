@@ -279,22 +279,12 @@ class MainWindow:
     def cancelWriting(self):
         subprocess.call(["pkexec", "kill", "-9", str(self.writerProcessPID)])
     
-    def onTimeout(self, user_data):
-        self.pb_writingProgess.pulse()
-        return True
-    
-    def startProcess(self, params):
-        if self.writeMode == "ISOCopier.py":
-            self.pb_writingProgess.set_text(tr("Copying files..."))
-            self.pb_writingProgess.pulse()
-            self.timeoutID = GLib.timeout_add(100, self.onTimeout, None)
-        
+    def startProcess(self, params):        
         self.writerProcessPID, _, stdout, _ = GLib.spawn_async(params,
                                     flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
-                                    standard_input=False, standard_output=True, standard_error=True)
+                                    standard_input=False, standard_output=True, standard_error=False)
         
-        if self.writeMode == "ImageWriter.py":
-            GLib.io_add_watch(GLib.IOChannel(stdout), GLib.IO_IN | GLib.IO_HUP, self.onProcessStdout)
+        GLib.io_add_watch(GLib.IOChannel(stdout), GLib.IO_IN | GLib.IO_HUP, self.onProcessStdout)
         
         GLib.child_watch_add(GLib.PRIORITY_DEFAULT, self.writerProcessPID, self.onProcessExit)
 
@@ -303,15 +293,29 @@ class MainWindow:
             return False
         
         line = source.readline().strip()
-        written, total = line.split()
-        written = int(written)
-        total = int(total)
-        percent = 0
-        if total > 0:
-            percent = written / total
 
-        self.pb_writingProgess.set_text("{}MB / {}MB (%{})".format(round(written/1000/1000), round(total/1000/1000), int(percent*100)))
-        self.pb_writingProgess.set_fraction(percent)
+        if self.writeMode == "ImageWriter.py":        
+            written, total = line.split()
+            written = int(written)
+            total = int(total)
+            percent = 0
+            if total > 0:
+                percent = written / total
+
+            self.pb_writingProgess.set_text("{}MB / {}MB (%{})".format(round(written/1000/1000), round(total/1000/1000), int(percent*100)))
+            self.pb_writingProgess.set_fraction(percent)
+        else:
+            if line[0:9] == "PROGRESS:":
+                _, copied, total = line.split(":")
+                copied = int(copied)
+                total = int(total)
+
+                percent = 0
+                if total > 0:
+                    percent = copied / total
+                
+                self.pb_writingProgess.set_text("%{}".format(int(percent*100)))
+                self.pb_writingProgess.set_fraction(percent)
         return True
     
     def onProcessExit(self, pid, status):
@@ -320,7 +324,6 @@ class MainWindow:
 
         self.pb_writingProgess.set_text("0%")
         self.pb_writingProgess.set_fraction(0)
-        GLib.source_remove(self.timeoutID) # stop pulse timeout
 
         if status == 0:
             self.pb_writingProgess.set_text("0%")

@@ -38,7 +38,13 @@ class USBDeviceManager:
                 deviceInfo.append(blockName)
 
                 # 'FEDAR32'
-                deviceInfo.append(device.get('ID_FS_LABEL', 'NO_LABEL'))
+                deviceLabel = device.get("ID_FS_LABEL", "")
+                deviceVendor = device.get("ID_VENDOR", "")
+                deviceModel = device.get("ID_MODEL", "NO_MODEL")
+                if deviceLabel == "":
+                    deviceInfo.append("{} {}".format(deviceVendor, deviceModel))
+                else:
+                    deviceInfo.append(deviceLabel)
 
                 # '4GB'
                 blockCount = int(open("/sys/block/{}/size".format(blockName)).readline())

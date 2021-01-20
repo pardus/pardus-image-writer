@@ -11,8 +11,9 @@ class IsoCopy:
         # Define variables with fallback
         self.isoTmpFolder = "/tmp/pardus-iso-tmp/"
         self.usbMountFolder = "/tmp/pardus-usb-tmp/"
-        self.isoPath=iso_path
-        self.drive=drive
+        self.isoPath = iso_path
+        self.drive = drive
+        self.fileName = iso_path.split('/')[-1].split('.')[0]
 
         # Check variables
         if not os.path.isfile(iso_path):
@@ -21,7 +22,6 @@ class IsoCopy:
             self.errMsg("{} is not a valid block device".format(drive))
 
     def run(self):
-        self.detectIsoName()
         self.formatDrive()
         self.mountFolders()
         self.copyFiles()
@@ -36,19 +36,10 @@ class IsoCopy:
         subprocess.run(["dd", "if=/dev/zero", "of={}".format(self.drive), "bs=512", "count=1"])
         subprocess.run(["parted", self.drive, "mktable", "msdos"])
         subprocess.run(["parted", self.drive, "mkpart", "primary", "fat32", "1", "100%"])
-#        subprocess.run(["wipefs", "-a", (self.drive+"1"), "--force"])
-        subprocess.run(["mkfs.fat", "-F", "32", "-n", self.isoName, "-I", (self.drive+"1")])
+        subprocess.run(["wipefs", "-a", (self.drive+"1"), "--force"])
+        subprocess.run(["mkfs.fat", "-F", "32", "-n", self.fileName, "-I", (self.drive+"1")])
         subprocess.run(["parted", self.drive, "set", "1", "boot", "on"])
         subprocess.run(["sync"])
-
-    def detectIsoName(self):
-        getISONameProcess = subprocess.run(["file", self.isoPath], capture_output=True)
-        self.isoName = getISONameProcess.stdout.decode("utf-8").split("'")[1]
-
-
-    def copyFiles(self):
-        subprocess.run(["rsync", "--archive", "--no-links" , "--quiet", "--no-D", "--acls",  self.isoTmpFolder, self.usbMountFolder])
-        subprocess.run(["sync"])    
 
     def mountFolders(self):
         # Unmount first if already mounted
@@ -60,11 +51,24 @@ class IsoCopy:
 
         subprocess.run(["mkdir", self.usbMountFolder])
         subprocess.run(["mount", (self.drive+"1"), self.usbMountFolder])
+    
+    def copyFiles(self):
+        folders = os.listdir(self.isoTmpFolder)
+        fileCount = len(folders)
+        i=0
+        for file in folders:
+            subprocess.run(["rsync", "--archive", "--no-links","--quiet" ,"--no-D", "--acls",  self.isoTmpFolder, self.usbMountFolder])
+            subprocess.run(["sync", self.usbMountFolder])
+            print("PROGRESS:{}:{}".format(i, fileCount))
+            sys.stdout.flush()
+            i += 1
+
         
 
     def installGrub(self):
         # Install GRUB
         subprocess.run(["grub-install", "--target=i386-pc", "--force" ,"--removable", "--boot-directory=/{}/boot".format(self.usbMountFolder), self.drive])
+        subprocess.run(["sync", self.usbMountFolder])
     
     def windowsISOAddition(self):
         with open(self.usbMountFolder + "/grub.cfg", "a") as grubcfg:
@@ -75,7 +79,6 @@ class IsoCopy:
         # Unmount the temp folder
         subprocess.run(["umount", self.isoTmpFolder])
         subprocess.run(["umount", (self.drive+"1")])
-        # Remove temporary folder
         subprocess.run(["rm", "-rf", self.isoTmpFolder])
         subprocess.run(["rm", "-rf", self.usbMountFolder])
 
