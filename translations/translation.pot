@@ -8,130 +8,130 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-01 15:45+0300\n"
+"POT-Creation-Date: 2021-01-20 18:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: MainWindow.py:104 MainWindow.glade:449
+#: ../src/MainWindow.py:127 ../ui/MainWindow.glade:438
 msgid "Select ISO File..."
-msgstr ""
+msgstr "ISO dosyası seçiniz..."
 
-#: MainWindow.py:178 MainWindow.py:236
+#: ../src/MainWindow.py:202 ../src/MainWindow.py:269
 msgid "Integrity checking failed."
-msgstr ""
+msgstr "Veri bütünlüğü kontrolü başarısız."
 
-#: MainWindow.py:181
+#: ../src/MainWindow.py:205
 msgid "This is not a Pardus ISO, or it is corrupted."
-msgstr ""
+msgstr "Bu bir Pardus kalıbı değil veya dosya bozulmuş."
 
-#: MainWindow.py:239
+#: ../src/MainWindow.py:272
 msgid "Could not connect to pardus.org.tr."
-msgstr ""
+msgstr "pardus.org.tr adresine bağlanılamadı."
 
-#: MainWindow.py:288 MainWindow.glade:690
+#: ../src/MainWindow.py:328 ../ui/MainWindow.glade:730
 msgid "Writing process is finished."
-msgstr ""
+msgstr "Yazma işlemi tamamlandı."
 
-#: MainWindow.py:288 MainWindow.glade:716
+#: ../src/MainWindow.py:328 ../ui/MainWindow.glade:756
 msgid "You can eject the USB disk."
-msgstr ""
+msgstr "USB Belleği çıkarabilirsiniz."
 
-#: MainWindow.py:291
+#: ../src/MainWindow.py:331
 msgid "Error!"
-msgstr ""
+msgstr "Hata!"
 
-#: MainWindow.py:298
+#: ../src/MainWindow.py:338
 msgid "An error occured while writing the file to the disk."
-msgstr ""
+msgstr "Dosya diske yazılırken bir hata oluştu."
 
-#: MainWindow.py:301
+#: ../src/MainWindow.py:341
 msgid "Please make sure the USB device is connected properly and try again."
-msgstr ""
+msgstr "Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
 
-#: MainWindow.glade:7
+#: ../ui/MainWindow.glade:7
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
-#: MainWindow.glade:13
-msgid "TÜBİTAK ULAKBİM | ©2020"
-msgstr ""
+#: ../ui/MainWindow.glade:11 ../ui/MainWindow.glade:345
+#: ../ui/MainWindow.glade:382 ../ui/MainWindow.glade:809
+msgid "Pardus Image Writer"
+msgstr "Pardus Disk Kalıbı Yazıcı"
 
-#: MainWindow.glade:14
+#: ../ui/MainWindow.glade:14
 msgid "Write ISO Images to USB devices easily."
-msgstr ""
+msgstr "ISO kalıplarını kolayca USB disklere yazın."
 
-#: MainWindow.glade:16
-msgid "pardus.org.tr"
-msgstr ""
-
-#: MainWindow.glade:18
+#: ../ui/MainWindow.glade:17
 msgid "Emin Fedar"
-msgstr ""
+msgstr "Emin Fedar"
 
-#: MainWindow.glade:54
+#: ../ui/MainWindow.glade:53
 msgid "Checking..."
-msgstr ""
+msgstr "Kontrol ediliyor..."
 
-#: MainWindow.glade:113
+#: ../ui/MainWindow.glade:109
 msgid "Checking the file's integrity..."
-msgstr ""
+msgstr "Dosya doğruluğu kontrol ediliyor..."
 
-#: MainWindow.glade:129
+#: ../ui/MainWindow.glade:125
 msgid "Calculating the hash value of the file..."
-msgstr ""
+msgstr "Dosyanın hash değeri hesaplanıyor..."
 
-#: MainWindow.glade:143
+#: ../ui/MainWindow.glade:139
 msgid "Retrieving data from <b>pardus.org.tr</b>..."
-msgstr ""
+msgstr "Veriler <b>pardus.org.tr</b> adresinden alınıyor..."
 
-#: MainWindow.glade:164
+#: ../ui/MainWindow.glade:163
 msgid "Are you sure?"
-msgstr ""
+msgstr "Emin misiniz?"
 
-#: MainWindow.glade:237
+#: ../ui/MainWindow.glade:233
 msgid "This file:"
-msgstr ""
+msgstr "Bu dosya:"
 
-#: MainWindow.glade:264
+#: ../ui/MainWindow.glade:260
 msgid "Will be written on this disk:"
-msgstr ""
+msgstr "Bu diske yazılacak:"
 
-#: MainWindow.glade:304
+#: ../ui/MainWindow.glade:300
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
 "Do you want to continue?"
 msgstr ""
+"<b>UYARI:</b>\n"
+"Cihazdaki tüm verileriniz silinecek.\n"
+"Devam etmek istiyor musunuz?"
 
-#: MainWindow.glade:336 MainWindow.glade:346 MainWindow.glade:393
-msgid "Pardus Image Writer"
-msgstr ""
+#: ../ui/MainWindow.glade:535
+msgid "DD Mode"
+msgstr "DD Modu"
 
-#: MainWindow.glade:529
+#: ../ui/MainWindow.glade:551
+msgid "ISO Mode (Usable after write)"
+msgstr "ISO Modu (USB kullanılabilir)"
+
+#: ../ui/MainWindow.glade:574
 msgid "Check ISO online (Pardus only)"
-msgstr ""
+msgstr "ISO'yu çevrimiçi doğrula (Pardus için)"
 
-#: MainWindow.glade:533
-msgid "Yazma işlemi öncesinde seçin"
-msgstr ""
-
-#: MainWindow.glade:565
+#: ../ui/MainWindow.glade:608
 msgid "Start"
-msgstr ""
+msgstr "Başlat"
 
-#: MainWindow.glade:586
+#: ../ui/MainWindow.glade:628
 msgid "Cancel"
-msgstr ""
+msgstr "İptal Et"
 
-#: MainWindow.glade:726
+#: ../ui/MainWindow.glade:766
 msgid "Exit"
-msgstr ""
+msgstr "Çıkış"
 
-#: MainWindow.glade:744
+#: ../ui/MainWindow.glade:784
 msgid "Write a new file."
-msgstr ""
+msgstr "Yeni dosya yaz."
