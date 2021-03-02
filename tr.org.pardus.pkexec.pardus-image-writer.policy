@@ -8,7 +8,7 @@
   <vendor>Pardus Developers</vendor>
   <vendor_url>http://www.pardus.org.tr/</vendor_url>
 
-  <action id="tr.org.pardus.pkexec.pardus-image-writer">
+  <action id="tr.org.pardus.pkexec.pardus-image-writer-dd-mode">
     <description>Run FlashTool</description>
     <message>Authentication is required to run Pardus Image Writer</message>
     <message xml:lang="tr">Pardus Disk Kalıbı Yazıcı için yetkilendirme gerekiyor</message>
@@ -21,7 +21,7 @@
     <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
   </action>
 
-  <action id="tr.org.pardus.pkexec.pardus-image-writer">
+  <action id="tr.org.pardus.pkexec.pardus-image-writer-iso-mode">
     <description>Run FlashTool</description>
     <message>Authentication is required to run Pardus Image Writer</message>
     <message xml:lang="tr">Pardus Disk Kalıbı Yazıcı için yetkilendirme gerekiyor</message>
