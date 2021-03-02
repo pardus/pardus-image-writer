@@ -69,6 +69,7 @@ docs/_build/
 
 # PyBuilder
 target/
+.pybuild
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -128,4 +129,4 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
-
+debian/pardus-image-writer

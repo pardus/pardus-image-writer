@@ -9,8 +9,8 @@ class IsoCopy:
 
     def __init__(self,iso_path,drive):
         # Define variables with fallback
-        self.isoTmpFolder = "/run/pardus-image-writer-iso/"
-        self.usbMountFolder = "/run/pardus-image-writer-usb/"
+        self.isoTmpFolder = "/run/pardus-iso-tmp/"
+        self.usbMountFolder = "/run/pardus-usb-tmp/"
         self.isoPath = iso_path
         self.drive = drive
         self.isoName = ""
@@ -35,9 +35,9 @@ class IsoCopy:
         self.mountFolders()
         self.copyFiles()
         self.installGrub()
-        
-        if "windows" in self.isoName.lower():
-            self.windowsISOAddition()
+            
+        #if "windows" in self.isoName.lower():
+        #    self.windowsISOAddition()
 
         self.finishEvent()
 
@@ -48,7 +48,7 @@ class IsoCopy:
     
     def formatDrive(self):
         # Unmount the drive before writing on it
-        subprocess.run(["umount", "-lf" , self.drive+"1"])
+        subprocess.run(["sh", "-c", ("ls {}* | xargs umount -lf ".format(self.drive))])
 
         # Format USB to FAT32
         subprocess.run(["dd", "if=/dev/zero", "of={}".format(self.drive), "bs=512", "count=1"])
@@ -88,7 +88,11 @@ class IsoCopy:
 
     def installGrub(self):
         # Install GRUB
+        for target in ["i386-pc", "x86_64-efi", "i386-efi"]:
+            subprocess.run(["rm","-rf","/{}/boot/grub/{}".format(self.usbMountFolder,target)])
+        subprocess.run(["rm","-rf","/{}/EFI".format(self.usbMountFolder)])
         subprocess.run(["grub-install", "--target=i386-pc", "--force" ,"--removable", "--boot-directory=/{}/boot".format(self.usbMountFolder), self.drive])
+        subprocess.run(["grub-install", "--target=x86_64-efi", "--force" ,"--removable", "--efi-directory=/{}/".format(self.usbMountFolder), "--boot-directory=/{}/boot".format(self.usbMountFolder), self.drive])
         subprocess.run(["sync"])
     
     def windowsISOAddition(self):

@@ -137,3 +137,27 @@ msgstr "Çıkış"
 #: MainWindow.glade:744
 msgid "Write a new file."
 msgstr "Yeni dosya yaz."
+
+msgid "Install"
+msgstr "Yükle"
+
+msgid "DD Mode [Recommended]"
+msgstr "DD Modu [Önerilen]"
+
+msgid "ISO Mode"
+msgstr "ISO Modu"
+
+msgid "{} not found"
+msgstr "{} bulunamadı"
+
+msgid "Target {} does not exists"
+msgstr "{} hedefi mevcut değil"
+
+msgid "Please install {}"
+msgstr "Lütfen {} yükleyin"
+
+msgid "Installation done."
+msgstr "Yükleme tamamlandı."
+
+msgid "Installation failed."
+msgstr "Yükleme başarısız."

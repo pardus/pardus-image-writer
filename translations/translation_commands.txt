@@ -1,0 +1,4 @@
+1. intltool-extract --type=gettext/glade MainWindow.glade
+2. xgettext --language=Python --keyword=tr --keyword=N_ --output=translation.pot MainWindow.py
+2. xgettext --language=Glade --output=translation.pot MainWindow.glade -j
+3. msgfmt --output-file=tr/LC_MESSAGES/pardus-image-writer.mo tr.po
