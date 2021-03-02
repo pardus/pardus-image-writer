@@ -596,6 +596,7 @@ Do you want to continue?</property>
                           <object class="GtkComboBox" id="cmb_modes">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="valign">center</property>
                             <property name="model">list_modes</property>
                             <property name="active">0</property>
                             <property name="id_column">0</property>
