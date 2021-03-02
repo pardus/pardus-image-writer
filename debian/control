@@ -10,9 +10,11 @@ Package: pardus-image-writer
 Architecture: amd64
 Depends: ${misc:Depends},
          ${python3:Depends},
+         parted,
          python3 (>=3.5),
          python3-gi,
          python3-requests,
-         python3-pyudev
+         python3-pyudev,
+         rsync
 Description: Pardus Image Writer
  Simple Gtk+ and Python based Disk Image USB burner
