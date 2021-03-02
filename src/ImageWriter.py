@@ -1,12 +1,15 @@
 #!/usr/bin/python3
 
 import subprocess, sys, os, time, signal
+
 stopWriting = False
+
 
 def receiveSignal(number, frame):
     global stopWriting
     stopWriting = True
     return
+
 
 signal.signal(signal.SIGTERM, receiveSignal)
 
@@ -34,7 +37,7 @@ try:
         readBytes = readFile.read(bufferSize)
         writtenBytes += bufferSize
 
-        newMB = int(writtenBytes/1000/1000/10)
+        newMB = int(writtenBytes / 1000 / 1000 / 10)
         if oldMB != newMB:
             oldMB = newMB
             print("{} {}".format(writtenBytes, totalFileBytes))
