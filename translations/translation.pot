@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-20 18:02+0300\n"
+"POT-Creation-Date: 2021-03-02 08:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,121 +17,166 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/MainWindow.py:127 ../ui/MainWindow.glade:438
+#: ../src/MainWindow.py:124 ../ui/MainWindow.glade:451
 msgid "Select ISO File..."
-msgstr "ISO dosyası seçiniz..."
+msgstr ""
 
-#: ../src/MainWindow.py:202 ../src/MainWindow.py:269
+#: ../src/MainWindow.py:171 ../src/MainWindow.py:179
+msgid "Target {} does not exists"
+msgstr ""
+
+#: ../src/MainWindow.py:171 ../src/MainWindow.py:179
+msgid "Please install {}"
+msgstr ""
+
+#: ../src/MainWindow.py:174 ../src/MainWindow.py:182
+msgid "{} not found"
+msgstr ""
+
+#: ../src/MainWindow.py:234
+msgid "Installation done."
+msgstr ""
+
+#: ../src/MainWindow.py:236 ../src/MainWindow.py:245
+msgid "Installation failed."
+msgstr ""
+
+#: ../src/MainWindow.py:269 ../src/MainWindow.py:336
 msgid "Integrity checking failed."
-msgstr "Veri bütünlüğü kontrolü başarısız."
-
-#: ../src/MainWindow.py:205
-msgid "This is not a Pardus ISO, or it is corrupted."
-msgstr "Bu bir Pardus kalıbı değil veya dosya bozulmuş."
+msgstr ""
 
 #: ../src/MainWindow.py:272
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr ""
+
+#: ../src/MainWindow.py:339
 msgid "Could not connect to pardus.org.tr."
-msgstr "pardus.org.tr adresine bağlanılamadı."
+msgstr ""
 
-#: ../src/MainWindow.py:328 ../ui/MainWindow.glade:730
+#: ../src/MainWindow.py:395 ../ui/MainWindow.glade:932
 msgid "Writing process is finished."
-msgstr "Yazma işlemi tamamlandı."
+msgstr ""
 
-#: ../src/MainWindow.py:328 ../ui/MainWindow.glade:756
+#: ../src/MainWindow.py:395 ../ui/MainWindow.glade:958
 msgid "You can eject the USB disk."
-msgstr "USB Belleği çıkarabilirsiniz."
+msgstr ""
 
-#: ../src/MainWindow.py:331
+#: ../src/MainWindow.py:398
 msgid "Error!"
-msgstr "Hata!"
+msgstr ""
 
-#: ../src/MainWindow.py:338
+#: ../src/MainWindow.py:405
 msgid "An error occured while writing the file to the disk."
-msgstr "Dosya diske yazılırken bir hata oluştu."
+msgstr ""
 
-#: ../src/MainWindow.py:341
+#: ../src/MainWindow.py:408
 msgid "Please make sure the USB device is connected properly and try again."
-msgstr "Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
+msgstr ""
 
 #: ../ui/MainWindow.glade:7
 msgid "About"
-msgstr "Hakkında"
-
-#: ../ui/MainWindow.glade:11 ../ui/MainWindow.glade:345
-#: ../ui/MainWindow.glade:382 ../ui/MainWindow.glade:809
-msgid "Pardus Image Writer"
-msgstr "Pardus Disk Kalıbı Yazıcı"
+msgstr ""
 
 #: ../ui/MainWindow.glade:14
 msgid "Write ISO Images to USB devices easily."
-msgstr "ISO kalıplarını kolayca USB disklere yazın."
+msgstr ""
 
 #: ../ui/MainWindow.glade:17
 msgid "Emin Fedar"
-msgstr "Emin Fedar"
+msgstr ""
 
-#: ../ui/MainWindow.glade:53
+#: ../ui/MainWindow.glade:50
 msgid "Checking..."
-msgstr "Kontrol ediliyor..."
+msgstr ""
 
-#: ../ui/MainWindow.glade:109
+#: ../ui/MainWindow.glade:106
 msgid "Checking the file's integrity..."
-msgstr "Dosya doğruluğu kontrol ediliyor..."
+msgstr ""
 
-#: ../ui/MainWindow.glade:125
+#: ../ui/MainWindow.glade:122
 msgid "Calculating the hash value of the file..."
-msgstr "Dosyanın hash değeri hesaplanıyor..."
+msgstr ""
 
-#: ../ui/MainWindow.glade:139
+#: ../ui/MainWindow.glade:136
 msgid "Retrieving data from <b>pardus.org.tr</b>..."
-msgstr "Veriler <b>pardus.org.tr</b> adresinden alınıyor..."
+msgstr ""
 
-#: ../ui/MainWindow.glade:163
+#: ../ui/MainWindow.glade:157
 msgid "Are you sure?"
-msgstr "Emin misiniz?"
+msgstr ""
 
-#: ../ui/MainWindow.glade:233
+#: ../ui/MainWindow.glade:227
 msgid "This file:"
-msgstr "Bu dosya:"
+msgstr ""
 
-#: ../ui/MainWindow.glade:260
+#: ../ui/MainWindow.glade:254
 msgid "Will be written on this disk:"
-msgstr "Bu diske yazılacak:"
+msgstr ""
 
-#: ../ui/MainWindow.glade:300
+#: ../ui/MainWindow.glade:294
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
 "Do you want to continue?"
 msgstr ""
-"<b>UYARI:</b>\n"
-"Cihazdaki tüm verileriniz silinecek.\n"
-"Devam etmek istiyor musunuz?"
 
-#: ../ui/MainWindow.glade:535
-msgid "DD Mode"
-msgstr "DD Modu"
+#: ../ui/MainWindow.glade:344
+msgid "DD Mode [Recommended]"
+msgstr ""
 
-#: ../ui/MainWindow.glade:551
-msgid "ISO Mode (Usable after write)"
-msgstr "ISO Modu (USB kullanılabilir)"
+#: ../ui/MainWindow.glade:348
+msgid "ISO Mode"
+msgstr ""
 
-#: ../ui/MainWindow.glade:574
-msgid "Check ISO online (Pardus only)"
-msgstr "ISO'yu çevrimiçi doğrula (Pardus için)"
+#: ../ui/MainWindow.glade:354 ../ui/MainWindow.glade:396
+#: ../ui/MainWindow.glade:1011
+msgid "Pardus Image Writer"
+msgstr ""
 
-#: ../ui/MainWindow.glade:608
-msgid "Start"
-msgstr "Başlat"
+#: ../ui/MainWindow.glade:594
+msgid "page 1"
+msgstr ""
 
-#: ../ui/MainWindow.glade:628
+#: ../ui/MainWindow.glade:610
+msgid "grub not found"
+msgstr ""
+
+#: ../ui/MainWindow.glade:625 ../ui/MainWindow.glade:822
 msgid "Cancel"
-msgstr "İptal Et"
+msgstr ""
 
-#: ../ui/MainWindow.glade:766
+#: ../ui/MainWindow.glade:638
+msgid "Install"
+msgstr ""
+
+#: ../ui/MainWindow.glade:665
+msgid "page 2"
+msgstr ""
+
+#: ../ui/MainWindow.glade:686
+msgid "page 3"
+msgstr ""
+
+#: ../ui/MainWindow.glade:722
+msgid "Message "
+msgstr ""
+
+#: ../ui/MainWindow.glade:739
+msgid "page 4"
+msgstr ""
+
+#: ../ui/MainWindow.glade:768
+msgid "Check ISO online (Pardus only)"
+msgstr ""
+
+#: ../ui/MainWindow.glade:802
+msgid "Start"
+msgstr ""
+
+#: ../ui/MainWindow.glade:968
 msgid "Exit"
-msgstr "Çıkış"
+msgstr ""
 
-#: ../ui/MainWindow.glade:784
+#: ../ui/MainWindow.glade:986
 msgid "Write a new file."
-msgstr "Yeni dosya yaz."
+msgstr ""

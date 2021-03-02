@@ -64,6 +64,10 @@ class MainWindow:
 
         # Show Screen:
         self.window.show_all()
+
+        # Debian based only signals
+        if self.isdebian():
+            self.installation_window()
     
     # Window methods:
     def onDestroy(self, action):
@@ -76,8 +80,7 @@ class MainWindow:
         self.cmb_devices = self.builder.get_object("cmb_devices")
         self.btn_selectISOFile = self.builder.get_object("btn_selectISOFile")
         self.lbl_btn_selectISOFile = self.builder.get_object("lbl_btn_selectISOFile")
-        self.rb_ddMode = self.builder.get_object("rb_ddMode")
-        self.rb_isoMode = self.builder.get_object("rb_isoMode")
+        self.cmb_modes = self.builder.get_object("cmb_modes")
         self.stack_buttons = self.builder.get_object("stack_buttons")
         self.btn_start = self.builder.get_object("btn_start")
         self.pb_writingProgess = self.builder.get_object("pb_writingProgress")
@@ -95,6 +98,7 @@ class MainWindow:
         self.dlg_lbl_disk = self.builder.get_object("dlg_lbl_disk")
         self.dialog_about = self.builder.get_object("dialog_about")
 
+        
     # USB Methods
     def listUSBDevices(self):
         if self.isGUILocked == True:
@@ -114,13 +118,6 @@ class MainWindow:
             self.btn_start.set_sensitive(True)
 
 
-
-    # UI Signals:
-    def rb_ddMode_toggled(self, rb):
-        if self.rb_ddMode.get_active():
-            self.writeMode = "ImageWriter.py"
-        else:
-            self.writeMode = "ISOCopier.py"
 
     def btn_selectISOFile_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
@@ -143,11 +140,6 @@ class MainWindow:
             self.imgFilepath = filepath
             self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
             self.fileType = filepath.split(".")[-1]
-            if self.fileType == "img":
-                self.rb_isoMode.set_sensitive(False)
-                self.rb_ddMode.set_active(True)
-            else:
-                self.rb_isoMode.set_sensitive(True)
             
             if self.imgFilepath and len(self.usbDevice) > 0:
                 self.btn_start.set_sensitive(True)
@@ -162,6 +154,32 @@ class MainWindow:
             self.usbDevice = deviceInfo
         else:
             self.btn_start.set_sensitive(False)
+    
+    def cmb_modes_changed(self, combobox):
+        tree_iter = combobox.get_active_iter()
+        if tree_iter:
+            model = combobox.get_model()
+            self.writeMode = model[tree_iter][0] # 0:DD, 1:Iso
+            if self.writeMode == 0:
+                self.writeMode="ImageWriter.py"
+            elif self.writeMode == 1:
+                self.writeMode="ISOCopier.py"
+                if not os.path.isdir("/usr/lib/grub/i386-pc"):
+                    combobox.set_active(0)
+                    self.writeMode=0
+                    if not self.isdebian():
+                        self.show_message(tr("Target {} does not exists").format("i386-pc"),tr("Please install {}").format("grub-pc-bin"))
+                    else:
+                        self.builder.get_object("mode_installer").set_current_page(1)
+                    self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-i386-pc"))
+                elif not os.path.isdir("/usr/lib/grub/x86_64-efi"):
+                    combobox.set_active(0)
+                    self.writeMode=0
+                    if not self.isdebian():
+                        self.show_message(tr("Target {} does not exists").format("x86_64-efi"),tr("Please install {}").format("grub-efi-amd64-bin"))
+                    else:
+                        self.builder.get_object("mode_installer").set_current_page(1)
+                    self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-x86_64-amd64-efi"))
     
     # Buttons:
     def btn_start_clicked(self, button):
@@ -181,7 +199,56 @@ class MainWindow:
         self.dialog_about.hide()
 
 
+    def show_message(self,msg1="",msg2=""):
+            dialog = Gtk.MessageDialog(
+                self.window,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.OK,
+                tr(msg1),
+            )
+            dialog.format_secondary_text(
+                tr(msg2)
+            )
+            dialog.run()
+            dialog.destroy()
 
+    def isdebian(self):
+        return os.path.exists("/var/lib/dpkg/status")
+
+    def installation_window(self):
+        yes=self.builder.get_object("but_inst")
+        no=self.builder.get_object("but_canc")
+        nm=self.builder.get_object("mode_installer")
+        nm.set_current_page(0)
+        def yes_event(widget):
+            nm.set_current_page(2)
+            apt_install_grub()
+            
+        def no_event(widget):
+            nm.set_current_page(0)
+        def apt_install_grub():
+            params="pkexec apt install --reinstall grub-pc-bin grub-efi-amd64-bin -yq".split(" ")
+            def onProcessExit(pid, status):
+                if status == 0:
+                    self.builder.get_object("mod_message").set_text(tr("Installation done."))
+                else:
+                    self.builder.get_object("mod_message").set_text(tr("Installation failed."))
+                nm.set_current_page(3)
+                yes.set_sensitive(True)
+            try:
+                writerProcessPID, _, stdout, _ = GLib.spawn_async(params,
+                            flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
+                            standard_input=False, standard_output=True, standard_error=False)
+            except:
+                    nm.set_current_page(3)
+                    self.builder.get_object("mod_message").set_text(tr("Installation failed."))
+            GLib.child_watch_add(GLib.PRIORITY_DEFAULT, writerProcessPID, onProcessExit)
+
+        yes.connect("clicked",yes_event)
+        no.connect("clicked",no_event)
+        self.builder.get_object("go_back").connect("clicked",no_event)
+    
     def onCheckingIntegrityFinished(self):
         # Check ISO has md5 on list:
         isISOGood = False
@@ -347,9 +414,8 @@ class MainWindow:
         self.btn_selectISOFile.set_sensitive(False)
         self.cmb_devices.set_sensitive(False)
         self.cb_checkIntegrity.set_sensitive(False)
+        self.cmb_modes.set_sensitive(False)
 
-        self.rb_ddMode.set_sensitive(False)
-        self.rb_isoMode.set_sensitive(False)
 
         self.stack_buttons.set_visible_child_name("cancel")
         self.isGUILocked = True
@@ -358,10 +424,8 @@ class MainWindow:
         self.btn_selectISOFile.set_sensitive(True)
         self.cmb_devices.set_sensitive(True)
         self.cb_checkIntegrity.set_sensitive(True)
+        self.cmb_modes.set_sensitive(True)
 
-        self.rb_ddMode.set_sensitive(True)
-        if self.fileType == "iso":
-            self.rb_isoMode.set_sensitive(True)
 
         self.stack_buttons.set_visible_child_name("start")
         self.isGUILocked = False
