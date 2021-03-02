@@ -429,7 +429,7 @@ Do you want to continue?</property>
                       <object class="GtkImage" id="img_system">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="icon-name">gtk-cdrom</property>
+                        <property name="pixbuf">../iso.svg</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -479,7 +479,7 @@ Do you want to continue?</property>
                       <object class="GtkImage" id="img_drive">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="icon-name">drive-removable-media</property>
+                        <property name="pixbuf">../disk.svg</property>
                         <property name="icon_size">6</property>
                       </object>
                       <packing>
@@ -554,6 +554,7 @@ Do you want to continue?</property>
                           <object class="GtkImage" id="img_drive1">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <property name="pixel-size">36</property>
                             <property name="icon-name">preferences-system</property>
                             <property name="icon_size">6</property>
                           </object>

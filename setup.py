@@ -16,7 +16,7 @@ if os.path.exists(changelog):
 data_files = [
     ("/usr/share/applications/", ["tr.org.pardus.image-writer.desktop"]),
     ("/usr/share/locale/tr/LC_MESSAGES/", ["translations/tr/LC_MESSAGES/pardus-image-writer.mo"]),
-    ("/usr/share/pardus/pardus-image-writer/", ["icon.svg", "main.svg"]),
+    ("/usr/share/pardus/pardus-image-writer/", ["icon.svg", "main.svg","iso.svg","disk.svg","settings.svg"]),
     ("/usr/share/pardus/pardus-image-writer/src", ["src/main.py", "src/MainWindow.py", "src/ISOCopier.py", "src/ImageWriter.py", "src/USBDeviceManager.py", "src/__version__"]),
     ("/usr/share/pardus/pardus-image-writer/ui", ["ui/MainWindow.glade"]),
     ("/usr/share/polkit-1/actions", ["tr.org.pardus.pkexec.pardus-image-writer.policy"]),
