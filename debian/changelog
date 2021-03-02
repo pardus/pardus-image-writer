@@ -1,3 +1,30 @@
+pardus-image-writer (0.3.0~Beta1) unstable; urgency=medium
+
+  [ Emin Fedar ]
+  * Added ISO Writing Mode
+  * Added progress bar to ISO Mode.
+  * sync fix
+  * SIGTERM fix, ISO Name gathering.
+  * Windows ISO support, ISO name gathered from file.
+  * clear debug prints.
+  * /tmp to /run file
+  * Translations updated.
+
+  [ Ali Rıza KESKİN ]
+  * ISO mode added
+  * fix mkfs.vfat
+  * icons
+
+  [ Fatih Altun ]
+  * Add policy for ISOCopier mode
+  * Reformat Code
+  * Fix policy
+  * Update depends
+  * Update finish button image
+  * Add valign to mode selection
+
+ -- Fatih Altun <fatih.altun@pardus.org.tr>  Tue, 02 Mar 2021 15:02:41 +0300
+
 pardus-image-writer (0.2.0~Beta3) unstable; urgency=medium
 
   * added: get version dynamically from debian/changelog
