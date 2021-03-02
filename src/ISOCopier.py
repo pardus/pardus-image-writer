@@ -55,7 +55,7 @@ class IsoCopy:
         subprocess.run(["parted", self.drive, "mktable", "msdos"])
         subprocess.run(["parted", self.drive, "mkpart", "primary", "fat32", "1", "100%"])
         subprocess.run(["wipefs", "-a", (self.drive+"1"), "--force"])
-        subprocess.run(["mkfs.fat", "-F", "32", "-n", self.isoName, "-I", (self.drive+"1")])
+        subprocess.run(["mkfs.vfat", (self.drive+"1")])
         subprocess.run(["parted", self.drive, "set", "1", "boot", "on"])
         subprocess.run(["sync"])
 
