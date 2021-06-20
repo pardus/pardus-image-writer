@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from setuptools import setup, find_packages, os
+from shutil import copyfile
 
 changelog = 'debian/changelog'
 if os.path.exists(changelog):
@@ -13,6 +14,8 @@ if os.path.exists(changelog):
     f.write(version)
     f.close()
 
+copyfile("icon.svg", "pardus-image-writer.svg")
+
 data_files = [
     ("/usr/share/applications/", ["tr.org.pardus.image-writer.desktop"]),
     ("/usr/share/locale/tr/LC_MESSAGES/", ["translations/tr/LC_MESSAGES/pardus-image-writer.mo"]),
@@ -22,7 +25,9 @@ data_files = [
       "src/__version__"]),
     ("/usr/share/pardus/pardus-image-writer/ui", ["ui/MainWindow.glade"]),
     ("/usr/share/polkit-1/actions", ["tr.org.pardus.pkexec.pardus-image-writer.policy"]),
-    ("/usr/bin/", ["pardus-image-writer"])
+    ("/usr/bin/", ["pardus-image-writer"]),
+    ("/usr/share/icons/hicolor/scalable/apps/", ["pardus-image-writer.svg"])
+
 ]
 
 setup(
