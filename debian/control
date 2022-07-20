@@ -2,7 +2,7 @@ Source: pardus-image-writer
 Section: utils
 Priority: optional
 Maintainer: Emin Fedar <emin.fedar@pardus.org.tr>
-Build-Depends: debhelper (>= 10), dh-python, python3-all, python3-setuptools
+Build-Depends: debhelper (>= 10), dh-python, python3-all, python3-setuptools, gettext
 Standards-Version: 4.3.0
 Homepage: https://www.pardus.org.tr
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from setuptools import setup, find_packages, os
+from setuptools import setup, find_packages, os, subprocess
 from shutil import copyfile
 
 changelog = 'debian/changelog'
@@ -16,6 +16,19 @@ if os.path.exists(changelog):
 
 copyfile("icon.svg", "pardus-image-writer.svg")
 
+def create_mo_files():
+    podir = "po"
+    mo = []
+    for po in os.listdir(podir):
+        if po.endswith(".po"):
+            os.makedirs("{}/{}/LC_MESSAGES".format(podir, po.split(".po")[0]), exist_ok=True)
+            mo_file = "{}/{}/LC_MESSAGES/{}".format(podir, po.split(".po")[0], "pardus-software.mo")
+            msgfmt_cmd = 'msgfmt {} -o {}'.format(podir + "/" + po, mo_file)
+            subprocess.call(msgfmt_cmd, shell=True)
+            mo.append(("/usr/share/locale/" + po.split(".po")[0] + "/LC_MESSAGES",
+                       ["po/" + po.split(".po")[0] + "/LC_MESSAGES/pardus-software.mo"]))
+    return mo
+
 data_files = [
     ("/usr/share/applications/", ["tr.org.pardus.image-writer.desktop"]),
     ("/usr/share/locale/tr/LC_MESSAGES/", ["translations/tr/LC_MESSAGES/pardus-image-writer.mo"]),
@@ -27,7 +40,7 @@ data_files = [
     ("/usr/share/polkit-1/actions", ["tr.org.pardus.pkexec.pardus-image-writer.policy"]),
     ("/usr/bin/", ["pardus-image-writer"]),
     ("/usr/share/icons/hicolor/scalable/apps/", ["pardus-image-writer.svg"]),
-]
+] + create_mo_files()
 
 setup(
     name="Pardus Image Writer",

@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-20 15:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ui/MainWindow.glade:7
+msgid "About"
+msgstr ""
+
+#: ui/MainWindow.glade:14
+msgid "Write ISO Images to USB devices easily."
+msgstr ""
+
+#: ui/MainWindow.glade:51
+msgid "Checking..."
+msgstr ""
+
+#: ui/MainWindow.glade:107
+msgid "Checking the file's integrity..."
+msgstr ""
+
+#: ui/MainWindow.glade:123
+msgid "Calculating the hash value of the file..."
+msgstr ""
+
+#: ui/MainWindow.glade:137
+msgid "Retrieving data from <b>pardus.org.tr</b>..."
+msgstr ""
+
+#: ui/MainWindow.glade:158
+msgid "Are you sure?"
+msgstr ""
+
+#: ui/MainWindow.glade:228
+msgid "This file:"
+msgstr ""
+
+#: ui/MainWindow.glade:255
+msgid "Will be written on this disk:"
+msgstr ""
+
+#: ui/MainWindow.glade:295
+msgid ""
+"<b>WARNING:</b>\n"
+"All the personal data on the device will be deleted.\n"
+"Do you want to continue?"
+msgstr ""
+
+#: ui/MainWindow.glade:345
+msgid "DD Mode [Recommended]"
+msgstr ""
+
+#: ui/MainWindow.glade:349
+msgid "ISO Mode (for Gnu/Linux)"
+msgstr ""
+
+#: ui/MainWindow.glade:353
+msgid "ISO Mode (for Windows)"
+msgstr ""
+
+#: ui/MainWindow.glade:359 ui/MainWindow.glade:404 ui/MainWindow.glade:1036
+msgid "Pardus Image Writer"
+msgstr ""
+
+#: ui/MainWindow.glade:459
+msgid "Select ISO or IMG File"
+msgstr ""
+
+#: ui/MainWindow.glade:625
+msgid "grub not found"
+msgstr ""
+
+#: ui/MainWindow.glade:640 ui/MainWindow.glade:863
+msgid "Cancel"
+msgstr ""
+
+#: ui/MainWindow.glade:653
+msgid "Install"
+msgstr ""
+
+#: ui/MainWindow.glade:737
+msgid "Message "
+msgstr ""
+
+#: ui/MainWindow.glade:783
+msgid "Check ISO online (Pardus only)"
+msgstr ""
+
+#: ui/MainWindow.glade:843
+msgid "Start"
+msgstr ""
+
+#: ui/MainWindow.glade:957
+msgid "Writing process is finished."
+msgstr ""
+
+#: ui/MainWindow.glade:983
+msgid "You can eject the USB disk."
+msgstr ""
+
+#: ui/MainWindow.glade:993
+msgid "Exit"
+msgstr ""
+
+#: ui/MainWindow.glade:1011
+msgid "Write a new file."
+msgstr ""
