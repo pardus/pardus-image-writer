@@ -1,3 +1,25 @@
+pardus-image-writer (0.4.0~Beta1) unstable; urgency=medium
+
+  [ Ali Rıza KESKİN ]
+  * windows iso mode (#1)
+
+  [ Fatih Altun ]
+  * Revert ui
+  * Update non-translatable labels
+  * Update .gitignore
+  * Update translate structure
+  * Fix typo
+  * Fix lib typo
+  * Fix typo
+  * Fix typo
+  * Update about dialog program name as translatable
+  * Update translations
+  * Fix typo
+  * Update Architecture as all
+  * Update Homepage
+
+ -- Fatih Altun <fatih.altun@pardus.org.tr>  Wed, 20 Jul 2022 16:48:48 +0300
+
 pardus-image-writer (0.3.0~Beta3) unstable; urgency=medium
 
   [ Emin Fedar ]
