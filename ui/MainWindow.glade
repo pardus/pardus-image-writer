@@ -10,11 +10,12 @@
     <property name="type-hint">dialog</property>
     <property name="program-name">Pardus Image Writer</property>
     <property name="version">0.2.0~Beta1</property>
-    <property name="copyright">©2021 Pardus</property>
+    <property name="copyright">©2022 Pardus</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
     <property name="website">https://www.pardus.org.tr</property>
-    <property name="authors">Emin Fedar</property>
-    <property name="translator-credits" translatable="yes">Emin Fedar</property>
+    <property name="authors">Emin Fedar
+Ali Rıza Keskin</property>
+    <property name="translator-credits">Emin Fedar</property>
     <property name="logo">../icon.svg</property>
     <property name="license-type">gpl-3-0</property>
     <child internal-child="vbox">
@@ -330,6 +331,28 @@ Do you want to continue?</property>
       <!-- column-name device_gb -->
       <column type="gchararray"/>
     </columns>
+  </object>
+  <object class="GtkListStore" id="list_modes">
+    <columns>
+      <!-- column-name mode -->
+      <column type="gint"/>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">0</col>
+        <col id="1" translatable="yes">DD Mode [Recommended]</col>
+      </row>
+      <row>
+        <col id="0">1</col>
+        <col id="1" translatable="yes">ISO Mode (for Gnu/Linux)</col>
+      </row>
+      <row>
+        <col id="0">2</col>
+        <col id="1" translatable="yes">ISO Mode (for Windows)</col>
+      </row>
+    </data>
   </object>
   <object class="GtkApplicationWindow" id="window">
     <property name="can-focus">False</property>
@@ -654,7 +677,7 @@ Do you want to continue?</property>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">page 2</property>
+                            <property name="label">page 2</property>
                           </object>
                           <packing>
                             <property name="position">1</property>
@@ -675,7 +698,7 @@ Do you want to continue?</property>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">page 3</property>
+                            <property name="label">page 3</property>
                           </object>
                           <packing>
                             <property name="position">2</property>
@@ -728,7 +751,7 @@ Do you want to continue?</property>
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">page 4</property>
+                            <property name="label">page 4</property>
                           </object>
                           <packing>
                             <property name="position">3</property>
@@ -798,7 +821,7 @@ Do you want to continue?</property>
                     <property name="opacity">0.59999999999999998</property>
                     <property name="margin-top">7</property>
                     <property name="margin-bottom">7</property>
-                    <property name="label">TÜBİTAK ULAKBİM | 2021</property>
+                    <property name="label">TÜBİTAK ULAKBİM | 2022</property>
                     <attributes>
                       <attribute name="size" value="9500"/>
                     </attributes>
@@ -1025,27 +1048,5 @@ Do you want to continue?</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="list_modes">
-    <columns>
-      <!-- column-name mode -->
-      <column type="gint"/>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">DD Mode [Recommended]</col>
-      </row>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">ISO Mode (for Gnu/Linux)</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">ISO Mode (for Windows)</col>
-      </row>
-    </data>
   </object>
 </interface>
