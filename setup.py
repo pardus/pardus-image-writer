@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-from setuptools import setup, find_packages, os, subprocess
+from setuptools import setup, find_packages
 from shutil import copyfile
+import os, subprocess
+
 
 changelog = 'debian/changelog'
 if os.path.exists(changelog):
