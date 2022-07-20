@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-20 16:34+0300\n"
+"POT-Creation-Date: 2022-07-20 16:38+0300\n"
 "PO-Revision-Date: 2022-07-20 15:33+0300\n"
 "Last-Translator: Fatih Altun <fatih.altun@pardus.org.tr>\n"
 "Language-Team: Turkish <dev@pardus.org.tr>\n"
@@ -76,7 +76,6 @@ msgid "ISO Mode (for Windows)"
 msgstr "ISO Modu (Windows için)"
 
 #: ui/MainWindow.glade:363 ui/MainWindow.glade:408 ui/MainWindow.glade:1040
-#: src/MainWindow.py:64
 msgid "Pardus Image Writer"
 msgstr "Pardus Disk Kalıbı Yazıcı"
 

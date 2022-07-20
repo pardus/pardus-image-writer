@@ -61,7 +61,7 @@ class MainWindow:
         except:
             pass
 
-        self.dialog_about.set_program_name(_("Pardus Image Writer"))
+        self.dialog_about.set_program_name(tr("Pardus Image Writer"))
 
         # Set application:
         self.application = application
