@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-20 15:23+0300\n"
-"PO-Revision-Date: 2022-07-20 15:22+0300\n"
+"PO-Revision-Date: 2022-07-20 15:33+0300\n"
 "Last-Translator: Fatih Altun <fatih.altun@pardus.org.tr>\n"
 "Language-Team: Turkish <dev@pardus.org.tr>\n"
 "Language: tr\n"
@@ -81,7 +81,7 @@ msgstr "Pardus Disk Kalıbı Yazıcı"
 
 #: ui/MainWindow.glade:459
 msgid "Select ISO or IMG File"
-msgstr "ISO veya IMG Dosyası seçiniz"
+msgstr "ISO veya IMG Dosyası Seçiniz"
 
 #: ui/MainWindow.glade:625
 msgid "grub not found"
