@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.37.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAboutDialog" id="dialog_about">
@@ -118,7 +118,7 @@
               <object class="GtkLabel" id="lbl_integrityStatus">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="opacity">0.8</property>
+                <property name="opacity">0.80</property>
                 <property name="label" translatable="yes">Calculating the hash value of the file...</property>
                 <property name="use-markup">True</property>
               </object>
@@ -132,7 +132,7 @@
               <object class="GtkLabel" id="lbl_integrityStatus1">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="opacity">0.8</property>
+                <property name="opacity">0.80</property>
                 <property name="label" translatable="yes">Retrieving data from &lt;b&gt;pardus.org.tr&lt;/b&gt;...</property>
                 <property name="use-markup">True</property>
               </object>
@@ -331,28 +331,6 @@ Do you want to continue?</property>
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="list_modes">
-    <columns>
-      <!-- column-name mode -->
-      <column type="gint"/>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">DD Mode [Recommended]</col>
-      </row>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">ISO Mode (for Gnu/Linux)</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">ISO Mode (for Windows)</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkApplicationWindow" id="window">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Pardus Image Writer</property>
@@ -455,7 +433,7 @@ Do you want to continue?</property>
                           <object class="GtkLabel" id="lbl_btn_selectISOFile">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Select ISO File...</property>
+                            <property name="label" translatable="yes">Select ISO or IMG File</property>
                             <property name="ellipsize">end</property>
                             <property name="width-chars">6</property>
                             <property name="max-width-chars">6</property>
@@ -547,198 +525,112 @@ Do you want to continue?</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkExpander">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="resize-toplevel">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkNotebook" id="mode_installer">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="orientation">vertical</property>
+                        <property name="show-tabs">False</property>
+                        <property name="show-border">False</property>
                         <child>
-                          <object class="GtkNotebook" id="mode_installer">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="show-tabs">False</property>
-                            <property name="show-border">False</property>
+                            <property name="can-focus">False</property>
+                            <property name="spacing">7</property>
                             <child>
-                              <object class="GtkBox">
+                              <object class="GtkImage" id="img_drive1">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="spacing">7</property>
-                                <child>
-                                  <object class="GtkImage" id="img_drive1">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="pixel-size">36</property>
-                                    <property name="icon-name">preferences-system</property>
-                                    <property name="icon_size">6</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkComboBox" id="cmb_modes">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="valign">center</property>
-                                    <property name="model">list_modes</property>
-                                    <property name="active">0</property>
-                                    <property name="id-column">0</property>
-                                    <property name="active-id">0</property>
-                                    <signal name="changed" handler="cmb_modes_changed" swapped="no"/>
-                                    <child>
-                                      <object class="GtkCellRendererText" id="label"/>
-                                      <attributes>
-                                        <attribute name="text">1</attribute>
-                                      </attributes>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                            </child>
-                            <child type="tab">
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">page 1</property>
+                                <property name="pixel-size">36</property>
+                                <property name="icon-name">preferences-system</property>
+                                <property name="icon_size">6</property>
                               </object>
                               <packing>
-                                <property name="tab-fill">False</property>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox">
+                              <object class="GtkComboBox" id="cmb_modes">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="orientation">vertical</property>
+                                <property name="valign">center</property>
+                                <property name="model">list_modes</property>
+                                <property name="active">0</property>
+                                <property name="id-column">0</property>
+                                <property name="active-id">0</property>
+                                <signal name="changed" handler="cmb_modes_changed" swapped="no"/>
                                 <child>
-                                  <object class="GtkLabel" id="mode_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="margin-bottom">5</property>
-                                    <property name="label" translatable="yes">grub not found</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkBox">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="spacing">23</property>
-                                    <child>
-                                      <object class="GtkButton" id="but_canc">
-                                        <property name="label" translatable="yes">Cancel</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkButton" id="but_inst">
-                                        <property name="label" translatable="yes">Install</property>
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
+                                  <object class="GtkCellRendererText" id="label"/>
+                                  <attributes>
+                                    <attribute name="text">1</attribute>
+                                  </attributes>
                                 </child>
                               </object>
                               <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
-                            <child type="tab">
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">page 2</property>
-                              </object>
-                              <packing>
-                                <property name="position">1</property>
-                                <property name="tab-fill">False</property>
-                              </packing>
-                            </child>
+                          </object>
+                        </child>
+                        <child type="tab">
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">page 1</property>
+                          </object>
+                          <packing>
+                            <property name="tab-fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkSpinner">
+                              <object class="GtkLabel" id="mode_label">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="active">True</property>
+                                <property name="margin-bottom">5</property>
+                                <property name="label" translatable="yes">grub not found</property>
                               </object>
                               <packing>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child type="tab">
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">page 3</property>
-                              </object>
-                              <packing>
-                                <property name="position">2</property>
-                                <property name="tab-fill">False</property>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="spacing">23</property>
                                 <child>
-                                  <object class="GtkButton" id="go_back">
+                                  <object class="GtkButton" id="but_canc">
+                                    <property name="label" translatable="yes">Cancel</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">True</property>
-                                    <property name="relief">none</property>
-                                    <child>
-                                      <object class="GtkImage">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="icon-name">gtk-go-back</property>
-                                        <property name="icon_size">5</property>
-                                      </object>
-                                    </child>
                                   </object>
                                   <packing>
-                                    <property name="expand">False</property>
+                                    <property name="expand">True</property>
                                     <property name="fill">True</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="mod_message">
+                                  <object class="GtkButton" id="but_inst">
+                                    <property name="label" translatable="yes">Install</property>
                                     <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Message </property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -748,65 +640,137 @@ Do you want to continue?</property>
                                 </child>
                               </object>
                               <packing>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child type="tab">
-                              <object class="GtkLabel">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">page 4</property>
-                              </object>
-                              <packing>
-                                <property name="position">3</property>
-                                <property name="tab-fill">False</property>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSeparator">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="margin-top">7</property>
-                            <property name="margin-bottom">7</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
-                        <child>
-                          <object class="GtkCheckButton" id="cb_checkIntegrity">
-                            <property name="label" translatable="yes">Check ISO online (Pardus only)</property>
+                        <child type="tab">
+                          <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">False</property>
-                            <property name="halign">start</property>
-                            <property name="valign">center</property>
-                            <property name="margin-top">7</property>
-                            <property name="draw-indicator">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">page 2</property>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                            <property name="tab-fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinner">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="active">True</property>
+                          </object>
+                          <packing>
                             <property name="position">2</property>
                           </packing>
                         </child>
+                        <child type="tab">
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">page 3</property>
+                          </object>
+                          <packing>
+                            <property name="position">2</property>
+                            <property name="tab-fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkButton" id="go_back">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
+                                <property name="relief">none</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="icon-name">gtk-go-back</property>
+                                    <property name="icon_size">5</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="mod_message">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Message </property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child type="tab">
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">page 4</property>
+                          </object>
+                          <packing>
+                            <property name="position">3</property>
+                            <property name="tab-fill">False</property>
+                          </packing>
+                        </child>
                       </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
-                    <child type="label">
-                      <object class="GtkLabel">
+                    <child>
+                      <object class="GtkSeparator">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Options</property>
+                        <property name="margin-top">7</property>
+                        <property name="margin-bottom">7</property>
                       </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="cb_checkIntegrity">
+                        <property name="label" translatable="yes">Check ISO online (Pardus only)</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="receives-default">False</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="margin-top">7</property>
+                        <property name="draw-indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -831,7 +795,7 @@ Do you want to continue?</property>
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="opacity">0.6</property>
+                    <property name="opacity">0.59999999999999998</property>
                     <property name="margin-top">7</property>
                     <property name="margin-bottom">7</property>
                     <property name="label">TÜBİTAK ULAKBİM | 2021</property>
@@ -1061,5 +1025,27 @@ Do you want to continue?</property>
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="list_modes">
+    <columns>
+      <!-- column-name mode -->
+      <column type="gint"/>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">0</col>
+        <col id="1" translatable="yes">DD Mode [Recommended]</col>
+      </row>
+      <row>
+        <col id="0">1</col>
+        <col id="1" translatable="yes">ISO Mode (for Gnu/Linux)</col>
+      </row>
+      <row>
+        <col id="0">2</col>
+        <col id="1" translatable="yes">ISO Mode (for Windows)</col>
+      </row>
+    </data>
   </object>
 </interface>
