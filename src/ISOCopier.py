@@ -92,10 +92,12 @@ class IsoCopy:
             subprocess.run(["rm", "-rf", "/{}/boot/grub/{}".format(self.usbMountFolder, target)])
         subprocess.run(["rm", "-rf", "/{}/EFI".format(self.usbMountFolder)])
         subprocess.run(["grub-install", "--target=i386-pc", "--force", "--removable",
-                        "--boot-directory=/{}/boot".format(self.usbMountFolder), self.drive])
+                        "--boot-directory=/{}/boot".format(self.usbMountFolder),
+                        " --locales=\"\"" ,self.drive])
         subprocess.run(["grub-install", "--target=x86_64-efi", "--force", "--removable",
                         "--efi-directory=/{}/".format(self.usbMountFolder),
-                        "--boot-directory=/{}/boot".format(self.usbMountFolder), self.drive])
+                        "--boot-directory=/{}/boot".format(self.usbMountFolder),
+                        "--locales=", self.drive])
         subprocess.run(["sync"])
 
     def windowsISOAddition(self):
