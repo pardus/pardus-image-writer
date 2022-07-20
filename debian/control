@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Emin Fedar <emin.fedar@pardus.org.tr>
 Build-Depends: debhelper (>= 10), dh-python, python3-all, python3-setuptools, gettext
 Standards-Version: 4.3.0
-Homepage: https://github.com/pardus/pardus-usb-formatter
+Homepage: https://github.com/pardus/pardus-image-writer
 
 Package: pardus-image-writer
 Architecture: all
