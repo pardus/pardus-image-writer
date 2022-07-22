@@ -738,7 +738,7 @@ Do you want to continue?</property>
                               <object class="GtkLabel" id="mod_message">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Message </property>
+                                <property name="label" translatable="yes">Message</property>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
