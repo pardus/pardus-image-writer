@@ -1,0 +1,126 @@
+# Portuguese translation for pardus-image-writer.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pardus-image-writer package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-07-20 16:38+0300\n"
+"PO-Revision-Date: 2022-07-22 11:28+0100\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"Language-Team: Portuguese <hugokarvalho@hotmail.com>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#: ui/MainWindow.glade:7
+msgid "About"
+msgstr "Acerca"
+
+#: ui/MainWindow.glade:14
+msgid "Write ISO Images to USB devices easily."
+msgstr "Gravar facilmente imagens ISO em dispositivos USB."
+
+#: ui/MainWindow.glade:55
+msgid "Checking..."
+msgstr "A verificar..."
+
+#: ui/MainWindow.glade:111
+msgid "Checking the file's integrity..."
+msgstr "A verificar a integridade do ficheiro..."
+
+#: ui/MainWindow.glade:127
+msgid "Calculating the hash value of the file..."
+msgstr "A calcular o valor hash do ficheiro..."
+
+#: ui/MainWindow.glade:141
+msgid "Retrieving data from <b>pardus.org.tr</b>..."
+msgstr "A recuperar dados de <b>pardus.org.tr</b>..."
+
+#: ui/MainWindow.glade:162
+msgid "Are you sure?"
+msgstr "Tem a certeza?"
+
+#: ui/MainWindow.glade:232
+msgid "This file:"
+msgstr "Este ficheiro:"
+
+#: ui/MainWindow.glade:259
+msgid "Will be written on this disk:"
+msgstr "Será gravado neste disco:"
+
+#: ui/MainWindow.glade:299
+msgid ""
+"<b>WARNING:</b>\n"
+"All the personal data on the device will be deleted.\n"
+"Do you want to continue?"
+msgstr ""
+"<b>AVISO:</b>\n"
+"Todos os dados pessoais do dispositivo serão eliminados.\n"
+"Quer continuar?"
+
+#: ui/MainWindow.glade:349
+msgid "DD Mode [Recommended]"
+msgstr "Modo DD [Recomendado]"
+
+#: ui/MainWindow.glade:353
+msgid "ISO Mode (for Gnu/Linux)"
+msgstr "Modo ISO (para Gnu/Linux)"
+
+#: ui/MainWindow.glade:357
+msgid "ISO Mode (for Windows)"
+msgstr "Modo ISO (para Windows)"
+
+#: ui/MainWindow.glade:363 ui/MainWindow.glade:408 ui/MainWindow.glade:1040
+msgid "Pardus Image Writer"
+msgstr "Pardus Image Writer"
+
+#: ui/MainWindow.glade:463
+msgid "Select ISO or IMG File"
+msgstr "Selecionar ficheiro ISO ou IMG"
+
+#: ui/MainWindow.glade:629
+msgid "grub not found"
+msgstr "grub não encontrado"
+
+#: ui/MainWindow.glade:644 ui/MainWindow.glade:867
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ui/MainWindow.glade:657
+msgid "Install"
+msgstr "Instalar"
+
+#: ui/MainWindow.glade:741
+msgid "Message "
+msgstr "Mensagem"
+
+#: ui/MainWindow.glade:787
+msgid "Check ISO online (Pardus only)"
+msgstr "Verifique a ISO online (apenas Pardus)"
+
+#: ui/MainWindow.glade:847
+msgid "Start"
+msgstr "Iniciar"
+
+#: ui/MainWindow.glade:961
+msgid "Writing process is finished."
+msgstr "O processo de gravação está concluído."
+
+#: ui/MainWindow.glade:987
+msgid "You can eject the USB disk."
+msgstr "Pode ejetar o disco USB."
+
+#: ui/MainWindow.glade:997
+msgid "Exit"
+msgstr "Sair"
+
+#: ui/MainWindow.glade:1015
+msgid "Write a new file."
+msgstr "Gravar um novo ficheiro."
