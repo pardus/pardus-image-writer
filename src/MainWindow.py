@@ -174,13 +174,11 @@ class MainWindow:
         self.writeMode = model[tree_iter][0]  # 0:DD, 1:Iso
         if self.writeMode == 0:
             self.writeMode = "ImageWriter.py"
+            return
         elif self.writeMode == 1:
             self.writeMode = "ISOCopier.py"
         elif self.writeMode == 2:
             self.writeMode = "WinUSB.py"
-
-        if self.writeMode == 0:
-            return
 
         if not os.path.isdir("/usr/lib/grub/i386-pc"):
             combobox.set_active(0)

@@ -26,7 +26,7 @@ class Application(Gtk.Application):
         file = files[0]
 
         if not os.path.exists(file.get_path()):
-            print("File not exists : " + file.get_path())
+            print("File does not exist: " + file.get_path())
             return
 
         fileFormat = file.get_basename().split(".")[-1]
