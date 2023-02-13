@@ -19,18 +19,23 @@ class Application(Gtk.Application):
         self.window = MainWindow(self)
 
     def do_open(self, files, filecount, hint):
-        if filecount == 1:
-            file = files[0]
-            if os.path.exists(file.get_path()):
-                fileFormat = file.get_basename().split(".")[-1]
-                if fileFormat == "iso":
-                    self.window = MainWindow(self, file.get_path())
-                else:
-                    print("Only .iso files.")
-            else:
-                print("File not exists : " + file.get_path())
-        else:
+        if filecount != 1:
             print("Only one file.")
+            return
+        
+        file = files[0]
+
+        if not os.path.exists(file.get_path()):
+            print("File not exists : " + file.get_path())
+            return
+
+        fileFormat = file.get_basename().split(".")[-1]
+
+        if fileFormat != "iso":
+            print("Only .iso files.")
+            return
+
+        self.window = MainWindow(self, file.get_path())
 
 
 if __name__ == "__main__":
