@@ -1,13 +1,17 @@
-import os, sys, subprocess, requests
+import os
+import subprocess
+import sys
+
 import gi
+import requests
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import GLib, Gio, Gtk
-
-from USBDeviceManager import USBDeviceManager
-
 import locale
 from locale import gettext as tr
+
+from gi.repository import Gio, GLib, Gtk
+
+from USBDeviceManager import USBDeviceManager
 
 # Translation Constants:
 APPNAME = "pardus-image-writer"
@@ -135,17 +139,21 @@ class MainWindow:
 
         dialog.show()
         response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            filepath = dialog.get_filename()
+        if response != Gtk.ResponseType.OK:
+            dialog.destroy()
+            return
 
-            self.imgFilepath = filepath
-            self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
-            self.fileType = filepath.split(".")[-1]
+        filepath = dialog.get_filename()
 
-            if self.imgFilepath and len(self.usbDevice) > 0:
-                self.btn_start.set_sensitive(True)
+        self.imgFilepath = filepath
+        self.lbl_btn_selectISOFile.set_label(filepath.split('/')[-1])
+        self.fileType = filepath.split(".")[-1]
 
+        if self.imgFilepath and len(self.usbDevice) > 0:
+            self.btn_start.set_sensitive(True)
+        
         dialog.destroy()
+
 
     def cmb_devices_changed(self, combobox):
         tree_iter = combobox.get_active_iter()
@@ -158,34 +166,38 @@ class MainWindow:
 
     def cmb_modes_changed(self, combobox):
         tree_iter = combobox.get_active_iter()
-        if tree_iter:
-            model = combobox.get_model()
-            self.writeMode = model[tree_iter][0]  # 0:DD, 1:Iso
-            if self.writeMode == 0:
-                self.writeMode = "ImageWriter.py"
-            elif self.writeMode == 1:
-                self.writeMode = "ISOCopier.py"
-            elif self.writeMode == 2:
-                self.writeMode = "WinUSB.py"
-            if self.writeMode != 0:
-                if not os.path.isdir("/usr/lib/grub/i386-pc"):
-                    combobox.set_active(0)
-                    self.writeMode = 0
-                    if not self.isdebian():
-                        self.show_message(tr("Target {} does not exists").format("i386-pc"),
-                                          tr("Please install {}").format("grub-pc-bin"))
-                    else:
-                        self.builder.get_object("mode_installer").set_current_page(1)
-                    self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-i386-pc"))
-                elif not os.path.isdir("/usr/lib/grub/x86_64-efi"):
-                    combobox.set_active(0)
-                    self.writeMode = 0
-                    if not self.isdebian():
-                        self.show_message(tr("Target {} does not exists").format("x86_64-efi"),
-                                          tr("Please install {}").format("grub-efi-amd64-bin"))
-                    else:
-                        self.builder.get_object("mode_installer").set_current_page(1)
-                    self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-x86_64-amd64-efi"))
+
+        if not tree_iter:
+            return
+
+        model = combobox.get_model()
+        self.writeMode = model[tree_iter][0]  # 0:DD, 1:Iso
+        if self.writeMode == 0:
+            self.writeMode = "ImageWriter.py"
+            return
+        elif self.writeMode == 1:
+            self.writeMode = "ISOCopier.py"
+        elif self.writeMode == 2:
+            self.writeMode = "WinUSB.py"
+
+        if not os.path.isdir("/usr/lib/grub/i386-pc"):
+            combobox.set_active(0)
+            self.writeMode = 0
+            if not self.isdebian():
+                self.show_message(tr("Target {} does not exists").format("i386-pc"),
+                                  tr("Please install {}").format("grub-pc-bin"))
+            else:
+                self.builder.get_object("mode_installer").set_current_page(1)
+            self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-i386-pc"))
+        elif not os.path.isdir("/usr/lib/grub/x86_64-efi"):
+            combobox.set_active(0)
+            self.writeMode = 0
+            if not self.isdebian():
+                self.show_message(tr("Target {} does not exists").format("x86_64-efi"),
+                                  tr("Please install {}").format("grub-efi-amd64-bin"))
+            else:
+                self.builder.get_object("mode_installer").set_current_page(1)
+            self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-x86_64-amd64-efi"))
 
     # Buttons:
     def btn_start_clicked(self, button):
@@ -303,57 +315,61 @@ class MainWindow:
 
         response = self.dialog_write.run()
         self.dialog_write.hide()
-        if response == Gtk.ResponseType.YES:
-            if self.cb_checkIntegrity.get_active():
-                self.lockGUI(disableStart=True)
-                self.dialog_integrity.show_all()
-                self.finishedProcesses = 0
 
-                self.md5sumlist = []
-                self.md5_of_file = ""
+        if response != Gtk.ResponseType.YES:
+            return
 
-                # Check MD5SUM of the ISO file:
-                def on_md5_stdout(source, condition):
-                    if condition == GLib.IO_HUP:
-                        return False
+        if not self.cb_checkIntegrity.get_active():
+            self.startWriting()
+            return
+        
+        self.lockGUI(disableStart=True)
+        self.dialog_integrity.show_all()
+        self.finishedProcesses = 0
 
-                    self.md5_of_file = source.readline().strip()
-                    return True
+        self.md5sumlist = []
+        self.md5_of_file = ""
 
-                def on_md5_finished(pid, status):
-                    self.finishedProcesses += 1
-                    if self.finishedProcesses == 2:
-                        self.onCheckingIntegrityFinished()
+        # Check MD5SUM of the ISO file:
+        def on_md5_stdout(source, condition):
+            if condition == GLib.IO_HUP:
+                return False
 
-                md5_pid, _, md5_stdout, _ = GLib.spawn_async(["md5sum", self.imgFilepath],
-                                                             flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
-                                                             standard_input=False, standard_output=True,
-                                                             standard_error=False)
-                GLib.io_add_watch(GLib.IOChannel(md5_stdout), GLib.IO_IN | GLib.IO_HUP, on_md5_stdout)
-                GLib.child_watch_add(GLib.PRIORITY_DEFAULT, md5_pid, on_md5_finished)
+            self.md5_of_file = source.readline().strip()
+            return True
 
-                # Get MD5SUMS from pardus.org.tr:
-                try:
-                    result = requests.get("http://indir.pardus.org.tr/PARDUS/MD5SUMS")
-                    self.md5sumlist = result.text.splitlines()
-                    on_md5_finished(0, 0)
-                except requests.ConnectionError:
-                    self.dialog_integrity.hide()
-                    self.unlockGUI()
-                    dialog = Gtk.MessageDialog(
-                        self.window,
-                        0,
-                        Gtk.MessageType.ERROR,
-                        Gtk.ButtonsType.OK,
-                        tr("Integrity checking failed."),
-                    )
-                    dialog.format_secondary_text(
-                        tr("Could not connect to pardus.org.tr.")
-                    )
-                    dialog.run()
-                    dialog.destroy()
-            else:
-                self.startWriting()
+        def on_md5_finished(pid, status):
+            self.finishedProcesses += 1
+            if self.finishedProcesses == 2:
+                self.onCheckingIntegrityFinished()
+
+        md5_pid, _, md5_stdout, _ = GLib.spawn_async(["md5sum", self.imgFilepath],
+                                                     flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
+                                                     standard_input=False, standard_output=True,
+                                                     standard_error=False)
+        GLib.io_add_watch(GLib.IOChannel(md5_stdout), GLib.IO_IN | GLib.IO_HUP, on_md5_stdout)
+        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, md5_pid, on_md5_finished)
+
+        # Get MD5SUMS from pardus.org.tr:
+        try:
+            result = requests.get("http://indir.pardus.org.tr/PARDUS/MD5SUMS")
+            self.md5sumlist = result.text.splitlines()
+            on_md5_finished(0, 0)
+        except requests.ConnectionError:
+            self.dialog_integrity.hide()
+            self.unlockGUI()
+            dialog = Gtk.MessageDialog(
+                self.window,
+                0,
+                Gtk.MessageType.ERROR,
+                Gtk.ButtonsType.OK,
+                tr("Integrity checking failed."),
+            )
+            dialog.format_secondary_text(
+                tr("Could not connect to pardus.org.tr.")
+            )
+            dialog.run()
+            dialog.destroy()
 
     def cancelWriting(self):
         subprocess.call(["pkexec", "kill", "-SIGTERM", str(self.writerProcessPID)])
