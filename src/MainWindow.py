@@ -151,7 +151,7 @@ class MainWindow:
 
         if self.imgFilepath and len(self.usbDevice) > 0:
             self.btn_start.set_sensitive(True)
-        
+
         dialog.destroy()
 
 
@@ -272,10 +272,10 @@ class MainWindow:
         self.builder.get_object("go_back").connect("clicked", no_event)
 
     def onCheckingIntegrityFinished(self):
-        # Check ISO has md5 on list:
+        # Check ISO has checksum on list:
         isISOGood = False
-        for line in self.md5sumlist:
-            if line.split()[0] == self.md5_of_file.split()[0]:
+        for line in self.checksumlist:
+            if line.strip() and line.split()[0] == self.checksum_of_file.split()[0]:
                 isISOGood = True
                 break
 
@@ -322,39 +322,46 @@ class MainWindow:
         if not self.cb_checkIntegrity.get_active():
             self.startWriting()
             return
-        
+
         self.lockGUI(disableStart=True)
         self.dialog_integrity.show_all()
         self.finishedProcesses = 0
 
-        self.md5sumlist = []
-        self.md5_of_file = ""
+        self.checksumlist = []
+        self.check_of_file = ""
 
-        # Check MD5SUM of the ISO file:
-        def on_md5_stdout(source, condition):
+        # Check checksum value of the ISO file:
+        def on_checksum_stdout(source, condition):
             if condition == GLib.IO_HUP:
                 return False
 
-            self.md5_of_file = source.readline().strip()
+            self.checksum_of_file = source.readline().strip()
             return True
 
-        def on_md5_finished(pid, status):
+        def on_checksum_finished(pid, status):
             self.finishedProcesses += 1
             if self.finishedProcesses == 2:
                 self.onCheckingIntegrityFinished()
 
-        md5_pid, _, md5_stdout, _ = GLib.spawn_async(["md5sum", self.imgFilepath],
+        if requests.head("http://indir.pardus.org.tr/PARDUS/SHA512SUMS").status_code == 200:
+            checksum_command = "sha512sum"
+            checksums_url = "http://indir.pardus.org.tr/PARDUS/SHA512SUMS"
+        else:
+            checksum_command = "md5sum"
+            checksums_url = "http://indir.pardus.org.tr/PARDUS/MD5SUMS"
+
+        checksum_pid, _, checksum_stdout, _ = GLib.spawn_async([checksum_command, self.imgFilepath],
                                                      flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN | GLib.SPAWN_DO_NOT_REAP_CHILD,
                                                      standard_input=False, standard_output=True,
                                                      standard_error=False)
-        GLib.io_add_watch(GLib.IOChannel(md5_stdout), GLib.IO_IN | GLib.IO_HUP, on_md5_stdout)
-        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, md5_pid, on_md5_finished)
+        GLib.io_add_watch(GLib.IOChannel(checksum_stdout), GLib.IO_IN | GLib.IO_HUP, on_checksum_stdout)
+        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, checksum_pid, on_checksum_finished)
 
-        # Get MD5SUMS from pardus.org.tr:
+        # Get checksums from pardus.org.tr:
         try:
-            result = requests.get("http://indir.pardus.org.tr/PARDUS/MD5SUMS")
-            self.md5sumlist = result.text.splitlines()
-            on_md5_finished(0, 0)
+            result = requests.get(checksums_url)
+            self.checksumlist = result.text.splitlines()
+            on_checksum_finished(0, 0)
         except requests.ConnectionError:
             self.dialog_integrity.hide()
             self.unlockGUI()
