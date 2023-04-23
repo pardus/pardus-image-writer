@@ -350,7 +350,7 @@ Do you want to continue?</property>
       </row>
       <row>
         <col id="0">1</col>
-        <col id="1" translatable="yes">ISO Mode (for Gnu/Linux)</col>
+        <col id="1" translatable="yes">ISO Mode (for GNU/Linux)</col>
       </row>
       <row>
         <col id="0">2</col>

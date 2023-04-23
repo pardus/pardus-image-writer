@@ -70,8 +70,8 @@ msgid "DD Mode [Recommended]"
 msgstr "Modo DD [Recomendado]"
 
 #: ui/MainWindow.glade:353
-msgid "ISO Mode (for Gnu/Linux)"
-msgstr "Modo ISO (para Gnu/Linux)"
+msgid "ISO Mode (for GNU/Linux)"
+msgstr "Modo ISO (para GNU/Linux)"
 
 #: ui/MainWindow.glade:357
 msgid "ISO Mode (for Windows)"
