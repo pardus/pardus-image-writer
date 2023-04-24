@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 
-import subprocess, sys, os, time, signal
+import os
+import signal
+import subprocess
+import sys
+import time
 
 stopWriting = False
 

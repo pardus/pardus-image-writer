@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 from glob import glob
 from pyudev import Context, Monitor, Devices

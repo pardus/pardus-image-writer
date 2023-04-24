@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 
-import subprocess, sys, os, time, stat, signal
+import os
+import signal
+import stat
+import subprocess
+import sys
 
 
 class IsoCopy:
@@ -93,7 +97,7 @@ class IsoCopy:
         subprocess.run(["rm", "-rf", "/{}/EFI".format(self.usbMountFolder)])
         subprocess.run(["grub-install", "--target=i386-pc", "--force", "--removable",
                         "--boot-directory=/{}/boot".format(self.usbMountFolder),
-                        " --locales=\"\"" ,self.drive])
+                        " --locales=\"\"", self.drive])
         subprocess.run(["grub-install", "--target=x86_64-efi", "--force", "--removable",
                         "--efi-directory=/{}/".format(self.usbMountFolder),
                         "--boot-directory=/{}/boot".format(self.usbMountFolder),

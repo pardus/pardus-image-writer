@@ -1,13 +1,13 @@
+#!/usr/bin/python3
+
 import os
 import subprocess
-import sys
-
 import gi
 import requests
 
 gi.require_version('Gtk', '3.0')
 import locale
-from locale import gettext as tr
+from locale import gettext as _
 
 from gi.repository import Gio, GLib, Gtk
 
@@ -16,12 +16,12 @@ from USBDeviceManager import USBDeviceManager
 # Translation Constants:
 APPNAME = "pardus-image-writer"
 TRANSLATIONS_PATH = "/usr/share/locale"
-SYSTEM_LANGUAGE = os.environ.get("LANG")
+# SYSTEM_LANGUAGE = os.environ.get("LANG")
 
 # Translation functions:
 locale.bindtextdomain(APPNAME, TRANSLATIONS_PATH)
 locale.textdomain(APPNAME)
-locale.setlocale(locale.LC_ALL, SYSTEM_LANGUAGE)
+# locale.setlocale(locale.LC_ALL, SYSTEM_LANGUAGE)
 
 
 class MainWindow:
@@ -65,7 +65,7 @@ class MainWindow:
         except:
             pass
 
-        self.dialog_about.set_program_name(tr("Pardus Image Writer"))
+        self.dialog_about.set_program_name(_("Pardus Image Writer"))
 
         # Set application:
         self.application = application
@@ -126,7 +126,7 @@ class MainWindow:
 
     def btn_selectISOFile_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
-            tr("Select ISO File..."),
+            _("Select ISO File..."),
             action=Gtk.FileChooserAction.OPEN,
             buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         )
@@ -151,9 +151,8 @@ class MainWindow:
 
         if self.imgFilepath and len(self.usbDevice) > 0:
             self.btn_start.set_sensitive(True)
-        
-        dialog.destroy()
 
+        dialog.destroy()
 
     def cmb_devices_changed(self, combobox):
         tree_iter = combobox.get_active_iter()
@@ -184,20 +183,20 @@ class MainWindow:
             combobox.set_active(0)
             self.writeMode = 0
             if not self.isdebian():
-                self.show_message(tr("Target {} does not exists").format("i386-pc"),
-                                  tr("Please install {}").format("grub-pc-bin"))
+                self.show_message(_("Target {} does not exists").format("i386-pc"),
+                                  _("Please install {}").format("grub-pc-bin"))
             else:
                 self.builder.get_object("mode_installer").set_current_page(1)
-            self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-i386-pc"))
+            self.builder.get_object("mode_label").set_text(_("{} not found").format("grub-i386-pc"))
         elif not os.path.isdir("/usr/lib/grub/x86_64-efi"):
             combobox.set_active(0)
             self.writeMode = 0
             if not self.isdebian():
-                self.show_message(tr("Target {} does not exists").format("x86_64-efi"),
-                                  tr("Please install {}").format("grub-efi-amd64-bin"))
+                self.show_message(_("Target {} does not exists").format("x86_64-efi"),
+                                  _("Please install {}").format("grub-efi-amd64-bin"))
             else:
                 self.builder.get_object("mode_installer").set_current_page(1)
-            self.builder.get_object("mode_label").set_text(tr("{} not found").format("grub-x86_64-amd64-efi"))
+            self.builder.get_object("mode_label").set_text(_("{} not found").format("grub-x86_64-amd64-efi"))
 
     # Buttons:
     def btn_start_clicked(self, button):
@@ -251,9 +250,9 @@ class MainWindow:
 
             def onProcessExit(pid, status):
                 if status == 0:
-                    self.builder.get_object("mod_message").set_text(tr("Installation done."))
+                    self.builder.get_object("mod_message").set_text(_("Installation done."))
                 else:
-                    self.builder.get_object("mod_message").set_text(tr("Installation failed."))
+                    self.builder.get_object("mod_message").set_text(_("Installation failed."))
                 nm.set_current_page(3)
                 yes.set_sensitive(True)
 
@@ -264,7 +263,7 @@ class MainWindow:
                                                                   standard_error=False)
             except:
                 nm.set_current_page(3)
-                self.builder.get_object("mod_message").set_text(tr("Installation failed."))
+                self.builder.get_object("mod_message").set_text(_("Installation failed."))
             GLib.child_watch_add(GLib.PRIORITY_DEFAULT, writerProcessPID, onProcessExit)
 
         yes.connect("clicked", yes_event)
@@ -288,10 +287,10 @@ class MainWindow:
                 0,
                 Gtk.MessageType.ERROR,
                 Gtk.ButtonsType.OK,
-                tr("Integrity checking failed."),
+                _("Integrity checking failed."),
             )
             dialog.format_secondary_text(
-                tr("This is not a Pardus ISO, or it is corrupted.")
+                _("This is not a Pardus ISO, or it is corrupted.")
             )
             dialog.run()
             dialog.destroy()
@@ -322,7 +321,7 @@ class MainWindow:
         if not self.cb_checkIntegrity.get_active():
             self.startWriting()
             return
-        
+
         self.lockGUI(disableStart=True)
         self.dialog_integrity.show_all()
         self.finishedProcesses = 0
@@ -363,10 +362,10 @@ class MainWindow:
                 0,
                 Gtk.MessageType.ERROR,
                 Gtk.ButtonsType.OK,
-                tr("Integrity checking failed."),
+                _("Integrity checking failed."),
             )
             dialog.format_secondary_text(
-                tr("Could not connect to pardus.org.tr.")
+                _("Could not connect to pardus.org.tr.")
             )
             dialog.run()
             dialog.destroy()
@@ -423,20 +422,20 @@ class MainWindow:
 
         if status == 0:
             self.pb_writingProgess.set_text("0%")
-            self.sendNotification(tr("Writing process is finished."), tr("You can eject the USB disk."))
+            self.sendNotification(_("Writing process is finished."), _("You can eject the USB disk."))
             self.stack_windows.set_visible_child_name("finished")
         elif status != 15 and status != 32256:  # these are cancelling or auth error.
-            self.pb_writingProgess.set_text(tr("Error!"))
+            self.pb_writingProgess.set_text(_("Error!"))
             self.pb_writingProgess.set_fraction(0)
             dialog = Gtk.MessageDialog(
                 self.window,
                 0,
                 Gtk.MessageType.ERROR,
                 Gtk.ButtonsType.OK,
-                tr("An error occured while writing the file to the disk."),
+                _("An error occured while writing the file to the disk."),
             )
             dialog.format_secondary_text(
-                tr("Please make sure the USB device is connected properly and try again.")
+                _("Please make sure the USB device is connected properly and try again.")
             )
             dialog.run()
             dialog.destroy()
