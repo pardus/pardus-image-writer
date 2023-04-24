@@ -126,7 +126,7 @@ class MainWindow:
 
     def btn_selectISOFile_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
-            _("Select ISO File..."),
+            _("Select ISO or IMG File"),
             action=Gtk.FileChooserAction.OPEN,
             buttons=(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         )

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-20 16:38+0300\n"
+"POT-Creation-Date: 2023-04-24 16:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,10 +73,11 @@ msgid "ISO Mode (for Windows)"
 msgstr ""
 
 #: ui/MainWindow.glade:363 ui/MainWindow.glade:408 ui/MainWindow.glade:1040
+#: src/MainWindow.py:68
 msgid "Pardus Image Writer"
 msgstr ""
 
-#: ui/MainWindow.glade:463
+#: ui/MainWindow.glade:463 src/MainWindow.py:129
 msgid "Select ISO or IMG File"
 msgstr ""
 
@@ -93,7 +94,7 @@ msgid "Install"
 msgstr ""
 
 #: ui/MainWindow.glade:741
-msgid "Message "
+msgid "Message"
 msgstr ""
 
 #: ui/MainWindow.glade:787
@@ -104,11 +105,11 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: ui/MainWindow.glade:961
+#: ui/MainWindow.glade:961 src/MainWindow.py:425
 msgid "Writing process is finished."
 msgstr ""
 
-#: ui/MainWindow.glade:987
+#: ui/MainWindow.glade:987 src/MainWindow.py:425
 msgid "You can eject the USB disk."
 msgstr ""
 
@@ -118,4 +119,48 @@ msgstr ""
 
 #: ui/MainWindow.glade:1015
 msgid "Write a new file."
+msgstr ""
+
+#: src/MainWindow.py:186 src/MainWindow.py:195
+msgid "Target {} does not exists"
+msgstr ""
+
+#: src/MainWindow.py:187 src/MainWindow.py:196
+msgid "Please install {}"
+msgstr ""
+
+#: src/MainWindow.py:190 src/MainWindow.py:199
+msgid "{} not found"
+msgstr ""
+
+#: src/MainWindow.py:253
+msgid "Installation done."
+msgstr ""
+
+#: src/MainWindow.py:255 src/MainWindow.py:266
+msgid "Installation failed."
+msgstr ""
+
+#: src/MainWindow.py:290 src/MainWindow.py:365
+msgid "Integrity checking failed."
+msgstr ""
+
+#: src/MainWindow.py:293
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr ""
+
+#: src/MainWindow.py:368
+msgid "Could not connect to pardus.org.tr."
+msgstr ""
+
+#: src/MainWindow.py:428
+msgid "Error!"
+msgstr ""
+
+#: src/MainWindow.py:435
+msgid "An error occured while writing the file to the disk."
+msgstr ""
+
+#: src/MainWindow.py:438
+msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
