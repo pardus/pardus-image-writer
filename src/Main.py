@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-import sys, os
+import os
+import sys
 import gi
 
 gi.require_version('Gtk', '3.0')
-from gi.repository import GLib, Gio, Gtk
+from gi.repository import Gio, Gtk
 
 from MainWindow import MainWindow
 
@@ -22,7 +23,7 @@ class Application(Gtk.Application):
         if filecount != 1:
             print("Only one file.")
             return
-        
+
         file = files[0]
 
         if not os.path.exists(file.get_path()):
@@ -38,6 +39,5 @@ class Application(Gtk.Application):
         self.window = MainWindow(self, file.get_path())
 
 
-if __name__ == "__main__":
-    app = Application()
-    app.run(sys.argv)
+app = Application()
+app.run(sys.argv)
