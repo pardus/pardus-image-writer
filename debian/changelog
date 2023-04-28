@@ -1,3 +1,32 @@
+pardus-image-writer (0.5.0) unstable; urgency=medium
+
+  [ Hugo Carvalho ]
+  * Add Portuguese translation
+
+  [ Fatih Altun ]
+  * Fix typo
+
+  [ Hugo Carvalho ]
+  * Update tr.org.pardus.image-writer.desktop
+
+  [ xeome ]
+  * Use guard clauses to reduce nesting
+  * Remove reduntant if statement
+
+  [ onurravli ]
+  * Change Gnu to GNU
+
+  [ Fatih Altun ]
+  * Update bin script and main
+  * Add screenshots
+  * Update README.md
+  * Update copyright to 2023
+  * Add update-translations script
+  * Reformat Code
+  * Update translations
+
+ -- Fatih Altun <fatih.altun@pardus.org.tr>  Fri, 28 Apr 2023 12:11:41 +0300
+
 pardus-image-writer (0.4.0~Beta1) unstable; urgency=medium
 
   [ Ali Rıza KESKİN ]
