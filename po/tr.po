@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-24 16:46+0300\n"
-"PO-Revision-Date: 2023-04-24 16:47+0300\n"
+"POT-Creation-Date: 2023-08-20 21:13+0300\n"
+"PO-Revision-Date: 2023-08-20 21:13+0300\n"
 "Last-Translator: Fatih Altun <fatih.altun@pardus.org.tr>\n"
 "Language-Team: Turkish <dev@pardus.org.tr>\n"
 "Language: tr\n"
@@ -16,10 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "X-Generator: Gtranslator 3.38.0\n"
-
-#: ui/MainWindow.glade:7
-msgid "About"
-msgstr "Hakkında"
 
 #: ui/MainWindow.glade:14
 msgid "Write ISO Images to USB devices easily."
@@ -75,52 +71,55 @@ msgstr "ISO Modu (GNU/Linux için)"
 msgid "ISO Mode (for Windows)"
 msgstr "ISO Modu (Windows için)"
 
-#: ui/MainWindow.glade:363 ui/MainWindow.glade:408 ui/MainWindow.glade:1040
-#: src/MainWindow.py:68
+#: ui/MainWindow.glade:363 ui/MainWindow.glade:1057 src/MainWindow.py:68
 msgid "Pardus Image Writer"
 msgstr "Pardus Disk Kalıbı Yazıcı"
 
-#: ui/MainWindow.glade:463 src/MainWindow.py:129
+#: ui/MainWindow.glade:408
+msgid "<b><big>Pardus Image Writer</big></b>"
+msgstr "<b><big>Pardus Disk Kalıbı Yazıcı</big></b>"
+
+#: ui/MainWindow.glade:460 src/MainWindow.py:129
 msgid "Select ISO or IMG File"
 msgstr "ISO veya IMG Dosyası Seçiniz"
 
-#: ui/MainWindow.glade:629
+#: ui/MainWindow.glade:626
 msgid "grub not found"
 msgstr "grub bulunamadı"
 
-#: ui/MainWindow.glade:644 ui/MainWindow.glade:867
+#: ui/MainWindow.glade:641 ui/MainWindow.glade:885
 msgid "Cancel"
 msgstr "İptal Et"
 
-#: ui/MainWindow.glade:657
+#: ui/MainWindow.glade:654
 msgid "Install"
 msgstr "Yükle"
 
-#: ui/MainWindow.glade:741
+#: ui/MainWindow.glade:738
 msgid "Message"
 msgstr "Mesaj"
 
-#: ui/MainWindow.glade:787
+#: ui/MainWindow.glade:784
 msgid "Check ISO online (Pardus only)"
 msgstr "ISO'yu çevrimiçi doğrula (Pardus için)"
 
-#: ui/MainWindow.glade:847
+#: ui/MainWindow.glade:865
 msgid "Start"
 msgstr "Başlat"
 
-#: ui/MainWindow.glade:961 src/MainWindow.py:425
+#: ui/MainWindow.glade:978 src/MainWindow.py:425
 msgid "Writing process is finished."
 msgstr "Yazma işlemi bitti."
 
-#: ui/MainWindow.glade:987 src/MainWindow.py:425
+#: ui/MainWindow.glade:1004 src/MainWindow.py:425
 msgid "You can eject the USB disk."
 msgstr "USB Belleği çıkarabilirsiniz."
 
-#: ui/MainWindow.glade:997
-msgid "Exit"
+#: ui/MainWindow.glade:1014
+msgid "Quit"
 msgstr "Çıkış"
 
-#: ui/MainWindow.glade:1015
+#: ui/MainWindow.glade:1032
 msgid "Write a new file."
 msgstr "Yeni dosya yaz."
 
@@ -168,6 +167,12 @@ msgstr "Dosya diske yazılırken bir hata oluştu."
 msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
 "Lütfen USB cihazın düzgün takılı olduğundan emin olun ve tekrar deneyin."
+
+#~ msgid "About"
+#~ msgstr "Hakkında"
+
+#~ msgid "Exit"
+#~ msgstr "Çıkış"
 
 #, fuzzy
 #~ msgid "Select ISO File..."
