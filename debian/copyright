@@ -1,11 +1,11 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pardus-image-writer
+Upstream-Contact: Fatih Altun <fatih.altun@pardus.org.tr>
 Source: https://github.com/pardus/pardus-image-writer
 
 
-
 Files: *
-Copyright: 2020 Emin Fedar <emin.fedar@pardus.org.tr>
+Copyright: 2023, Pardus <dev@pardus.org.tr>
 License: GPL-3.0+
 
 License: GPL-3.0+
