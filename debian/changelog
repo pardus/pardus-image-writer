@@ -1,3 +1,18 @@
+pardus-image-writer (0.6.0) unstable; urgency=medium
+
+  * Add X-Pardus-Apps to desktop file categories
+  * Update ui spacing values and icon names
+  * Update app icon
+  * Update setup.py
+  * Update pot file
+  * Update Turkish translations
+  * Update copyright
+  * Update debian standards
+  * Update dialog spacing values
+  * Update desktop file keywords
+
+ -- Fatih Altun <fatih.altun@pardus.org.tr>  Sun, 20 Aug 2023 21:24:14 +0300
+
 pardus-image-writer (0.5.0) unstable; urgency=medium
 
   [ Hugo Carvalho ]
