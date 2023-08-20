@@ -1,9 +1,9 @@
 Source: pardus-image-writer
 Section: utils
 Priority: optional
-Maintainer: Emin Fedar <emin.fedar@pardus.org.tr>
-Build-Depends: debhelper (>= 10), dh-python, python3-all, python3-setuptools, gettext
-Standards-Version: 4.3.0
+Maintainer: Fatih Altun <fatih.altun@pardus.org.tr>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools
+Standards-Version: 4.6.1
 Homepage: https://github.com/pardus/pardus-image-writer
 
 Package: pardus-image-writer
