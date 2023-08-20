@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 import subprocess
-from shutil import copyfile
+
 from setuptools import setup, find_packages
 
 changelog = "debian/changelog"
@@ -15,8 +15,6 @@ if os.path.exists(changelog):
     f = open('src/__version__', 'w')
     f.write(version)
     f.close()
-
-copyfile("icon.svg", "pardus-image-writer.svg")
 
 
 def create_mo_files():
@@ -34,18 +32,31 @@ def create_mo_files():
 
 
 data_files = [
- ("/usr/share/applications/", ["tr.org.pardus.image-writer.desktop"]),
- ("/usr/share/pardus/pardus-image-writer/",
-  ["icon.svg", "main.svg", "iso.svg", "disk.svg", "settings.svg", "uefi-ntfs.img"]),
- ("/usr/share/pardus/pardus-image-writer/src",
-  ["src/Main.py", "src/MainWindow.py", "src/ISOCopier.py", "src/ImageWriter.py",
-   "src/USBDeviceManager.py",
-   "src/WinUSB.py", "src/__version__"]),
- ("/usr/share/pardus/pardus-image-writer/ui", ["ui/MainWindow.glade"]),
- ("/usr/share/polkit-1/actions", ["tr.org.pardus.pkexec.pardus-image-writer.policy"]),
- ("/usr/bin/", ["pardus-image-writer"]),
- ("/usr/share/icons/hicolor/scalable/apps/", ["pardus-image-writer.svg"]),
-] + create_mo_files()
+                 ("/usr/share/applications/",
+                  ["tr.org.pardus.image-writer.desktop"]),
+                 ("/usr/share/pardus/pardus-image-writer/",
+                  ["main.svg",
+                   "iso.svg",
+                   "disk.svg",
+                   "pardus-image-writer.svg",
+                   "uefi-ntfs.img"]),
+                 ("/usr/share/pardus/pardus-image-writer/src",
+                  ["src/Main.py",
+                   "src/MainWindow.py",
+                   "src/ISOCopier.py",
+                   "src/ImageWriter.py",
+                   "src/USBDeviceManager.py",
+                   "src/WinUSB.py",
+                   "src/__version__"]),
+                 ("/usr/share/pardus/pardus-image-writer/ui",
+                  ["ui/MainWindow.glade"]),
+                 ("/usr/share/polkit-1/actions",
+                  ["tr.org.pardus.pkexec.pardus-image-writer.policy"]),
+                 ("/usr/bin/",
+                  ["pardus-image-writer"]),
+                 ("/usr/share/icons/hicolor/scalable/apps/",
+                  ["pardus-image-writer.svg"]),
+             ] + create_mo_files()
 
 setup(
     name="Pardus Image Writer",
