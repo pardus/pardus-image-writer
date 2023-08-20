@@ -15,4 +15,4 @@ Type=Application
 Categories=System;X-Pardus-Apps;
 MimeType=application/x-cd-image;
 StartupNotify=true
-Keywords=image;iso;writer;disk;usb
+Keywords=image;iso;img;writer;disk;usb;piw
