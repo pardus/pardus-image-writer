@@ -63,7 +63,7 @@ Yusuf Düzgün</property>
       <object class="GtkBox">
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">3</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
             <property name="can-focus">False</property>
@@ -85,12 +85,12 @@ Yusuf Düzgün</property>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-left">11</property>
-            <property name="margin-right">11</property>
-            <property name="margin-top">11</property>
-            <property name="margin-bottom">11</property>
+            <property name="margin-start">13</property>
+            <property name="margin-end">13</property>
+            <property name="margin-top">13</property>
+            <property name="margin-bottom">13</property>
             <property name="orientation">vertical</property>
-            <property name="spacing">7</property>
+            <property name="spacing">8</property>
             <child>
               <object class="GtkSpinner">
                 <property name="height-request">42</property>
@@ -169,10 +169,10 @@ Yusuf Düzgün</property>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can-focus">False</property>
-        <property name="margin-left">11</property>
-        <property name="margin-right">11</property>
-        <property name="margin-top">11</property>
-        <property name="margin-bottom">11</property>
+        <property name="margin-start">13</property>
+        <property name="margin-end">13</property>
+        <property name="margin-top">13</property>
+        <property name="margin-bottom">13</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
@@ -221,7 +221,7 @@ Yusuf Düzgün</property>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-bottom">11</property>
+            <property name="margin-bottom">8</property>
             <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
