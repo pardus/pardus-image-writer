@@ -66,6 +66,13 @@ class MainWindow:
             pass
 
         self.dialog_about.set_program_name(_("Pardus Image Writer"))
+        if self.dialog_about.get_titlebar() is None:
+            about_headerbar = Gtk.HeaderBar.new()
+            about_headerbar.set_show_close_button(True)
+            about_headerbar.set_title(_("About Pardus Image Writer"))
+            about_headerbar.pack_start(Gtk.Image.new_from_icon_name("pardus-image-writer", Gtk.IconSize.LARGE_TOOLBAR))
+            about_headerbar.show_all()
+            self.dialog_about.set_titlebar(about_headerbar)
 
         # Set application:
         self.application = application
