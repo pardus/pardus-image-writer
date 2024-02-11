@@ -1,0 +1,168 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-20 21:13+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Miguel Decode <migueldecode@gmail.com>\n"
+"Language-Team: Spanish <LL@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ui/MainWindow.glade:14
+msgid "Write ISO Images to USB devices easily."
+msgstr "Grabar facílmente imagenes ISO en dispositivos USB"
+
+#: ui/MainWindow.glade:55
+msgid "Checking..."
+msgstr "Verificando..."
+
+#: ui/MainWindow.glade:111
+msgid "Checking the file's integrity..."
+msgstr "Verificando la integridad del fichero..."
+
+#: ui/MainWindow.glade:127
+msgid "Calculating the hash value of the file..."
+msgstr "Calculando el valor hash del fichero..."
+
+#: ui/MainWindow.glade:141
+msgid "Retrieving data from <b>pardus.org.tr</b>..."
+msgstr "Recuperando datos de <b>pardus.org.tr</b>..."
+
+#: ui/MainWindow.glade:162
+msgid "Are you sure?"
+msgstr "Estás seguro?"
+
+#: ui/MainWindow.glade:232
+msgid "This file:"
+msgstr "Este fichero:"
+
+#: ui/MainWindow.glade:259
+msgid "Will be written on this disk:"
+msgstr "Será grabado en este disco:"
+
+#: ui/MainWindow.glade:299
+msgid ""
+"<b>WARNING:</b>\n"
+"All the personal data on the device will be deleted.\n"
+"Do you want to continue?"
+msgstr ""
+"<b>Aviso:</b>\n"
+"Todos los datos personales en el dispositivo serán eliminados.\n"
+"Quieres continuar?"
+
+#: ui/MainWindow.glade:349
+msgid "DD Mode [Recommended]"
+msgstr "Modo DD [Recomendado]"
+
+#: ui/MainWindow.glade:353
+msgid "ISO Mode (for GNU/Linux)"
+msgstr "Modo Iso (para GNU/Linux)"
+
+#: ui/MainWindow.glade:357
+msgid "ISO Mode (for Windows)"
+msgstr "Modo ISO (para Windows)"
+
+#: ui/MainWindow.glade:363 ui/MainWindow.glade:1057 src/MainWindow.py:68
+msgid "Pardus Image Writer"
+msgstr "Pardus Image Writer"
+
+#: ui/MainWindow.glade:408
+msgid "<b><big>Pardus Image Writer</big></b>"
+msgstr "<b><big>Pardus Image Writer</big></b>"
+
+#: ui/MainWindow.glade:460 src/MainWindow.py:129
+msgid "Select ISO or IMG File"
+msgstr "Seleccionar archivo ISO o IMG"
+
+#: ui/MainWindow.glade:626
+msgid "grub not found"
+msgstr "Grub no encontrado"
+
+#: ui/MainWindow.glade:641 ui/MainWindow.glade:885
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ui/MainWindow.glade:654
+msgid "Install"
+msgstr "Instalar"
+
+#: ui/MainWindow.glade:738
+msgid "Message"
+msgstr "Mensaje"
+
+#: ui/MainWindow.glade:784
+msgid "Check ISO online (Pardus only)"
+msgstr "Verificar ISO online (solo Pardus)"
+
+#: ui/MainWindow.glade:865
+msgid "Start"
+msgstr "Iniciar"
+
+#: ui/MainWindow.glade:978 src/MainWindow.py:425
+msgid "Writing process is finished."
+msgstr "Proceso de grabación finalizado"
+
+#: ui/MainWindow.glade:1004 src/MainWindow.py:425
+msgid "You can eject the USB disk."
+msgstr "Puedes extraer el dispositivo USB"
+
+#: ui/MainWindow.glade:1014
+msgid "Quit"
+msgstr "Cerrar"
+
+#: ui/MainWindow.glade:1032
+msgid "Write a new file."
+msgstr "Grabar un nuevo archivo"
+
+#: src/MainWindow.py:186 src/MainWindow.py:195
+msgid "Target {} does not exists"
+msgstr "Fichero {} no existe"
+
+#: src/MainWindow.py:187 src/MainWindow.py:196
+msgid "Please install {}"
+msgstr "Por favor instalar {}"
+
+#: src/MainWindow.py:190 src/MainWindow.py:199
+msgid "{} not found"
+msgstr "{} no encontrado"
+
+#: src/MainWindow.py:253
+msgid "Installation done."
+msgstr "Instalación completada."
+
+#: src/MainWindow.py:255 src/MainWindow.py:266
+msgid "Installation failed."
+msgstr "Instalación no completada."
+
+#: src/MainWindow.py:290 src/MainWindow.py:365
+msgid "Integrity checking failed."
+msgstr "Fallo al verificar la integridad."
+
+#: src/MainWindow.py:293
+msgid "This is not a Pardus ISO, or it is corrupted."
+msgstr "Esto no es una ISO de Pardus o esta corrupta."
+
+#: src/MainWindow.py:368
+msgid "Could not connect to pardus.org.tr."
+msgstr "No se pudo conectar con pardus.org.tr"
+
+#: src/MainWindow.py:428
+msgid "Error!"
+msgstr "Error!"
+
+#: src/MainWindow.py:435
+msgid "An error occured while writing the file to the disk."
+msgstr "Un error ocurrío mientras se escribía el fichero al disco."
+
+#: src/MainWindow.py:438
+msgid "Please make sure the USB device is connected properly and try again."
+msgstr "Por favor asegurate de que el dispositivo USB esta conectado correctamente y inténtalo de nuevo"
