@@ -16,8 +16,8 @@ Depends: ${misc:Depends},
          python3-requests,
          python3-pyudev,
          rsync,
-         gir1.2-gtk-3.0
-         grub-efi-amd64-bin
+         gir1.2-gtk-3.0,
+         grub-efi-amd64-bin,
          grub-pc-bin
 Description: Pardus Image Writer
  Simple Gtk+ and Python based Disk Image USB burner
