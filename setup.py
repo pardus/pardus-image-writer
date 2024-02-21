@@ -5,7 +5,7 @@ import subprocess
 from setuptools import setup, find_packages
 
 changelog = "debian/changelog"
-version = "0.4.0"
+version = "0.7.0"
 if os.path.exists(changelog):
     head = open(changelog).readline()
     try:
