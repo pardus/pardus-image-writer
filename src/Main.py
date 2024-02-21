@@ -4,7 +4,7 @@ import os
 import sys
 import gi
 
-gi.require_version('Gtk', '3.0')
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gio, Gtk
 
 from MainWindow import MainWindow
@@ -12,8 +12,12 @@ from MainWindow import MainWindow
 
 class Application(Gtk.Application):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, application_id="tr.org.pardus.image-writer",
-                         flags=Gio.ApplicationFlags.HANDLES_OPEN | Gio.ApplicationFlags.NON_UNIQUE, **kwargs)
+        super().__init__(
+            *args,
+            application_id="tr.org.pardus.image-writer",
+            flags=Gio.ApplicationFlags.HANDLES_OPEN | Gio.ApplicationFlags.NON_UNIQUE,
+            **kwargs,
+        )
         self.window = None
 
     def do_activate(self):
@@ -32,8 +36,12 @@ class Application(Gtk.Application):
 
         fileFormat = file.get_basename().split(".")[-1]
 
-        if fileFormat != "iso":
-            print("Only .iso files.")
+        supported_extensions = ["iso", "img"]
+
+        if fileFormat not in supported_extensions:
+            print(
+                "Supported file extensions: {}".format(", ".join(supported_extensions))
+            )
             return
 
         self.window = MainWindow(self, file.get_path())
