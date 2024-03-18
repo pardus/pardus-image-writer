@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkAboutDialog" id="dialog_about">
@@ -13,13 +13,12 @@
     <property name="copyright">©2023 Pardus</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
     <property name="website">https://github.com/pardus/pardus-image-writer</property>
-    <property name="authors">Emin Fedar
-Ali Rıza Keskin
-Fatih Altun</property>
-    <property name="translator-credits">Emin Fedar
-Fatih Altun</property>
-    <property name="artists">Çağrı Gökçe
-Yusuf Düzgün</property>
+    <property name="authors">Emin Fedar &lt;emin.fedar@pardus.org.tr&gt;
+Ali Rıza Keskin &lt;ali.riza.keskin@pardus.org.tr&gt;
+Fatih Altun &lt;fatih.altun@pardus.org.tr&gt;</property>
+    <property name="translator-credits" translatable="yes" comments="Name Surname &lt;example@examplemail.com&gt;">translator-credits</property>
+    <property name="artists">Çağrı Gökçe &lt;dev@pardus.org.tr&gt;
+Yusuf Düzgün &lt;yusuf.duzgun@pardus.org.tr&gt;</property>
     <property name="logo-icon-name">pardus-image-writer</property>
     <property name="license-type">gpl-3-0</property>
     <child internal-child="vbox">
