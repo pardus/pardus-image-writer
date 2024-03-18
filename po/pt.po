@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the pardus-image-writer package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022, 2023.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-20 21:13+0300\n"
-"PO-Revision-Date: 2023-08-28 16:45+0100\n"
+"POT-Creation-Date: 2024-03-18 15:33+0300\n"
+"PO-Revision-Date: 2024-03-18 16:10+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
@@ -17,41 +17,37 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
-#: ui/MainWindow.glade:14
-msgid "Write ISO Images to USB devices easily."
-msgstr "Gravar facilmente imagens ISO em dispositivos USB."
-
-#: ui/MainWindow.glade:55
+#: ui/MainWindow.glade:7
 msgid "Checking..."
 msgstr "A verificar..."
 
-#: ui/MainWindow.glade:111
+#: ui/MainWindow.glade:63
 msgid "Checking the file's integrity..."
 msgstr "A verificar a integridade do ficheiro..."
 
-#: ui/MainWindow.glade:127
+#: ui/MainWindow.glade:79
 msgid "Calculating the hash value of the file..."
 msgstr "A calcular o valor hash do ficheiro..."
 
-#: ui/MainWindow.glade:141
+#: ui/MainWindow.glade:93
 msgid "Retrieving data from <b>pardus.org.tr</b>..."
 msgstr "A recuperar dados de <b>pardus.org.tr</b>..."
 
-#: ui/MainWindow.glade:162
+#: ui/MainWindow.glade:114
 msgid "Are you sure?"
 msgstr "Tem a certeza?"
 
-#: ui/MainWindow.glade:232
+#: ui/MainWindow.glade:184
 msgid "This file:"
 msgstr "Este ficheiro:"
 
-#: ui/MainWindow.glade:259
+#: ui/MainWindow.glade:211
 msgid "Will be written on this disk:"
 msgstr "Será gravado neste disco:"
 
-#: ui/MainWindow.glade:299
+#: ui/MainWindow.glade:251
 msgid ""
 "<b>WARNING:</b>\n"
 "All the personal data on the device will be deleted.\n"
@@ -61,112 +57,124 @@ msgstr ""
 "Todos os dados pessoais do dispositivo serão eliminados.\n"
 "Quer continuar?"
 
-#: ui/MainWindow.glade:349
+#: ui/MainWindow.glade:301
 msgid "DD Mode [Recommended]"
 msgstr "Modo DD [Recomendado]"
 
-#: ui/MainWindow.glade:353
+#: ui/MainWindow.glade:305
 msgid "ISO Mode (for GNU/Linux)"
 msgstr "Modo ISO (para GNU/Linux)"
 
-#: ui/MainWindow.glade:357
+#: ui/MainWindow.glade:309
 msgid "ISO Mode (for Windows)"
 msgstr "Modo ISO (para Windows)"
 
-#: ui/MainWindow.glade:363 ui/MainWindow.glade:1057 src/MainWindow.py:68
+#: ui/MainWindow.glade:315 ui/MainWindow.glade:1009 src/MainWindow.py:68
 msgid "Pardus Image Writer"
-msgstr "Pardus Image Writer"
+msgstr "Gravador de Imagem Pardus"
 
-#: ui/MainWindow.glade:408
-#| msgid "Pardus Image Writer"
+#: ui/MainWindow.glade:360
 msgid "<b><big>Pardus Image Writer</big></b>"
-msgstr "<b><big>Pardus Image Writer</big></b>"
+msgstr "<b><big>Gravador de Imagem Pardus</big></b>"
 
-#: ui/MainWindow.glade:460 src/MainWindow.py:129
+#: ui/MainWindow.glade:412 src/MainWindow.py:136
 msgid "Select ISO or IMG File"
 msgstr "Selecionar ficheiro ISO ou IMG"
 
-#: ui/MainWindow.glade:626
+#: ui/MainWindow.glade:578
 msgid "grub not found"
 msgstr "grub não encontrado"
 
-#: ui/MainWindow.glade:641 ui/MainWindow.glade:885
+#: ui/MainWindow.glade:593 ui/MainWindow.glade:837
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ui/MainWindow.glade:654
+#: ui/MainWindow.glade:606
 msgid "Install"
 msgstr "Instalar"
 
-#: ui/MainWindow.glade:738
+#: ui/MainWindow.glade:690
 msgid "Message"
 msgstr "Mensagem"
 
-#: ui/MainWindow.glade:784
+#: ui/MainWindow.glade:736
 msgid "Check ISO online (Pardus only)"
-msgstr "Verifique a ISO online (apenas Pardus)"
+msgstr "Verificar a ISO online (apenas Pardus)"
 
-#: ui/MainWindow.glade:865
+#: ui/MainWindow.glade:817
 msgid "Start"
 msgstr "Iniciar"
 
-#: ui/MainWindow.glade:978 src/MainWindow.py:425
+#: ui/MainWindow.glade:930 src/MainWindow.py:432
 msgid "Writing process is finished."
 msgstr "O processo de gravação está concluído."
 
-#: ui/MainWindow.glade:1004 src/MainWindow.py:425
+#: ui/MainWindow.glade:956 src/MainWindow.py:432
 msgid "You can eject the USB disk."
 msgstr "Pode ejetar o disco USB."
 
-#: ui/MainWindow.glade:1014
+#: ui/MainWindow.glade:966
 msgid "Quit"
 msgstr "Sair"
 
-#: ui/MainWindow.glade:1032
+#: ui/MainWindow.glade:984
 msgid "Write a new file."
 msgstr "Gravar um novo ficheiro."
 
-#: src/MainWindow.py:186 src/MainWindow.py:195
+#: ui/MainWindow.glade:1035
+msgid "Write ISO Images to USB devices easily."
+msgstr "Grava facilmente imagens ISO em dispositivos USB."
+
+#. Name Surname <example@examplemail.com>
+#: ui/MainWindow.glade:1040
+msgid "translator-credits"
+msgstr "Hugo Carvalho <hugokarvalho@hotmail.com>"
+
+#: src/MainWindow.py:72
+msgid "About Pardus Image Writer"
+msgstr "Acerca do Gravador de Imagem Pardus"
+
+#: src/MainWindow.py:193 src/MainWindow.py:202
 msgid "Target {} does not exists"
 msgstr "O alvo {} não existe"
 
-#: src/MainWindow.py:187 src/MainWindow.py:196
+#: src/MainWindow.py:194 src/MainWindow.py:203
 msgid "Please install {}"
 msgstr "Instalar {}"
 
-#: src/MainWindow.py:190 src/MainWindow.py:199
+#: src/MainWindow.py:197 src/MainWindow.py:206
 msgid "{} not found"
 msgstr "{} não encontrado"
 
-#: src/MainWindow.py:253
+#: src/MainWindow.py:260
 msgid "Installation done."
 msgstr "Instalação concluída."
 
-#: src/MainWindow.py:255 src/MainWindow.py:266
+#: src/MainWindow.py:262 src/MainWindow.py:273
 msgid "Installation failed."
 msgstr "Falha ao instalar."
 
-#: src/MainWindow.py:290 src/MainWindow.py:365
+#: src/MainWindow.py:297 src/MainWindow.py:372
 msgid "Integrity checking failed."
 msgstr "Falha ao verificar a integridade."
 
-#: src/MainWindow.py:293
+#: src/MainWindow.py:300
 msgid "This is not a Pardus ISO, or it is corrupted."
-msgstr "Isto não é uma ISO Pardus, ou está corrompido."
+msgstr "Isto não é uma ISO Pardus, ou está corrompida."
 
-#: src/MainWindow.py:368
+#: src/MainWindow.py:375
 msgid "Could not connect to pardus.org.tr."
 msgstr "Não foi possível estabelecer ligação a pardus.org.tr."
 
-#: src/MainWindow.py:428
+#: src/MainWindow.py:435
 msgid "Error!"
 msgstr "Erro!"
 
-#: src/MainWindow.py:435
+#: src/MainWindow.py:442
 msgid "An error occured while writing the file to the disk."
 msgstr "Ocorreu um erro ao gravar o ficheiro no disco."
 
-#: src/MainWindow.py:438
+#: src/MainWindow.py:445
 msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
 "Certifique-se de que o dispositivo USB está corretamente ligado e tente "
