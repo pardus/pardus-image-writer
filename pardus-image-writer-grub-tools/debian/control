@@ -1,0 +1,9 @@
+Package: pardus-image-writer-grub-tools
+Version: 0.7
+Section: utils
+Priority: optional
+Maintainer: Fatih Altun <fatih.altun@pardus.org.tr>
+Architecture: all
+Depends: grub-efi-amd64-bin,
+         grub-pc-bin
+Description: Grub packages for Pardus Image Writer.
