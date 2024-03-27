@@ -63,7 +63,6 @@ data_files = [
             "src/ISOCopier.py",
             "src/ImageWriter.py",
             "src/USBDeviceManager.py",
-            "src/WinUSB.py",
             "src/__version__",
         ],
     ),

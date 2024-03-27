@@ -4,7 +4,7 @@ import os
 import subprocess
 import requests
 import hashlib
-import threading
+from enum import Enum
 
 import gi
 
@@ -28,6 +28,12 @@ locale.textdomain(APPNAME)
 def seconds_to_formatted_time(sec):
     minutes, seconds = divmod(sec, 60)
     return f"{minutes:02d}:{seconds:02d}"
+
+
+class WriteMode(Enum):
+    DD = 0
+    ISO = 1
+    WINDOWS_ISO = 2
 
 
 class MainWindow:
@@ -92,7 +98,7 @@ class MainWindow:
         self.is_gui_locked = False
         self.second_tick_count = 0
         # ImageWriter.py for DD Mode, ISOCopier.py for ISO Mode
-        self.write_mode = "ImageWriter.py"
+        self.write_mode = WriteMode.DD
 
     def init_usb_manager(self, file):
         # Get inserted USB devices
@@ -162,7 +168,7 @@ class MainWindow:
         if iso_file_type != "iso":
             self.cb_checkIntegrity.set_sensitive(False)
             self.stack_write_modes.set_visible_child_name("img_mode")
-            self.write_mode = "ImageWriter.py"
+            self.write_mode = WriteMode.DD
         else:
             self.cb_checkIntegrity.set_sensitive(True)
             self.stack_write_modes.set_visible_child_name("iso_mode")
@@ -214,13 +220,8 @@ class MainWindow:
             return
 
         model = combobox.get_model()
-        self.write_mode = model[tree_iter][0]  # 0:DD, 1:Iso, 2:Win ISO
-        if self.write_mode == 0:
-            self.write_mode = "ImageWriter.py"
-        elif self.write_mode == 1:
-            self.write_mode = "ISOCopier.py"
-        elif self.write_mode == 2:
-            self.write_mode = "WinUSB.py"
+        self.write_mode = WriteMode(model[tree_iter][0])  # 0:DD, 1:Iso, 2:Win ISO
+        print(f"self.write_mode = {self.write_mode}")
 
     # Buttons:
     def btn_start_clicked(self, button):
@@ -276,12 +277,25 @@ class MainWindow:
         self.total_bytes = 1  # for ISOCopier.py percentage calculation
 
         self.lock_gui()
+        is_windows = "false"
+
+        script_path = os.path.dirname(os.path.abspath(__file__))
+
+        if self.write_mode == WriteMode.DD:
+            script_path += "/ImageWriter.py"
+        elif self.write_mode == WriteMode.ISO:
+            script_path += "/ISOCopier.py"
+        elif self.write_mode == WriteMode.WINDOWS_ISO:
+            script_path += "/ISOCopier.py"
+            is_windows = "true"
+
         self.spawn_process(
             [
                 "pkexec",
-                os.path.dirname(os.path.abspath(__file__)) + "/" + self.write_mode,
+                script_path,
                 self.iso_file_path,
                 "/dev/" + self.usb_device[0],
+                is_windows,
             ]
         )
         self.pb_writing_progress.set_text("Creating partitions...")
@@ -348,9 +362,7 @@ class MainWindow:
     def spawn_process(self, params):
         self.image_writer_process_pid, _, stdout, _ = GLib.spawn_async(
             params,
-            flags=GLib.SPAWN_SEARCH_PATH
-            | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN
-            | GLib.SPAWN_DO_NOT_REAP_CHILD,
+            flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN,
             standard_input=False,
             standard_output=True,
             standard_error=False,
@@ -370,7 +382,7 @@ class MainWindow:
 
         line = source.readline().strip()
 
-        if self.write_mode == "ImageWriter.py":
+        if self.write_mode == WriteMode.DD:
             written, total = line.split()
             written = int(written)
             total = int(total)
@@ -389,7 +401,7 @@ class MainWindow:
                 )
             )
             self.pb_writing_progress.set_fraction(percent)
-        elif self.write_mode == "ISOCopier.py":
+        else:
             # print("isocopier.py> '{}'".format(line))
 
             if line[0:7] == "COPIED:":  # COPIED:10:20
@@ -496,7 +508,7 @@ class MainWindow:
         percent = self.pb_writing_progress.get_fraction()
         elapsed_time = seconds_to_formatted_time(self.second_tick_count)
 
-        if self.write_mode != "ImageWriter.py":
+        if self.write_mode != WriteMode.DD:
             self.pb_writing_progress.set_text(
                 "{} | %{:.1f}".format(elapsed_time, int(percent * 1000) / 10)
             )
