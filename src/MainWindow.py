@@ -291,7 +291,9 @@ class MainWindow:
     def spawn_process(self, params):
         self.image_writer_process_pid, _, stdout, _ = GLib.spawn_async(
             params,
-            flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN,
+            flags=GLib.SPAWN_SEARCH_PATH
+            | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN
+            | GLib.SPAWN_DO_NOT_REAP_CHILD,
             standard_input=False,
             standard_output=True,
             standard_error=False,
