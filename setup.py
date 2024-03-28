@@ -63,6 +63,7 @@ data_files = [
             "src/ISOCopier.py",
             "src/ImageWriter.py",
             "src/USBDeviceManager.py",
+            "src/copy_dir_with_dd.sh",
             "src/__version__",
         ],
     ),
