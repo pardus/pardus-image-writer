@@ -265,7 +265,7 @@ Yusuf Düzgün</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
-                        <signal name="clicked" handler="btn_selectISOFile_clicked" swapped="no"/>
+                        <signal name="clicked" handler="on_btn_select_iso_file_clicked" swapped="no"/>
                         <child>
                           <object class="GtkLabel" id="lbl_btn_select_iso_file">
                             <property name="visible">True</property>
@@ -323,7 +323,7 @@ Yusuf Düzgün</property>
                         <property name="model">list_devices</property>
                         <property name="active">0</property>
                         <property name="active-id">0</property>
-                        <signal name="changed" handler="cmb_devices_changed" swapped="no"/>
+                        <signal name="changed" handler="on_cmb_devices_changed" swapped="no"/>
                         <child>
                           <object class="GtkCellRendererText" id="device_name">
                             <property name="ellipsize">end</property>
@@ -425,7 +425,7 @@ Yusuf Düzgün</property>
                                     <property name="model">list_modes</property>
                                     <property name="active">0</property>
                                     <property name="active-id">0</property>
-                                    <signal name="changed" handler="cmb_modes_changed" swapped="no"/>
+                                    <signal name="changed" handler="on_cmb_modes_changed" swapped="no"/>
                                     <child>
                                       <object class="GtkCellRendererText" id="label"/>
                                       <attributes>
@@ -588,7 +588,7 @@ Yusuf Düzgün</property>
                         <property name="margin-top">8</property>
                         <property name="margin-bottom">8</property>
                         <property name="always-show-image">True</property>
-                        <signal name="clicked" handler="btn_start_clicked" swapped="no"/>
+                        <signal name="clicked" handler="on_btn_start_clicked" swapped="no"/>
                         <style>
                           <class name="suggested-action"/>
                         </style>
@@ -607,7 +607,7 @@ Yusuf Düzgün</property>
                         <property name="margin-top">8</property>
                         <property name="margin-bottom">8</property>
                         <property name="always-show-image">True</property>
-                        <signal name="clicked" handler="btn_cancel_clicked" swapped="no"/>
+                        <signal name="clicked" handler="on_btn_cancel_clicked" swapped="no"/>
                         <style>
                           <class name="destructive-action"/>
                         </style>
@@ -732,7 +732,7 @@ Yusuf Düzgün</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="btn_exit_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_btn_exit_clicked" swapped="no"/>
                 <style>
                   <class name="destructive-action"/>
                 </style>
@@ -750,7 +750,7 @@ Yusuf Düzgün</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="btn_write_new_file_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_btn_write_new_file_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -916,7 +916,7 @@ Do you want to continue?</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="btn_prewrite_yes_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_btn_prewrite_yes_clicked" swapped="no"/>
                     <style>
                       <class name="suggested-action"/>
                     </style>
@@ -934,7 +934,7 @@ Do you want to continue?</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <signal name="clicked" handler="btn_prewrite_cancel_clicked" swapped="no"/>
+                    <signal name="clicked" handler="on_btn_prewrite_cancel_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -972,7 +972,7 @@ Do you want to continue?</property>
             <property name="halign">end</property>
             <property name="image">img_information</property>
             <property name="always-show-image">True</property>
-            <signal name="clicked" handler="btn_information_clicked" swapped="no"/>
+            <signal name="clicked" handler="on_btn_information_clicked" swapped="no"/>
           </object>
         </child>
       </object>

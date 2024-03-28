@@ -38,6 +38,9 @@ class WriteMode(Enum):
 
 class MainWindow:
     def __init__(self, application, file=""):
+        # Set application:
+        self.application = application
+
         # Gtk Builder
         self.builder = Gtk.Builder()
 
@@ -51,65 +54,34 @@ class MainWindow:
         self.builder.connect_signals(self)
 
         # Window
-        self.window = self.builder.get_object("window")
-        self.window.set_position(Gtk.WindowPosition.CENTER)
-        self.window.set_application(application)
-        self.window.connect("destroy", self.on_destroy)
+        self.define_window()
+
+        # Define UI Components
         self.define_components()
 
         # Variables
         self.define_variables()
 
+        # USB Manager Initialize
         self.init_usb_manager(file)
 
-        # Set version
-        # If can't get from `./__version__` file then accept version in MainWindow.glade file
-        with open(
-            os.path.dirname(os.path.abspath(__file__)) + "/__version__"
-        ) as version_file:
-            version = version_file.readline()
-            self.dialog_about.set_version(version)
-
-        self.dialog_about.set_program_name(_("Pardus Image Writer"))
-        if self.dialog_about.get_titlebar() is None:
-            about_headerbar = Gtk.HeaderBar.new()
-            about_headerbar.set_show_close_button(True)
-            about_headerbar.set_title(_("About Pardus Image Writer"))
-            about_headerbar.pack_start(
-                Gtk.Image.new_from_icon_name(
-                    "pardus-image-writer", Gtk.IconSize.LARGE_TOOLBAR
-                )
-            )
-            about_headerbar.show_all()
-            self.dialog_about.set_titlebar(about_headerbar)
-
-        # Set application:
-        self.application = application
+        # Update about dialog's version
+        self.update_dialog_version()
 
         # Show Screen:
         self.window.show_all()
 
-    # Window methods:
-    def on_destroy(self, action):
-        self.window.get_application().quit()
+    # === WINDOW SETUP ====
+    def define_window(self):
+        self.window = self.builder.get_object("window")
+        self.window.set_position(Gtk.WindowPosition.CENTER)
+        self.window.set_application(self.application)
+        self.window.connect("destroy", self.on_destroy)
 
     def define_variables(self):
-        # Variables
         self.is_gui_locked = False
         self.second_tick_count = 0
-        # ImageWriter.py for DD Mode, ISOCopier.py for ISO Mode
         self.write_mode = WriteMode.DD
-
-    def init_usb_manager(self, file):
-        # Get inserted USB devices
-        self.iso_file_path = file
-        if file:
-            self.new_file_selected(file)
-
-        self.usb_device = []
-        self.usb_manager = USBDeviceManager()
-        self.usb_manager.connect_usb_refresh_signal(self.list_usb_devices)
-        self.list_usb_devices()
 
     def define_components(self):
         def UI(obj):
@@ -139,7 +111,82 @@ class MainWindow:
         self.lbl_prewrite_disk = UI("lbl_prewrite_disk")
         self.dialog_about = UI("dialog_about")
 
-    # USB Methods
+    def update_dialog_version(self):
+        # Set version
+        # If can't get from `./__version__` file then accept version in MainWindow.glade file
+        with open(
+            os.path.dirname(os.path.abspath(__file__)) + "/__version__"
+        ) as version_file:
+            version = version_file.readline()
+            self.dialog_about.set_version(version)
+
+        self.dialog_about.set_program_name(_("Pardus Image Writer"))
+        if self.dialog_about.get_titlebar() is None:
+            about_headerbar = Gtk.HeaderBar.new()
+            about_headerbar.set_show_close_button(True)
+            about_headerbar.set_title(_("About Pardus Image Writer"))
+            about_headerbar.pack_start(
+                Gtk.Image.new_from_icon_name(
+                    "pardus-image-writer", Gtk.IconSize.LARGE_TOOLBAR
+                )
+            )
+            about_headerbar.show_all()
+            self.dialog_about.set_titlebar(about_headerbar)
+
+    def show_message(self, msg1="", msg2=""):
+        dialog = Gtk.MessageDialog(
+            self.window,
+            0,
+            Gtk.MessageType.ERROR,
+            Gtk.ButtonsType.OK,
+            msg1,
+        )
+
+        if msg2 != "":
+            dialog.format_secondary_text(msg2)
+
+        dialog.run()
+        dialog.destroy()
+
+    def lock_gui(self, disableStart=False):
+        self.btn_select_iso_file.set_sensitive(False)
+        self.cmb_devices.set_sensitive(False)
+        self.cb_checkIntegrity.set_sensitive(False)
+        self.cmb_modes.set_sensitive(False)
+
+        self.stack_buttons.set_visible_child_name("cancel")
+        self.is_gui_locked = True
+
+    def unlock_gui(self):
+        self.btn_select_iso_file.set_sensitive(True)
+        self.cmb_devices.set_sensitive(True)
+        self.cb_checkIntegrity.set_sensitive(True)
+        self.cmb_modes.set_sensitive(True)
+
+        self.stack_buttons.set_visible_child_name("start")
+        self.is_gui_locked = False
+
+    def send_notification(self, title, body):
+        notification = Gio.Notification.new(title)
+        notification.set_body(body)
+        notification.set_icon(Gio.ThemedIcon(name="pardus-image-writer"))
+        notification.set_default_action("app.notification-response::focus")
+        self.application.send_notification(
+            self.application.get_application_id(), notification
+        )
+
+    # === USB Manager ===
+    def init_usb_manager(self, iso_file):
+        # Get inserted USB devices
+        self.iso_file_path = iso_file
+        if iso_file:
+            self.new_file_selected(iso_file)
+
+        self.usb_device = []
+        self.usb_manager = USBDeviceManager()
+        self.usb_manager.connect_usb_refresh_signal(self.list_usb_devices)
+        self.list_usb_devices()
+
     def list_usb_devices(self):
         if self.is_gui_locked:
             return
@@ -174,103 +221,7 @@ class MainWindow:
             self.stack_write_modes.set_visible_child_name("iso_mode")
             self.cmb_modes.set_active(0)
 
-    def btn_selectISOFile_clicked(self, button):
-        dialog = Gtk.FileChooserDialog(
-            _("Select ISO or IMG File"),
-            action=Gtk.FileChooserAction.OPEN,
-            buttons=(
-                Gtk.STOCK_CANCEL,
-                Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_OPEN,
-                Gtk.ResponseType.OK,
-            ),
-        )
-
-        file_filter = Gtk.FileFilter()
-        file_filter.set_name("*.iso, *.img")
-        file_filter.add_pattern("*.iso")
-        file_filter.add_pattern("*.img")
-        dialog.add_filter(file_filter)
-
-        dialog.show()
-        response = dialog.run()
-        if response != Gtk.ResponseType.OK:
-            dialog.destroy()
-            return
-
-        filepath = dialog.get_filename()
-
-        self.new_file_selected(filepath)
-
-        dialog.destroy()
-
-    def cmb_devices_changed(self, combobox):
-        tree_iter = combobox.get_active_iter()
-        if tree_iter:
-            model = combobox.get_model()
-            device_info = model[tree_iter][:3]
-            self.usb_device = device_info
-        else:
-            self.btn_start.set_sensitive(False)
-
-    def cmb_modes_changed(self, combobox):
-        tree_iter = combobox.get_active_iter()
-
-        if not tree_iter:
-            return
-
-        model = combobox.get_model()
-        self.write_mode = WriteMode(model[tree_iter][0])  # 0:DD, 1:Iso, 2:Win ISO
-        print(f"self.write_mode = {self.write_mode}")
-
-    # Buttons:
-    def btn_start_clicked(self, button):
-        # Ask if it is ok?
-        self.lbl_prewrite_filename.set_markup(
-            "- <b>{}</b>".format(self.iso_file_path.split("/")[-1])
-        )
-        self.lbl_prewrite_disk.set_markup(
-            "- <b>{} [ {} ]</b> <i>( /dev/{} )</i>".format(
-                self.usb_device[1], self.usb_device[2], self.usb_device[0]
-            )
-        )
-
-        self.stack_windows.set_visible_child_name("prewrite")
-
-    def btn_cancel_clicked(self, button):
-        self.cancel_image_writing()
-
-    def btn_exit_clicked(self, button):
-        self.window.get_application().quit()
-
-    def btn_write_new_file_clicked(self, button):
-        self.stack_windows.set_visible_child_name("main")
-
-    def btn_information_clicked(self, button):
-        self.dialog_about.run()
-        self.dialog_about.hide()
-
-    def btn_prewrite_yes_clicked(self, button):
-        self.second_tick_count = 0
-        self.copying_finished = False
-        self.stack_windows.set_visible_child_name("main")
-        GLib.idle_add(self.prepare_image_writing)
-
-    def btn_prewrite_cancel_clicked(self, button):
-        self.stack_windows.set_visible_child_name("main")
-
-    def show_message(self, msg1="", msg2=""):
-        dialog = Gtk.MessageDialog(
-            self.window,
-            0,
-            Gtk.MessageType.ERROR,
-            Gtk.ButtonsType.OK,
-            _(msg1),
-        )
-        dialog.format_secondary_text(_(msg2))
-        dialog.run()
-        dialog.destroy()
-
+    # == Image Writing ==
     def start_image_writing(self):
         self.written_bytes = 0  # for ISOCopier.py percentage calculation
         self.written_tmp_bytes = 0
@@ -300,12 +251,6 @@ class MainWindow:
         )
         self.pb_writing_progress.set_text("Creating partitions...")
 
-    def start_interval_tick(self):
-        GLib.timeout_add(1000, self.on_interval_tick)
-
-    def stop_interval_tick(self):
-        self.stop_interval_tick_flag = True
-
     def prepare_image_writing(self):
         if not self.cb_checkIntegrity.get_active():
             self.start_image_writing()
@@ -328,36 +273,20 @@ class MainWindow:
             else:
                 self.dialog_integrity.hide()
                 self.unlock_gui()
-                dialog = Gtk.MessageDialog(
-                    self.window,
-                    0,
-                    Gtk.MessageType.ERROR,
-                    Gtk.ButtonsType.OK,
+
+                self.show_message(
                     _("Integrity checking failed."),
+                    _("This is not a Pardus ISO, or it is corrupted."),
                 )
-                dialog.format_secondary_text(
-                    _("This is not a Pardus ISO, or it is corrupted.")
-                )
-                dialog.run()
-                dialog.destroy()
+
         except requests.ConnectionError:
             self.dialog_integrity.hide()
             self.unlock_gui()
-            dialog = Gtk.MessageDialog(
-                self.window,
-                0,
-                Gtk.MessageType.ERROR,
-                Gtk.ButtonsType.OK,
-                _("Integrity checking failed."),
-            )
-            dialog.format_secondary_text(_("Could not connect to pardus.org.tr."))
-            dialog.run()
-            dialog.destroy()
 
-    def cancel_image_writing(self):
-        subprocess.call(
-            ["pkexec", "kill", "-SIGTERM", str(self.image_writer_process_pid)]
-        )
+            self.show_message(
+                _("Integrity checking failed."),
+                _("Could not connect to pardus.org.tr."),
+            )
 
     def spawn_process(self, params):
         self.image_writer_process_pid, _, stdout, _ = GLib.spawn_async(
@@ -376,6 +305,155 @@ class MainWindow:
             GLib.PRIORITY_DEFAULT, self.image_writer_process_pid, self.on_process_exit
         )
 
+    def cancel_image_writing(self):
+        subprocess.call(
+            ["pkexec", "kill", "-SIGTERM", str(self.image_writer_process_pid)]
+        )
+
+    def start_interval_tick(self):
+        GLib.timeout_add(1000, self.on_interval_tick)
+
+    def stop_interval_tick(self):
+        self.stop_interval_tick_flag = True
+
+    def calculate_md5_of_file(self, filename):
+        hash_md5 = hashlib.md5()
+        with open(filename, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+
+    # === SIGNALS ===
+    # Button Signals:
+    def on_btn_select_iso_file_clicked(self, button):
+        dialog = Gtk.FileChooserDialog(
+            _("Select ISO or IMG File"),
+            action=Gtk.FileChooserAction.OPEN,
+            buttons=(
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OPEN,
+                Gtk.ResponseType.OK,
+            ),
+        )
+
+        file_filter = Gtk.FileFilter()
+        file_filter.set_name("*.iso, *.img")
+        file_filter.add_pattern("*.iso")
+        file_filter.add_pattern("*.img")
+        dialog.add_filter(file_filter)
+
+        dialog.show()
+        response = dialog.run()
+        if response != Gtk.ResponseType.OK:
+            dialog.destroy()
+            return
+
+        filepath = dialog.get_filename()
+
+        self.new_file_selected(filepath)
+
+        dialog.destroy()
+
+    def on_btn_start_clicked(self, button):
+        # Ask if it is ok?
+        self.lbl_prewrite_filename.set_markup(
+            "- <b>{}</b>".format(self.iso_file_path.split("/")[-1])
+        )
+        self.lbl_prewrite_disk.set_markup(
+            "- <b>{} [ {} ]</b> <i>( /dev/{} )</i>".format(
+                self.usb_device[1], self.usb_device[2], self.usb_device[0]
+            )
+        )
+
+        self.stack_windows.set_visible_child_name("prewrite")
+
+    def on_btn_cancel_clicked(self, button):
+        self.cancel_image_writing()
+
+    def on_btn_exit_clicked(self, button):
+        self.window.get_application().quit()
+
+    def on_btn_write_new_file_clicked(self, button):
+        self.stack_windows.set_visible_child_name("main")
+
+    def on_btn_information_clicked(self, button):
+        self.dialog_about.run()
+        self.dialog_about.hide()
+
+    def on_btn_prewrite_yes_clicked(self, button):
+        self.second_tick_count = 0
+        self.copying_finished = False
+        self.stack_windows.set_visible_child_name("main")
+        GLib.idle_add(self.prepare_image_writing)
+
+    def on_btn_prewrite_cancel_clicked(self, button):
+        self.stack_windows.set_visible_child_name("main")
+
+    # Combobox Signals
+    def on_cmb_devices_changed(self, combobox):
+        tree_iter = combobox.get_active_iter()
+        if tree_iter:
+            model = combobox.get_model()
+            device_info = model[tree_iter][:3]
+            self.usb_device = device_info
+        else:
+            self.btn_start.set_sensitive(False)
+
+    def on_cmb_modes_changed(self, combobox):
+        tree_iter = combobox.get_active_iter()
+
+        if not tree_iter:
+            return
+
+        model = combobox.get_model()
+        self.write_mode = WriteMode(model[tree_iter][0])  # 0:DD, 1:Iso, 2:Win ISO
+
+        # ISO Mode grub packages control
+        if self.write_mode == WriteMode.ISO or self.write_mode == WriteMode.WINDOWS_ISO:
+            if not os.path.isdir("/usr/lib/grub/i386-pc") or not os.path.isdir(
+                "/usr/lib/grub/x86_64-efi"
+            ):
+                if os.path.isfile("/usr/bin/pardus-software"):
+                    dialog = Gtk.MessageDialog(
+                        self.window,
+                        0,
+                        Gtk.MessageType.ERROR,
+                        Gtk.ButtonsType.OK_CANCEL,
+                        _("Grub packages needed for ISO Mode."),
+                    )
+
+                    dialog.format_secondary_text(
+                        _("Would you like to install it from Pardus Software Center?")
+                    )
+
+                    response = dialog.run()
+                    if response == Gtk.ResponseType.OK:
+                        subprocess.Popen(
+                            [
+                                "pardus-software",
+                                "--details",
+                                "pardus-image-writer-grub-tools",
+                            ],
+                            shell=True,
+                            stdin=None,
+                            stderr=None,
+                            stdout=None,
+                            close_fds=True,
+                        )
+
+                    dialog.destroy()
+                else:
+                    self.show_message(
+                        _("Grub packages needed for ISO Mode."),
+                        _(
+                            "Please install 'grub-efi-amd64-bin' and 'grub-pc-bin' packages."
+                        ),
+                    )
+
+                combobox.set_active(0)  # revert to DD mode
+
+    # Process Signals
     def on_process_stdout(self, source, condition):
         if condition == GLib.IO_HUP:
             return False
@@ -443,62 +521,25 @@ class MainWindow:
         if status == 0:
             # self.pb_writingProgess.set_text("0%")
             self.send_notification(
-                _("Writing process is finished."), _("You can eject the USB disk.")
+                _("Writing process is finished."),
+                self.iso_file_path.split("/")[-1]
+                + " | "
+                + _("You can eject the USB disk."),
             )
             self.pb_writing_progress.set_text(_("Finished"))
             self.stack_windows.set_visible_child_name("finished")
         elif status != 15 and status != 32256:  # these are cancelling or auth error.
             self.pb_writing_progress.set_text(_("Error!"))
             self.pb_writing_progress.set_fraction(0)
-            dialog = Gtk.MessageDialog(
-                self.window,
-                0,
-                Gtk.MessageType.ERROR,
-                Gtk.ButtonsType.OK,
+
+            self.show_message(
                 _("An error occured while writing the file to the disk."),
-            )
-            dialog.format_secondary_text(
                 _(
                     "Please make sure the USB device is connected properly and try again."
-                )
+                ),
             )
-            dialog.run()
-            dialog.destroy()
 
-    def lock_gui(self, disableStart=False):
-        self.btn_select_iso_file.set_sensitive(False)
-        self.cmb_devices.set_sensitive(False)
-        self.cb_checkIntegrity.set_sensitive(False)
-        self.cmb_modes.set_sensitive(False)
-
-        self.stack_buttons.set_visible_child_name("cancel")
-        self.is_gui_locked = True
-
-    def unlock_gui(self):
-        self.btn_select_iso_file.set_sensitive(True)
-        self.cmb_devices.set_sensitive(True)
-        self.cb_checkIntegrity.set_sensitive(True)
-        self.cmb_modes.set_sensitive(True)
-
-        self.stack_buttons.set_visible_child_name("start")
-        self.is_gui_locked = False
-
-    def send_notification(self, title, body):
-        notification = Gio.Notification.new(title)
-        notification.set_body(body)
-        notification.set_icon(Gio.ThemedIcon(name="pardus-image-writer"))
-        notification.set_default_action("app.notification-response::focus")
-        self.application.send_notification(
-            self.application.get_application_id(), notification
-        )
-
-    def calculate_md5_of_file(self, filename):
-        hash_md5 = hashlib.md5()
-        with open(filename, "rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
-                hash_md5.update(chunk)
-        return hash_md5.hexdigest()
-
+    # Elapsed Time Interval Tick
     def on_interval_tick(self):
         self.second_tick_count += 1
 
@@ -516,3 +557,7 @@ class MainWindow:
             return False
 
         return True
+
+    # Window
+    def on_destroy(self, action):
+        self.window.get_application().quit()
