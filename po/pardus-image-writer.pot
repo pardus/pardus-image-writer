@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-28 13:54+0300\n"
+"POT-Creation-Date: 2024-03-28 14:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "<b><big>Pardus Image Writer</big></b>"
 msgstr ""
 
-#: ui/MainWindow.glade:225 src/MainWindow.py:330
+#: ui/MainWindow.glade:225 src/MainWindow.py:332
 msgid "Select ISO or IMG File"
 msgstr ""
 
@@ -61,11 +61,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ui/MainWindow.glade:647 src/MainWindow.py:519
+#: ui/MainWindow.glade:647 src/MainWindow.py:521
 msgid "Writing process is finished."
 msgstr ""
 
-#: ui/MainWindow.glade:673 src/MainWindow.py:522
+#: ui/MainWindow.glade:673 src/MainWindow.py:524
 msgid "You can eject the USB disk."
 msgstr ""
 
@@ -123,6 +123,10 @@ msgstr ""
 msgid "About Pardus Image Writer"
 msgstr ""
 
+#: src/MainWindow.py:252 src/MainWindow.py:509
+msgid "Creating partitions..."
+msgstr ""
+
 #: src/MainWindow.py:278 src/MainWindow.py:287
 msgid "Integrity checking failed."
 msgstr ""
@@ -135,38 +139,34 @@ msgstr ""
 msgid "Could not connect to pardus.org.tr."
 msgstr ""
 
-#: src/MainWindow.py:423 src/MainWindow.py:443
+#: src/MainWindow.py:425 src/MainWindow.py:445
 msgid "Grub packages needed for ISO Mode."
 msgstr ""
 
-#: src/MainWindow.py:427
+#: src/MainWindow.py:429
 msgid "Would you like to install it from Pardus Software Center?"
 msgstr ""
 
-#: src/MainWindow.py:445
+#: src/MainWindow.py:447
 msgid "Please install 'grub-efi-amd64-bin' and 'grub-pc-bin' packages."
 msgstr ""
 
-#: src/MainWindow.py:500
+#: src/MainWindow.py:502
 msgid "Installing GRUB..."
 msgstr ""
 
-#: src/MainWindow.py:507
-msgid "Creating partitions..."
-msgstr ""
-
-#: src/MainWindow.py:524
+#: src/MainWindow.py:526
 msgid "Finished"
 msgstr ""
 
-#: src/MainWindow.py:527
+#: src/MainWindow.py:529
 msgid "Error!"
 msgstr ""
 
-#: src/MainWindow.py:531
+#: src/MainWindow.py:533
 msgid "An error occured while writing the file to the disk."
 msgstr ""
 
-#: src/MainWindow.py:533
+#: src/MainWindow.py:535
 msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
