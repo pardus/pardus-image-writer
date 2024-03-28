@@ -249,7 +249,7 @@ class MainWindow:
                 is_windows,
             ]
         )
-        self.pb_writing_progress.set_text("Creating partitions...")
+        self.pb_writing_progress.set_text(_("Creating partitions..."))
 
     def prepare_image_writing(self):
         if not self.cb_checkIntegrity.get_active():

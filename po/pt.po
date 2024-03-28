@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-28 13:54+0300\n"
+"POT-Creation-Date: 2024-03-28 14:12+0300\n"
 "PO-Revision-Date: 2024-03-18 16:10+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <hugokarvalho@hotmail.com>\n"
@@ -43,7 +43,7 @@ msgstr "Gravador de Imagem Pardus"
 msgid "<b><big>Pardus Image Writer</big></b>"
 msgstr "<b><big>Gravador de Imagem Pardus</big></b>"
 
-#: ui/MainWindow.glade:225 src/MainWindow.py:330
+#: ui/MainWindow.glade:225 src/MainWindow.py:332
 msgid "Select ISO or IMG File"
 msgstr "Selecionar ficheiro ISO ou IMG"
 
@@ -63,11 +63,11 @@ msgstr "Iniciar"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ui/MainWindow.glade:647 src/MainWindow.py:519
+#: ui/MainWindow.glade:647 src/MainWindow.py:521
 msgid "Writing process is finished."
 msgstr "O processo de gravação está concluído."
 
-#: ui/MainWindow.glade:673 src/MainWindow.py:522
+#: ui/MainWindow.glade:673 src/MainWindow.py:524
 msgid "You can eject the USB disk."
 msgstr "Pode ejetar o disco USB."
 
@@ -88,7 +88,6 @@ msgid "Will be written on this disk:"
 msgstr "Será gravado neste disco:"
 
 #: ui/MainWindow.glade:834
-#, fuzzy
 msgid ""
 "<b>WARNING:</b>\n"
 "\n"
@@ -97,7 +96,9 @@ msgid ""
 "Do you want to continue?"
 msgstr ""
 "<b>AVISO:</b>\n"
+"\n"
 "Todos os dados pessoais do dispositivo serão eliminados.\n"
+"\n"
 "Quer continuar?"
 
 #: ui/MainWindow.glade:866
@@ -129,6 +130,10 @@ msgstr "Modo ISO (para Windows)"
 msgid "About Pardus Image Writer"
 msgstr "Acerca do Gravador de Imagem Pardus"
 
+#: src/MainWindow.py:252 src/MainWindow.py:509
+msgid "Creating partitions..."
+msgstr ""
+
 #: src/MainWindow.py:278 src/MainWindow.py:287
 msgid "Integrity checking failed."
 msgstr "Falha ao verificar a integridade."
@@ -141,40 +146,35 @@ msgstr "Isto não é uma ISO Pardus, ou está corrompida."
 msgid "Could not connect to pardus.org.tr."
 msgstr "Não foi possível estabelecer ligação a pardus.org.tr."
 
-#: src/MainWindow.py:423 src/MainWindow.py:443
+#: src/MainWindow.py:425 src/MainWindow.py:445
 msgid "Grub packages needed for ISO Mode."
 msgstr ""
 
-#: src/MainWindow.py:427
+#: src/MainWindow.py:429
 msgid "Would you like to install it from Pardus Software Center?"
 msgstr ""
 
-#: src/MainWindow.py:445
+#: src/MainWindow.py:447
 msgid "Please install 'grub-efi-amd64-bin' and 'grub-pc-bin' packages."
 msgstr ""
 
-#: src/MainWindow.py:500
-#, fuzzy
+#: src/MainWindow.py:502
 msgid "Installing GRUB..."
-msgstr "Instalação concluída."
-
-#: src/MainWindow.py:507
-msgid "Creating partitions..."
 msgstr ""
 
-#: src/MainWindow.py:524
+#: src/MainWindow.py:526
 msgid "Finished"
 msgstr ""
 
-#: src/MainWindow.py:527
+#: src/MainWindow.py:529
 msgid "Error!"
 msgstr "Erro!"
 
-#: src/MainWindow.py:531
+#: src/MainWindow.py:533
 msgid "An error occured while writing the file to the disk."
 msgstr "Ocorreu um erro ao gravar o ficheiro no disco."
 
-#: src/MainWindow.py:533
+#: src/MainWindow.py:535
 msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
 "Certifique-se de que o dispositivo USB está corretamente ligado e tente "
