@@ -429,17 +429,12 @@ class MainWindow:
 
                     response = dialog.run()
                     if response == Gtk.ResponseType.OK:
-                        subprocess.Popen(
+                        subprocess.run(
                             [
                                 "pardus-software",
                                 "--details",
                                 "pardus-image-writer-grub-tools",
-                            ],
-                            shell=True,
-                            stdin=None,
-                            stderr=None,
-                            stdout=None,
-                            close_fds=True,
+                            ]
                         )
 
                     dialog.destroy()
