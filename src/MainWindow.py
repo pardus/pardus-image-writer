@@ -259,6 +259,12 @@ class MainWindow:
         self.lock_gui(disableStart=True)
         self.dialog_integrity.show_all()
 
+        # TODO: USE GTask for every idle_add or timeout_add in the future(pardus 23 >)
+        GLib.timeout_add(
+            priority=GLib.PRIORITY_LOW, interval=100, function=self.check_md5
+        )
+
+    def check_md5(self):
         # Get MD5SUMS Request
         try:
             result = requests.get(
@@ -287,6 +293,8 @@ class MainWindow:
                 _("Integrity checking failed."),
                 _("Could not connect to pardus.org.tr."),
             )
+
+        return False
 
     def spawn_process(self, params):
         self.image_writer_process_pid, _, stdout, _ = GLib.spawn_async(
