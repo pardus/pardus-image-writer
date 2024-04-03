@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-28 14:12+0300\n"
-"PO-Revision-Date: 2024-03-18 16:10+0000\n"
+"PO-Revision-Date: 2024-04-03 18:01+0100\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <hugokarvalho@hotmail.com>\n"
 "Language: pt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: ui/MainWindow.glade:7
 msgid "Checking..."
@@ -53,7 +53,7 @@ msgstr "Verificar a ISO online (apenas Pardus)"
 
 #: ui/MainWindow.glade:436
 msgid "IMG Mode"
-msgstr ""
+msgstr "Modo IMG"
 
 #: ui/MainWindow.glade:534
 msgid "Start"
@@ -103,7 +103,7 @@ msgstr ""
 
 #: ui/MainWindow.glade:866
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: ui/MainWindow.glade:943
 msgid "Write ISO Images to USB devices easily."
@@ -132,7 +132,7 @@ msgstr "Acerca do Gravador de Imagem Pardus"
 
 #: src/MainWindow.py:252 src/MainWindow.py:509
 msgid "Creating partitions..."
-msgstr ""
+msgstr "A criar partições..."
 
 #: src/MainWindow.py:278 src/MainWindow.py:287
 msgid "Integrity checking failed."
@@ -140,7 +140,7 @@ msgstr "Falha ao verificar a integridade."
 
 #: src/MainWindow.py:279
 msgid "This is not a Pardus ISO, or it is corrupted."
-msgstr "Isto não é uma ISO Pardus, ou está corrompida."
+msgstr "Isto não é uma ISO Pardus, ou a mesma está corrompida."
 
 #: src/MainWindow.py:288
 msgid "Could not connect to pardus.org.tr."
@@ -148,23 +148,23 @@ msgstr "Não foi possível estabelecer ligação a pardus.org.tr."
 
 #: src/MainWindow.py:425 src/MainWindow.py:445
 msgid "Grub packages needed for ISO Mode."
-msgstr ""
+msgstr "Pacotes Grub necessários para o modo ISO."
 
 #: src/MainWindow.py:429
 msgid "Would you like to install it from Pardus Software Center?"
-msgstr ""
+msgstr "Gostaria de o instalar a partir do Centro de Software Pardus?"
 
 #: src/MainWindow.py:447
 msgid "Please install 'grub-efi-amd64-bin' and 'grub-pc-bin' packages."
-msgstr ""
+msgstr "Instale os pacotes 'grub-efi-amd64-bin' e 'grub-pc-bin'."
 
 #: src/MainWindow.py:502
 msgid "Installing GRUB..."
-msgstr ""
+msgstr "A instalar o GRUB..."
 
 #: src/MainWindow.py:526
 msgid "Finished"
-msgstr ""
+msgstr "Terminado"
 
 #: src/MainWindow.py:529
 msgid "Error!"
@@ -177,5 +177,5 @@ msgstr "Ocorreu um erro ao gravar o ficheiro no disco."
 #: src/MainWindow.py:535
 msgid "Please make sure the USB device is connected properly and try again."
 msgstr ""
-"Certifique-se de que o dispositivo USB está corretamente ligado e tente "
+"Certifique-se de que o dispositivo USB está corretamente inserido e tente "
 "novamente."
