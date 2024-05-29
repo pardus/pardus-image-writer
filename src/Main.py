@@ -5,7 +5,7 @@ import sys
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gio, Gtk
+from gi.repository import Gio, Gtk, GLib
 
 from MainWindow import MainWindow
 
@@ -19,6 +19,7 @@ class Application(Gtk.Application):
             **kwargs,
         )
         self.window = None
+        GLib.set_prgname("tr.org.pardus.image-writer")
 
     def do_activate(self):
         self.window = MainWindow(self)
