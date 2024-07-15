@@ -59,9 +59,19 @@ class USBDeviceManager:
                         "/sys/block/{}/queue/logical_block_size".format(blockName)
                     ).readline()
                 )
-                deviceInfo.append(
-                    "{}GB".format(int((blockCount * blockSize) / 1000 / 1000 / 1000))
-                )
+
+                size = blockCount * blockSize
+                if size >= 1000000000000:
+                    size = "%.0fTB" % round(size / 1000000000000)
+                elif size >= 1000000000:
+                    size = "%.0fGB" % round(size / 1000000000)
+                elif size >= 1000000:
+                    size = "%.0fMB" % round(size / 1000000)
+                elif size >= 1000:
+                    size = "%.0fkB" % round(size / 1000)
+                else:
+                    size = "%.0fB" % round(size)
+                deviceInfo.append("{}".format(size))
 
                 # Add device to list
                 if blockCount > 0:
