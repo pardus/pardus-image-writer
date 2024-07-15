@@ -385,6 +385,8 @@ class MainWindow:
         self.window.get_application().quit()
 
     def on_btn_write_new_file_clicked(self, button):
+        self.pb_writing_progress.set_text()
+        self.pb_writing_progress.set_fraction(0)
         self.stack_windows.set_visible_child_name("main")
 
     def on_btn_information_clicked(self, button):
@@ -543,6 +545,9 @@ class MainWindow:
                     "Please make sure the USB device is connected properly and try again."
                 ),
             )
+        else:
+            self.pb_writing_progress.set_text()
+            self.pb_writing_progress.set_fraction(0)
 
     # Elapsed Time Interval Tick
     def on_interval_tick(self):
