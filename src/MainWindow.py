@@ -533,7 +533,7 @@ class MainWindow:
             )
             self.pb_writing_progress.set_text(_("Finished"))
             self.stack_windows.set_visible_child_name("finished")
-        elif status != 15 and status != 32256:  # these are cancelling or auth error.
+        elif status != 15 and status != 32256 and status != 32512:  # these are cancelling or auth error.
             self.pb_writing_progress.set_text(_("Error!"))
             self.pb_writing_progress.set_fraction(0)
 
