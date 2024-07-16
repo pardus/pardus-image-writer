@@ -1,5 +1,6 @@
-pardus-image-writer (0.7.1) UNRELEASED; urgency=medium
+pardus-image-writer (0.8.0) unstable; urgency=medium
 
+  [ Emin Fedar ]
   * docs: removed rsync dependency
   * feat: removed rsync, added pardus-image-writer-grub-tools
   * feat: Improved Windows support, merged in ISOCopier
@@ -8,7 +9,43 @@ pardus-image-writer (0.7.1) UNRELEASED; urgency=medium
   * refactor: added "on_" to signals
   * refactor: removed duplicate dialog code
 
- -- Emin Fedar <emin.fedar@pardus.org.tr>  Wed, 27 Mar 2024 15:07:45 +0300
+  [ bariscodefx ]
+  * ported xfce about dialog fix from pardus-software
+
+  [ migueldecode ]
+  * feat: added spanish translations file
+
+  [ Fatih Altun ]
+  * Fix translators structure
+  * Update transient and some default values of about window
+  * Add es to update translations script
+  * Update pot file
+  * Update Turkish translations
+  * Fix es translation file
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translations
+
+  [ Emin Fedar ]
+  * fix: pardus-software not show package
+  * chore: Update Translations
+  * fix: process spawn failed on pardus 21
+  * chore: translations
+  * chore: translations
+  * fix: integrity checking dialog not showing
+
+  [ Hugo Carvalho ]
+  * Update Portuguese translations
+
+  [ sulincix ]
+  * fix kde wayland wrong icon issue
+
+  [ Fatih Altun ]
+  * Add 32512 to auth control exit codes
+  * Fix progress values
+  * Update get size info method
+
+ -- Fatih Altun <fatih.altun@pardus.org.tr>  Tue, 16 Jul 2024 12:24:29 +0300
 
 pardus-image-writer (0.7.0) unstable; urgency=medium
 
