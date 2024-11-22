@@ -124,6 +124,28 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="list_modes">
+    <columns>
+      <!-- column-name mode -->
+      <column type="gint"/>
+      <!-- column-name label -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">0</col>
+        <col id="1" translatable="yes">DD Mode [Recommended]</col>
+      </row>
+      <row>
+        <col id="0">1</col>
+        <col id="1" translatable="yes">ISO Mode (for GNU/Linux)</col>
+      </row>
+      <row>
+        <col id="0">2</col>
+        <col id="1" translatable="yes">ISO Mode (for Windows)</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkApplicationWindow" id="window">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Pardus Image Writer</property>
@@ -505,7 +527,7 @@
                         <property name="can-focus">False</property>
                         <property name="margin-top">5</property>
                         <property name="margin-bottom">5</property>
-                        <property name="label">TÜBİTAK ULAKBİM | 2024</property>
+                        <property name="label">© TÜBİTAK BİLGEM</property>
                         <attributes>
                           <attribute name="weight" value="thin"/>
                         </attributes>
@@ -939,7 +961,7 @@ Do you want to continue?</property>
     <property name="transient-for">window</property>
     <property name="program-name">Pardus Image Writer</property>
     <property name="version">0.7.1</property>
-    <property name="copyright">©2024 Pardus</property>
+    <property name="copyright">© Pardus</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
     <property name="website">https://github.com/pardus/pardus-image-writer</property>
     <property name="authors">Emin Fedar &lt;emin.fedar@pardus.org.tr&gt;
@@ -977,27 +999,5 @@ Yusuf Düzgün &lt;yusuf.duzgun@pardus.org.tr&gt;</property>
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="list_modes">
-    <columns>
-      <!-- column-name mode -->
-      <column type="gint"/>
-      <!-- column-name label -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">0</col>
-        <col id="1" translatable="yes">DD Mode [Recommended]</col>
-      </row>
-      <row>
-        <col id="0">1</col>
-        <col id="1" translatable="yes">ISO Mode (for GNU/Linux)</col>
-      </row>
-      <row>
-        <col id="0">2</col>
-        <col id="1" translatable="yes">ISO Mode (for Windows)</col>
-      </row>
-    </data>
   </object>
 </interface>
