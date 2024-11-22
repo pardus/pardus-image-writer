@@ -961,7 +961,7 @@ Do you want to continue?</property>
     <property name="transient-for">window</property>
     <property name="program-name">Pardus Image Writer</property>
     <property name="version">0.7.1</property>
-    <property name="copyright">© Pardus</property>
+    <property name="copyright">© TÜBİTAK BİLGEM</property>
     <property name="comments" translatable="yes">Write ISO Images to USB devices easily.</property>
     <property name="website">https://github.com/pardus/pardus-image-writer</property>
     <property name="authors">Emin Fedar &lt;emin.fedar@pardus.org.tr&gt;
