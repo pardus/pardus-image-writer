@@ -179,13 +179,14 @@ class MainWindow:
     def init_usb_manager(self, iso_file):
         # Get inserted USB devices
         self.iso_file_path = iso_file
-        if iso_file:
-            self.new_file_selected(iso_file)
 
         self.usb_device = []
         self.usb_manager = USBDeviceManager()
         self.usb_manager.connect_usb_refresh_signal(self.list_usb_devices)
         self.list_usb_devices()
+
+        if iso_file:
+            self.new_file_selected(iso_file)
 
     def list_usb_devices(self):
         if self.is_gui_locked:
