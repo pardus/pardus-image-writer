@@ -8,7 +8,7 @@ from pyudev import MonitorObserver, DeviceNotFoundAtPathError
 
 class USBDeviceManager:
     def __init__(self):
-        self.refreshSignal = lambda a: a  # this function is set by MainWindow
+        self.refreshSignal = lambda: ()  # this function is set by MainWindow
         self.context = Context()
         self.monitor = Monitor.from_netlink(self.context)
         self.monitor.filter_by(subsystem="block", device_type="disk")
