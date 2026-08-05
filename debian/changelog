@@ -1,3 +1,10 @@
+pardus-image-writer (0.9.0) yirmibes; urgency=medium
+
+  * fix: prevent security holes, remaining time added, general refactoring
+  * fix: translations
+
+ -- Emin Fedar <emin.fedar@pardus.org.tr>  Wed, 05 Aug 2026 13:56:06 +0300
+
 pardus-image-writer (0.8.3) yirmibes; urgency=medium
 
   [ Ali Riza KESKIN ]
