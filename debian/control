@@ -16,7 +16,11 @@ Depends: ${misc:Depends},
          python3-requests,
          python3-pyudev,
          gir1.2-gtk-3.0,
-         pv
+         pv,
+         dosfstools,
+         ntfs-3g,
+         eject,
+         udev
 Description: Simple Gtk+ and Python based Disk Image USB burner
  Pardus Image writer is a simple .iso and .img writer to USB disks. 
  You can easily writer your favorite OS to USB disk.

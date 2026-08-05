@@ -600,6 +600,23 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkLabel" id="lbl_writing_details">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-top">4</property>
+                    <property name="label"></property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack-type">end</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkProgressBar" id="pb_writing_progress">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -609,7 +626,7 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="pack-type">end</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -623,7 +640,7 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="pack-type">end</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>

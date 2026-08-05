@@ -35,7 +35,8 @@ class Application(Gtk.Application):
             print("File does not exist: " + file.get_path())
             return
 
-        fileFormat = file.get_basename().split(".")[-1]
+        # Case insensitive: PARDUS.ISO is an ISO too.
+        fileFormat = os.path.splitext(file.get_basename())[1].lstrip(".").lower()
 
         supported_extensions = ["iso", "img"]
 

@@ -1,9 +1,13 @@
 #!/usr/bin/python3
 
 import os
+import signal
 import subprocess
+import threading
+import time
 import requests
 import hashlib
+from collections import deque
 from enum import Enum
 
 import gi
@@ -14,11 +18,24 @@ from gi.repository import Gio, GLib, Gtk, Gdk
 import locale
 from locale import gettext as _
 
-from USBDeviceManager import USBDeviceManager
+from USBDeviceManager import connect_usb_refresh_signal, get_usb_devices
 
 # Translation Constants:
 APPNAME = "pardus-image-writer"
 TRANSLATIONS_PATH = "/usr/share/locale"
+
+# The sums are fetched over TLS: on plain HTTP anyone on the path could hand
+# out sums matching a tampered ISO and the check would pass.
+MD5SUMS_URL = "https://indir.pardus.org.tr/PARDUS/MD5SUMS"
+REQUEST_TIMEOUT_SECONDS = 15
+
+# Speed and remaining time are averaged over this many seconds, otherwise the
+# numbers jump around with every single progress line.
+SPEED_WINDOW_SECONDS = 5.0
+
+# A burst of progress lines can arrive within milliseconds. Dividing by such a
+# short interval produces absurd speeds, so wait until the window is this wide.
+MIN_SPEED_SECONDS = 1.0
 
 # Translation functions:
 locale.bindtextdomain(APPNAME, TRANSLATIONS_PATH)
@@ -26,14 +43,48 @@ locale.textdomain(APPNAME)
 
 
 def seconds_to_formatted_time(sec):
-    minutes, seconds = divmod(sec, 60)
+    """Format a duration as 01:23, growing to 1:02:03 past the hour."""
+    hours, remainder = divmod(int(sec), 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if hours:
+        return f"{hours}:{minutes:02d}:{seconds:02d}"
+
     return f"{minutes:02d}:{seconds:02d}"
+
+
+def seconds_to_unit_time(sec):
+    """Format a duration as '1h 23m 45s', leaving out the units that are zero.
+
+    Every unit is a translatable string of its own, so a language can use its
+    own abbreviations without the code having to know about them.
+    """
+    hours, remainder = divmod(int(sec), 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    parts = []
+    if hours:
+        parts.append(_("{}h").format(hours))
+    if minutes:
+        parts.append(_("{}m").format(minutes))
+    # Seconds are also shown on their own, e.g. for a duration of exactly 0.
+    if seconds or not parts:
+        parts.append(_("{}s").format(seconds))
+
+    return " ".join(parts)
 
 
 class WriteMode(Enum):
     DD = 0
     ISO = 1
     WINDOWS_ISO = 2
+
+
+class IntegrityResult(Enum):
+    OK = 0
+    MISMATCH = 1
+    NO_CONNECTION = 2
+    UNREADABLE = 3
 
 
 class MainWindow:
@@ -82,6 +133,8 @@ class MainWindow:
         self.is_gui_locked = False
         self.second_tick_count = 0
         self.write_mode = WriteMode.DD
+        self.image_writer_process_pid = None
+        self.image_writer_stdin_fd = None
 
     def define_components(self):
         def UI(obj):
@@ -98,6 +151,7 @@ class MainWindow:
         self.stack_buttons = UI("stack_buttons")
         self.btn_start = UI("btn_start")
         self.pb_writing_progress = UI("pb_writing_progress")
+        self.lbl_writing_details = UI("lbl_writing_details")
         self.stack_write_modes = UI("stack_write_modes")
 
         # Integrity
@@ -166,6 +220,42 @@ class MainWindow:
         self.stack_buttons.set_visible_child_name("start")
         self.is_gui_locked = False
 
+    # === Progress details ===
+    def update_writing_details(self, written_bytes, total_bytes):
+        """Show the current speed and the remaining time under the bar."""
+        now = time.monotonic()
+        self.progress_samples.append((now, written_bytes))
+
+        # Drop a sample only while the one behind it still spans the whole
+        # window. Pruning any further would collapse the window whenever a
+        # burst of lines arrives at once.
+        while (
+            len(self.progress_samples) > 2
+            and now - self.progress_samples[1][0] >= SPEED_WINDOW_SECONDS
+        ):
+            self.progress_samples.popleft()
+
+        oldest_time, oldest_bytes = self.progress_samples[0]
+        elapsed = now - oldest_time
+
+        # Too early to tell: keep whatever is on the label instead of showing a
+        # number that is off by orders of magnitude.
+        if elapsed < MIN_SPEED_SECONDS:
+            return
+
+        speed = (written_bytes - oldest_bytes) / elapsed
+        if speed <= 0:
+            return
+
+        remaining_seconds = max(total_bytes - written_bytes, 0) / speed
+        self.lbl_writing_details.set_label(
+            "{:.1f} MB/s   ·   {} {}".format(
+                speed / 1000 / 1000,
+                _("Remaining"),
+                seconds_to_unit_time(remaining_seconds),
+            )
+        )
+
     def send_notification(self, title, body):
         notification = Gio.Notification.new(title)
         notification.set_body(body)
@@ -181,8 +271,9 @@ class MainWindow:
         self.iso_file_path = iso_file
 
         self.usb_device = []
-        self.usb_manager = USBDeviceManager()
-        self.usb_manager.connect_usb_refresh_signal(self.list_usb_devices)
+        # The udev observer notifies from its own thread, and Gtk may only be
+        # touched from the main loop.
+        connect_usb_refresh_signal(lambda: GLib.idle_add(self.list_usb_devices))
         self.list_usb_devices()
 
         if iso_file:
@@ -192,7 +283,7 @@ class MainWindow:
         if self.is_gui_locked:
             return
 
-        deviceList = self.usb_manager.get_usb_devices()
+        deviceList = get_usb_devices()
         self.list_devices.clear()
         for device in deviceList:
             self.list_devices.append(device)
@@ -207,8 +298,9 @@ class MainWindow:
 
     def new_file_selected(self, filepath):
         self.iso_file_path = filepath
-        iso_file_type = filepath.split(".")[-1]
-        self.lbl_btn_select_iso_file.set_label(filepath.split("/")[-1])
+        # Case insensitive: PARDUS.ISO is an ISO too.
+        iso_file_type = os.path.splitext(filepath)[1].lstrip(".").lower()
+        self.lbl_btn_select_iso_file.set_label(os.path.basename(filepath))
 
         if self.iso_file_path and len(self.usb_device) > 0:
             self.btn_start.set_sensitive(True)
@@ -227,6 +319,8 @@ class MainWindow:
         self.written_bytes = 0  # for ISOCopier.py percentage calculation
         self.written_tmp_bytes = 0
         self.total_bytes = 1  # for ISOCopier.py percentage calculation
+        self.progress_samples = deque()
+        self.lbl_writing_details.set_label("")
 
         self.lock_gui()
         is_windows = "false"
@@ -260,50 +354,76 @@ class MainWindow:
         self.lock_gui(disableStart=True)
         self.dialog_integrity.show_all()
 
-        # TODO: USE GTask for every idle_add or timeout_add in the future(pardus 23 >)
-        GLib.timeout_add(
-            priority=GLib.PRIORITY_LOW, interval=100, function=self.check_md5
-        )
+        # Downloading the sums and hashing a multi gigabyte ISO both block for
+        # a long time, so they run off the GTK main loop.
+        threading.Thread(target=self.check_md5, daemon=True).start()
 
     def check_md5(self):
-        # Get MD5SUMS Request
+        """Worker thread: never touch a Gtk widget from here, only idle_add."""
         try:
-            result = requests.get(
-                "http://indir.pardus.org.tr/PARDUS/MD5SUMS"
-            )  # blocking
-            md5sums = result.text
+            response = requests.get(MD5SUMS_URL, timeout=REQUEST_TIMEOUT_SECONDS)
+            response.raise_for_status()
+            md5sums = response.text
+        except requests.RequestException:
+            GLib.idle_add(self.on_integrity_checked, IntegrityResult.NO_CONNECTION)
+            return
 
+        try:
             md5sum_of_iso = self.calculate_md5_of_file(self.iso_file_path)
-            if md5sum_of_iso in md5sums:
-                self.start_image_writing()
-                self.dialog_integrity.hide()
-            else:
-                self.dialog_integrity.hide()
-                self.unlock_gui()
+        except OSError:
+            GLib.idle_add(self.on_integrity_checked, IntegrityResult.UNREADABLE)
+            return
 
-                self.show_message(
-                    _("Integrity checking failed."),
-                    _("This is not a Pardus ISO, or it is corrupted."),
-                )
+        # Compare against the hash column instead of searching the whole file,
+        # so a hash can only match where a hash is expected.
+        matched = any(
+            line.split()[:1] == [md5sum_of_iso] for line in md5sums.splitlines()
+        )
 
-        except requests.ConnectionError:
-            self.dialog_integrity.hide()
-            self.unlock_gui()
+        GLib.idle_add(
+            self.on_integrity_checked,
+            IntegrityResult.OK if matched else IntegrityResult.MISMATCH,
+        )
 
-            self.show_message(
-                _("Integrity checking failed."),
-                _("Could not connect to pardus.org.tr."),
-            )
+    def on_integrity_checked(self, result):
+        """Back on the main thread with the outcome of the integrity check."""
+        self.dialog_integrity.hide()
+
+        if result is IntegrityResult.OK:
+            self.start_image_writing()
+            return False
+
+        self.unlock_gui()
+
+        if result is IntegrityResult.NO_CONNECTION:
+            detail = _("Could not connect to pardus.org.tr.")
+        elif result is IntegrityResult.UNREADABLE:
+            detail = _("The file could not be read.")
+        else:
+            detail = _("This is not a Pardus ISO, or it is corrupted.")
+
+        self.show_message(_("Integrity checking failed."), detail)
 
         return False
 
     def spawn_process(self, params):
-        self.image_writer_process_pid, _, stdout, _ = GLib.spawn_async(
+        # No LEAVE_DESCRIPTORS_OPEN: the privileged child has no business
+        # inheriting the file descriptors of this process.
+        #
+        # The pipe on stdin is how the run is cancelled. This process runs as
+        # the user and cannot signal a child that runs as root, and the polkit
+        # action for kill that used to bridge that gap granted far more than
+        # stopping this one process: it ran kill as root with whatever
+        # arguments the caller passed.
+        (
+            self.image_writer_process_pid,
+            self.image_writer_stdin_fd,
+            stdout,
+            _stderr,
+        ) = GLib.spawn_async(
             params,
-            flags=GLib.SPAWN_SEARCH_PATH
-            | GLib.SPAWN_LEAVE_DESCRIPTORS_OPEN
-            | GLib.SPAWN_DO_NOT_REAP_CHILD,
-            standard_input=False,
+            flags=GLib.SPAWN_SEARCH_PATH | GLib.SPAWN_DO_NOT_REAP_CHILD,
+            standard_input=True,
             standard_output=True,
             standard_error=False,
         )
@@ -316,10 +436,24 @@ class MainWindow:
             GLib.PRIORITY_DEFAULT, self.image_writer_process_pid, self.on_process_exit
         )
 
+    def close_writer_stdin(self):
+        """Close the pipe the writer reads, which is both the cancel and the
+        cleanup. Safe to call twice."""
+        if self.image_writer_stdin_fd is None:
+            return
+
+        try:
+            os.close(self.image_writer_stdin_fd)
+        except OSError:
+            pass
+
+        self.image_writer_stdin_fd = None
+
     def cancel_image_writing(self):
-        subprocess.call(
-            ["pkexec", "kill", "-SIGTERM", str(self.image_writer_process_pid)]
-        )
+        # Closing the pipe is the cancel: the writer reaches the end of its
+        # stdin and stops itself at a point where the disk is consistent. There
+        # is no pid involved any more, so a recycled pid cannot be signalled.
+        self.close_writer_stdin()
 
     def start_interval_tick(self):
         GLib.timeout_add(1000, self.on_interval_tick)
@@ -388,6 +522,7 @@ class MainWindow:
     def on_btn_write_new_file_clicked(self, button):
         self.pb_writing_progress.set_text()
         self.pb_writing_progress.set_fraction(0)
+        self.lbl_writing_details.set_label("")
         self.stack_windows.set_visible_child_name("main")
 
     def on_btn_information_clicked(self, button):
@@ -463,21 +598,23 @@ class MainWindow:
 
     # Process Signals
     def on_process_stdout(self, source, condition):
-        if condition == GLib.IO_HUP:
+        # condition is a bit mask, IO_IN and IO_HUP can arrive together.
+        if condition & GLib.IO_HUP:
             return False
 
         line = source.readline().strip()
 
         if self.write_mode == WriteMode.DD:
-            written, total = line.split()
-            written = int(written)
-            total = int(total)
+            # A malformed or empty line must not take down the io watch.
+            fields = line.split()
+            if len(fields) != 2 or not all(field.isdigit() for field in fields):
+                return True
+
+            written = int(fields[0])
+            total = int(fields[1])
             percent = 0
             if total > 0:
                 percent = written / total
-
-            # debug
-            # print("imagewriter.py> " + line)
 
             self.pb_writing_progress.set_text(
                 "{}MB / {}MB (%{:.1f})".format(
@@ -487,22 +624,38 @@ class MainWindow:
                 )
             )
             self.pb_writing_progress.set_fraction(percent)
+            self.update_writing_details(written, total)
         else:
-            # print("isocopier.py> '{}'".format(line))
+            # Every field is validated before it is used: an unparsable line
+            # would raise out of the io watch and the watch would be dropped,
+            # so the rest of the write would report no progress at all.
+            if line.startswith("COPIED:"):  # COPIED:10:20
+                fields = line.split(":")
+                if len(fields) != 3 or not all(f.isdigit() for f in fields[1:]):
+                    return True
 
-            if line[0:7] == "COPIED:":  # COPIED:10:20
                 self.written_bytes += self.written_tmp_bytes
                 self.written_tmp_bytes = 0
-                values = line.split(":")
-                if int(values[1]) == int(values[2]):
+                if int(fields[1]) == int(fields[2]):
                     self.copying_finished = True
-                    self.pb_writing_progress.set_text("Installing GRUB...")
 
-            elif line[0:6] == "BYTES:":  # BYTES:1234756
-                self.written_tmp_bytes = int(line.split(":")[-1])
-            elif line[0:12] == "TOTAL_BYTES:":  # TOTAL_BYTES:1234756
-                self.total_bytes = int(line.split(":")[-1])
+            elif line.startswith("BYTES:"):  # BYTES:1234756
+                value = line[len("BYTES:") :]
+                if not value.isdigit():
+                    return True
+                self.written_tmp_bytes = int(value)
+
+            elif line.startswith("TOTAL_BYTES:"):  # TOTAL_BYTES:1234756
+                value = line[len("TOTAL_BYTES:") :]
+                if not value.isdigit():
+                    return True
+                # An empty ISO is rejected by the writer, but a zero here would
+                # still divide below.
+                self.total_bytes = max(int(value), 1)
                 self.start_interval_tick()
+
+            else:
+                return True
 
             percent = (self.written_bytes + self.written_tmp_bytes) / self.total_bytes
             elapsed_time = seconds_to_formatted_time(self.second_tick_count)
@@ -511,32 +664,53 @@ class MainWindow:
 
             if self.copying_finished:
                 self.pb_writing_progress.set_text(_("Installing GRUB..."))
+                self.lbl_writing_details.set_label("")
             elif self.total_bytes > 1:
                 self.pb_writing_progress.set_text(
                     "{} | %{:.1f}".format(elapsed_time, int(percent * 1000) / 10)
                 )
                 self.pb_writing_progress.set_fraction(percent)
+                self.update_writing_details(
+                    self.written_bytes + self.written_tmp_bytes, self.total_bytes
+                )
             else:
                 self.pb_writing_progress.set_text(_("Creating partitions..."))
 
         return True
 
     def on_process_exit(self, pid, status):
+        # DO_NOT_REAP_CHILD means the pid stays allocated until it is closed.
+        GLib.spawn_close_pid(pid)
+        self.image_writer_process_pid = None
+        self.close_writer_stdin()
+
         self.unlock_gui()
         self.list_usb_devices()
         self.pb_writing_progress.set_fraction(1)
+        self.lbl_writing_details.set_label("")
 
-        if status == 0:
-            # self.pb_writingProgess.set_text("0%")
+        # status is a raw wait status, not an exit code.
+        if os.WIFSIGNALED(status):
+            exit_code = -os.WTERMSIG(status)
+        elif os.WIFEXITED(status):
+            exit_code = os.WEXITSTATUS(status)
+        else:
+            exit_code = status
+
+        # Killed by SIGTERM means the user cancelled; pkexec answers 126 when
+        # the authentication dialog is dismissed and 127 when it cannot run.
+        cancelled_or_unauthorized = exit_code in (-signal.SIGTERM, 126, 127)
+
+        if exit_code == 0:
             self.send_notification(
                 _("Writing process is finished."),
-                self.iso_file_path.split("/")[-1]
+                os.path.basename(self.iso_file_path)
                 + " | "
                 + _("You can eject the USB disk."),
             )
             self.pb_writing_progress.set_text(_("Finished"))
             self.stack_windows.set_visible_child_name("finished")
-        elif status != 15 and status != 32256 and status != 32512:  # these are cancelling or auth error.
+        elif not cancelled_or_unauthorized:
             self.pb_writing_progress.set_text(_("Error!"))
             self.pb_writing_progress.set_fraction(0)
 
