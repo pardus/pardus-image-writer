@@ -503,11 +503,16 @@ class MainWindow:
     def on_btn_start_clicked(self, button):
         # Ask if it is ok?
         self.lbl_prewrite_filename.set_markup(
-            "- <b>{}</b>".format(self.iso_file_path.split("/")[-1])
+            "- <b>{}</b>".format(
+                GLib.markup_escape_text(self.iso_file_path.split("/")[-1], -1)
+            )
         )
+        # The label comes from the filesystem on the stick, it can hold anything.
         self.lbl_prewrite_disk.set_markup(
             "- <b>{} [ {} ]</b> <i>( /dev/{} )</i>".format(
-                self.usb_device[1], self.usb_device[2], self.usb_device[0]
+                GLib.markup_escape_text(self.usb_device[1], -1),
+                self.usb_device[2],
+                self.usb_device[0],
             )
         )
 
