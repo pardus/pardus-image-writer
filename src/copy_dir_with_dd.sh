@@ -25,6 +25,7 @@ if [ ! -d "$SOURCE" ] || [ ! -d "$TARGET" ]; then
 fi
 
 cd "$SOURCE" || exit 1
+SOURCE_ROOT=$(pwd -P)
 
 COPIED_FILES=0
 TOTAL_FILE_COUNT=$(find . -type f | wc -l)
@@ -55,7 +56,20 @@ done || exit 1
 # the link with its target is only safe for a regular file - an ISO carries
 # links like "debian -> ." that would make the copy recurse forever - so
 # anything else is reported and skipped.
+#
+# The ISO decides where a link points and this script runs as root, so a link
+# that leaves the ISO is dropped: following it would copy a file of this machine
+# onto the stick, and keeping it would point grub-install at this machine.
 find . -type l -print0 | while IFS= read -r -d '' link; do
+	resolved=$(realpath -e -- "$link" 2>/dev/null) || resolved=""
+	case "$resolved" in
+	"$SOURCE_ROOT" | "$SOURCE_ROOT"/*) ;;
+	*)
+		echo "copy_dir_with_dd.sh: skipped symbolic link $link, it does not stay inside the ISO" >&2
+		continue
+		;;
+	esac
+
 	if cp -P "$link" "$TARGET/$link" 2>/dev/null; then
 		continue
 	fi
