@@ -77,6 +77,22 @@ msgstr "İptal Et"
 msgid "Writing process is finished."
 msgstr "Yazma işlemi bitti."
 
+#: src/MainWindow.py:619
+msgid "Verifying"
+msgstr "Doğrulanıyor"
+
+#: src/MainWindow.py:716
+msgid "The USB disk did not return the data written to it."
+msgstr "USB disk yazılan veriyi geri vermedi."
+
+#: src/MainWindow.py:718
+msgid ""
+"The disk may be faulty or its real capacity may be smaller than it reports. "
+"It will not boot, try another USB disk."
+msgstr ""
+"Disk arızalı olabilir veya gerçek kapasitesi gösterdiğinden küçük olabilir. "
+"Bu disk açılmaz, başka bir USB disk deneyin."
+
 #: ui/MainWindow.glade:712 src/MainWindow.py:709
 msgid "You can eject the USB disk."
 msgstr "USB Belleği çıkarabilirsiniz."

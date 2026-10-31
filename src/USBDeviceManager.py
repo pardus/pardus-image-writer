@@ -223,7 +223,7 @@ def open_drive_exclusive(drive, block_name, sync_writes=False):
     Returns (file_descriptor, drive_size_in_bytes). The caller owns the
     descriptor and has to close it.
     """
-    open_flags = os.O_WRONLY | os.O_EXCL | os.O_CLOEXEC
+    open_flags = os.O_RDWR | os.O_EXCL | os.O_CLOEXEC
     if sync_writes:
         open_flags |= os.O_DSYNC
 

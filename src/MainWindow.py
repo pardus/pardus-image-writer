@@ -74,6 +74,10 @@ def seconds_to_unit_time(sec):
     return " ".join(parts)
 
 
+# ImageWriter.py exits with this when the drive does not match the image.
+EXIT_VERIFY_FAILED = 3
+
+
 class WriteMode(Enum):
     DD = 0
     ISO = 1
@@ -605,8 +609,9 @@ class MainWindow:
         line = source.readline().strip()
 
         if self.write_mode == WriteMode.DD:
+            verifying = line.startswith("VERIFIED:")  # VERIFIED:10:20
             # A malformed or empty line must not take down the io watch.
-            fields = line.split()
+            fields = line.split(":")[1:] if verifying else line.split()
             if len(fields) != 2 or not all(field.isdigit() for field in fields):
                 return True
 
@@ -616,8 +621,13 @@ class MainWindow:
             if total > 0:
                 percent = written / total
 
+            # The speed samples of the write would make this phase look negative.
+            if verifying and written == 0:
+                self.progress_samples.clear()
+
             self.pb_writing_progress.set_text(
-                "{}MB / {}MB (%{:.1f})".format(
+                "{}{}MB / {}MB (%{:.1f})".format(
+                    _("Verifying") + ": " if verifying else "",
                     round(written / 1000 / 1000),
                     round(total / 1000 / 1000),
                     int(percent * 1000) / 10,
@@ -710,6 +720,16 @@ class MainWindow:
             )
             self.pb_writing_progress.set_text(_("Finished"))
             self.stack_windows.set_visible_child_name("finished")
+        elif exit_code == EXIT_VERIFY_FAILED:
+            self.pb_writing_progress.set_text(_("Error!"))
+            self.pb_writing_progress.set_fraction(0)
+
+            self.show_message(
+                _("The USB disk did not return the data written to it."),
+                _(
+                    "The disk may be faulty or its real capacity may be smaller than it reports. It will not boot, try another USB disk."
+                ),
+            )
         elif not cancelled_or_unauthorized:
             self.pb_writing_progress.set_text(_("Error!"))
             self.pb_writing_progress.set_fraction(0)
