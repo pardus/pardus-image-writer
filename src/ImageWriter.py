@@ -9,12 +9,16 @@ stdout is a machine readable progress stream consumed by MainWindow:
 one "<written_bytes> <total_bytes>" line per update, nothing else.
 All diagnostics go to stderr.
 
+After the write the drive is read back, reported as "VERIFIED:<done>:<total>".
+
 Exit codes:
-    0   image written successfully
+    0   image written and verified
     1   validation or I/O error
+    3   the drive returned different data than was written to it
     killed by SIGTERM when the user cancels (MainWindow expects this)
 """
 
+import fcntl
 import os
 import shutil
 import signal
@@ -28,6 +32,8 @@ from Utils import exit_as_cancelled, fail, log, open_as_caller, request_stop
 from Utils import stop_requested, watch_stdin_for_cancel
 
 BUFFER_SIZE = 4 * 1024 * 1024  # 4 MiB read/write chunk
+BLKFLSBUF = 0x1261  # linux/fs.h: flush and drop the page cache of a block device
+EXIT_VERIFY_FAILED = 3
 
 
 def receive_stop_signal(number, frame):
@@ -104,6 +110,67 @@ def write_image(image_file, drive_file, total_bytes):
     return True
 
 
+def drop_drive_cache(drive_file):
+    """Forget the pages of the drive, the next read has to come from the stick.
+
+    Everything just written is still in the page cache, comparing against that
+    would only test the RAM of this machine.
+    """
+    try:
+        fcntl.ioctl(drive_file.fileno(), BLKFLSBUF)
+    except OSError as error:
+        log("Warning: could not drop the block cache: {}".format(error))
+
+    os.posix_fadvise(drive_file.fileno(), 0, 0, os.POSIX_FADV_DONTNEED)
+
+
+def read_drive(file_descriptor, size, offset):
+    """Read exactly size bytes, a block device can return less at a time."""
+    data = b""
+    while len(data) < size:
+        chunk = os.pread(file_descriptor, size - len(data), offset + len(data))
+        if not chunk:
+            break
+        data += chunk
+    return data
+
+
+def verify_image(image_file, drive_file, total_bytes):
+    """Read the drive back and compare it with the image.
+
+    A worn stick or one with a fake capacity accepts every write without an
+    error and silently loses the data, this is the only place that sees it.
+
+    Returns False when the user cancelled. A mismatch ends the process here.
+    """
+    drop_drive_cache(drive_file)
+    image_file.seek(0)
+    verified_bytes = 0
+
+    print("VERIFIED:0:{}".format(total_bytes))
+    sys.stdout.flush()
+
+    while not stop_requested():
+        chunk = image_file.read(BUFFER_SIZE)
+        if not chunk:
+            return True
+
+        if read_drive(drive_file.fileno(), len(chunk), verified_bytes) != chunk:
+            log(
+                "Error: the drive does not match the image near byte {}.".format(
+                    verified_bytes
+                )
+            )
+            sys.exit(EXIT_VERIFY_FAILED)
+
+        verified_bytes += len(chunk)
+
+        print("VERIFIED:{}:{}".format(verified_bytes, total_bytes))
+        sys.stdout.flush()
+
+    return False
+
+
 def eject_drive(drive):
     """Eject the drive. Failing to eject does not invalidate the written image."""
     eject = shutil.which("eject")
@@ -171,6 +238,8 @@ def main():
             os.fdopen(file_descriptor, "wb", buffering=BUFFER_SIZE) as drive_file,
         ):
             completed = write_image(image_file, drive_file, total_bytes)
+            if completed:
+                completed = verify_image(image_file, drive_file, total_bytes)
     except OSError as error:
         fail("Writing failed: {}".format(error))
 
